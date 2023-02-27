@@ -21,7 +21,7 @@ public class PhysicsSimulation extends Application {
     public void start(Stage stage) throws Exception {
         //--> Step 1) Create the parent node of the scene graph.
         PhysicsSimulationController mainController = new PhysicsSimulationController();
-        FXMLLoader loader = new FXMLLoader(this.getClass().getResource("ClassName"));
+        FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/WelcomeWindow.fxml"));
         loader.setController(mainController);
         Pane root = loader.load();
         Scene scene = new Scene(root,600,370);
@@ -34,7 +34,7 @@ public class PhysicsSimulation extends Application {
         //          and attach the scene graph to the scene.        
         //Scene scene = new Scene(root, 300, 300);
         //--> Step 3) Load the scene into stage (window)
-        //stage.setScene(scene);        
+        stage.setScene(scene);        
 
         stage.setTitle("KinematicPhysicsSimulation");
         // Resize the stage so the size matches the scene
