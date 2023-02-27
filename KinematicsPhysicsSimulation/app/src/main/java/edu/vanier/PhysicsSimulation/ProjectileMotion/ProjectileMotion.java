@@ -4,10 +4,50 @@
  */
 package edu.vanier.PhysicsSimulation.ProjectileMotion;
 
+import edu.vanier.PhysicsSimulation.PhysicsSimulationController;
+import javafx.application.Application;
+import static javafx.application.Application.launch;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
+
 /**
  *
  * @author antho
  */
-public class ProjectileMotion {
+public class ProjectileMotion extends Application{
+    @Override
+    public void start(Stage stage) throws Exception {
+        //--> Step 1) Create the parent node of the scene graph.
+        ProjectileMotionController mainController = new ProjectileMotionController();
+        FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/ProjectileMotion.fxml"));
+        loader.setController(mainController);
+        Pane root = loader.load();
+        Scene scene = new Scene(root,600,370);
+        //-----------
+        //TODO:| Create your Scene graph here.
+        //-----------       
+        //FIXME: ask me in class what FIXME is supposed to mean.
+        //-----
+        //--> Step 2) Create the scene with the specified width and height
+        //          and attach the scene graph to the scene.        
+        //Scene scene = new Scene(root, 300, 300);
+        //--> Step 3) Load the scene into stage (window)
+        stage.setScene(scene);        
+
+        stage.setTitle("Projectile Motion");
+        // Resize the stage so the size matches the scene
+        stage.sizeToScene();
+        //--> Step 4) Show the window.
+        stage.show();
+    }
+    @Override
+    public void stop(){
+        System.out.println("Closing Application.");
+    }
     
+    public static void main(String[] args) {
+        launch(args);
+    }
 }

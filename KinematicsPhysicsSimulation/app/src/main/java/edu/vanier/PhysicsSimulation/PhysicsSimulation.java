@@ -8,13 +8,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-/**
- * This is a JavaFX project template to be used for creating GUI applications.
- * JavaFX 18 is already linked to this project in the build.gradle file.
- * @link: https://openjfx.io/javadoc/18/
- * @see: Build Scripts/build.gradle
- * @author Sleiman Rabah.
- */
+
 public class PhysicsSimulation extends Application {
 
     @Override
