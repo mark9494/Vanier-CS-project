@@ -24,7 +24,7 @@ public class ProjectileMotion extends Application{
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/ProjectileMotion.fxml"));
         loader.setController(mainController);
         Pane root = loader.load();
-        Scene scene = new Scene(root,600,370);
+        Scene scene = new Scene(root,1000,650);
         //-----------
         //TODO:| Create your Scene graph here.
         //-----------       
