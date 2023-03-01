@@ -4,10 +4,38 @@
  */
 package edu.vanier.PhysicsSimulation;
 
+import com.sun.media.jfxmedia.events.MarkerEvent;
+import edu.vanier.PhysicsSimulation.Pendulum.AnimationLoader;
+import java.net.URL;
+import java.util.ResourceBundle;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+
 /**
  *
  * @author antho
  */
-public class PhysicsSimulationController {
+public class PhysicsSimulationController implements Initializable{
+
+    @FXML
+    Button Mark, Anthony, Ammar, Youssif;
+    
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        //TODO Add the logic to eahc button in the main window
+        Mark.setOnAction((e)->{
+        
+        });
+        Anthony.setOnAction((e)->{
+        
+        });
+        Ammar.setOnAction((e)->{
+        
+        });
+        Youssif.setOnAction((e)->{
+            AnimationLoader anim = new AnimationLoader(); 
+        });
+    }
     
 }
