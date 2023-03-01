@@ -8,6 +8,6 @@ package edu.vanier.PhysicsSimulation.CarSimulation;
  *
  * @author antho
  */
-public class CarSimulationWindow {
+public class CarSimulationWindowController {
     
 }

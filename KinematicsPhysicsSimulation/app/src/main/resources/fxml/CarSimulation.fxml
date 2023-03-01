@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <Pane prefHeight="24.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <Line endX="359.0" endY="8.0" layoutX="241.0" layoutY="16.0" startX="-241.0" startY="8.0" strokeWidth="2.0" />
+         </children>
+      </Pane>
+   </top>
+   <bottom>
+      <Pane prefHeight="104.0" prefWidth="600.0" BorderPane.alignment="CENTER" />
+   </bottom>
+   <center>
+      <Pane prefHeight="284.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <Line endX="569.0" layoutX="31.0" layoutY="159.0" startX="-31.0" strokeWidth="2.0" />
+            <Line endX="450.0" layoutX="150.0" layoutY="271.0" startX="-150.0" strokeWidth="2.0" />
+            <Line endX="-54.0" layoutX="110.0" layoutY="215.0" startX="-100.0" strokeWidth="4.0" />
+            <Line endX="-54.0" layoutX="194.0" layoutY="215.0" startX="-100.0" strokeWidth="4.0" />
+            <Line endX="-54.0" layoutX="280.0" layoutY="215.0" startX="-100.0" strokeWidth="4.0" />
+            <Line endX="-54.0" layoutX="368.0" layoutY="215.0" startX="-100.0" strokeWidth="4.0" />
+            <Line endX="-54.0" layoutX="457.0" layoutY="215.0" startX="-100.0" strokeWidth="4.0" />
+            <Line endX="-54.0" layoutX="546.0" layoutY="215.0" startX="-100.0" strokeWidth="4.0" />
+            <Line endX="-54.0" layoutX="632.0" layoutY="215.0" startX="-100.0" strokeWidth="4.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="24.0" layoutX="5.0" layoutY="172.0" stroke="BLACK" strokeType="INSIDE" width="51.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ff341f" height="24.0" layoutX="5.0" layoutY="230.0" stroke="BLACK" strokeType="INSIDE" width="51.0" />
+         </children>
+      </Pane>
+   </center>
+</BorderPane>
