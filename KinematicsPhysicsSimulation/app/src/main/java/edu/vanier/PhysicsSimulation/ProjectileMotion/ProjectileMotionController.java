@@ -4,10 +4,17 @@
  */
 package edu.vanier.PhysicsSimulation.ProjectileMotion;
 
+import javafx.fxml.FXML;
+
 /**
  *
  * @author antho
  */
 public class ProjectileMotionController extends ProjectileMotionSettings {
+    
+    @FXML
+    public void handleHomeButton(){
+        System.out.println("Going Back...");
+    }
     
 }
