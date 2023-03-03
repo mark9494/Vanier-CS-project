@@ -49,5 +49,8 @@ public class ProjectileMotion extends Application{
     
     public static void main(String[] args) {
         launch(args);
+        ProjectileMotionController pm = new ProjectileMotionController();
+        
     }
+   
 }
