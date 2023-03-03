@@ -4,10 +4,18 @@
  */
 package edu.vanier.PhysicsSimulation.CarSimulation;
 
+import javafx.animation.Timeline;
+
 /**
  *
  * @author antho
  */
 public class Settings {
+  protected Timeline timeline; 
+  
+  protected double animationDuration = 50;
+  protected double currentRate = 10;
+    
+    
     
 }
