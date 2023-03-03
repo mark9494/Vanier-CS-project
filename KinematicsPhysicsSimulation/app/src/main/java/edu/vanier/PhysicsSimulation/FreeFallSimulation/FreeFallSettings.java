@@ -4,10 +4,19 @@
  */
 package edu.vanier.PhysicsSimulation.FreeFallSimulation;
 
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
+
 /**
  *
  * @author antho
  */
 public class FreeFallSettings {
-    
+   @FXML
+   Button btnHome;
+   @FXML
+   ImageView homeImgView;
+   
+   
 }
