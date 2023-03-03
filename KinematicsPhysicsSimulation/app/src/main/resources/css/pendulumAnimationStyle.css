@@ -1,0 +1,66 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Feb. 28, 2023, 11:04:53 p.m.
+    Author     : Youssif
+*/
+
+#playBtn
+{
+    -fx-text-fill: green;
+    -fx-background-color: white;
+    -fx-border-color: black;
+    -fx-border-radius:30;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 30;
+    -fx-background-insets: 0;
+   
+}
+#pauseBtn
+{
+    -fx-text-fill: yellow;
+    -fx-background-color: white;
+    -fx-border-color: black;
+    -fx-border-radius:30;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 30;
+    -fx-background-insets: 0;
+}
+#stopBtn
+{
+    -fx-text-fill: red;
+    -fx-background-color: white;
+    -fx-border-color: black;
+    -fx-border-radius:30;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 30;
+    -fx-background-insets: 0;
+}
+
+#stopBtn:hover
+{
+    -fx-padding: 15 15 15 15;
+}
+#stopBtn:pressed
+{
+    -fx-padding: 15 15 15 15;
+    
+}
+
+/*
+#graphBtn
+{
+    -fx-padding: 8 15 15 15;
+    -fx-background-insets: 0,0 0 5 0,0 0 6 0,0 0 7 0;
+    -fx-background-radius: 8;
+    -fx-background-color:
+        linear-gardient(from 0% 93% to 0% 100%,#a34313 0%, #903b12 100%), 
+         #9d4024,
+         #d86e3a,
+        radial-gradient(center 50% 50%, radius 100%,#d96e3a,#c54e2c);
+}*/
