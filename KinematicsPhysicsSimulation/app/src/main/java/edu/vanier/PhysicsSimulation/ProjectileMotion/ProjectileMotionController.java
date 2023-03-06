@@ -5,9 +5,12 @@
 package edu.vanier.PhysicsSimulation.ProjectileMotion;
 
 import java.util.ResourceBundle;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.util.Duration;
 
 /**
  *
@@ -18,13 +21,25 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
     @FXML
     public void initialize() {
         int initranslateX = 500;
-        Ramp ramp = new Ramp();
+        ramp = new Ramp();
+        ramp.setTranslateY(25);
         ramp.setTranslateX(300);
-        ramp.setHeight(ramp.getHeight());
-        LandingArea landingArea = new LandingArea(50, 50);
-        Ball ball = new Ball();
+        landingArea = new LandingArea(50, 50);
+        ball = new Ball();
+        ball.setTranslateX(ramp.getCornerX());
+        ball.setTranslateY(ramp.getCornerY());
         landingArea.setTranslateX(initranslateX);
         pane.getChildren().addAll(landingArea, ball, ramp);
+        createAnimation();
+    }
+
+    public void createAnimation() {
+        animationDuration = 10;
+        currentRate = 5;
+        timeline = new Timeline(
+                new KeyFrame(Duration.millis(animationDuration), e -> handleUpdateAnimation()));
+        timeline.setRate(currentRate);
+        timeline.setCycleCount(Timeline.INDEFINITE);
 
     }
 
@@ -40,7 +55,11 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
 
     @FXML
     public void handleBegin() {
-        System.out.println(pane.getHeight());
+        timeline.play();
+    }
+
+    private void handleUpdateAnimation() {
+        ball.setTranslateX(ball.getTranslateX() + 1);
     }
 
 }

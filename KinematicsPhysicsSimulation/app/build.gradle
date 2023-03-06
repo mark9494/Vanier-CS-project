@@ -3,6 +3,7 @@ plugins {
     id 'application'
     // Load and apply the required JavaFX plugin.
     id 'org.openjfx.javafxplugin' version '0.0.13'
+    id("io.freefair.lombok") version "6.6.3"
 }
 
 repositories {

@@ -4,6 +4,7 @@
  */
 package edu.vanier.PhysicsSimulation.ProjectileMotion;
 
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
@@ -18,6 +19,7 @@ import javafx.scene.shape.Rectangle;
  * @author antho
  */
 public class ProjectileMotionSettings {
+
     @FXML
     protected Pane pane;
     @FXML
@@ -26,5 +28,11 @@ public class ProjectileMotionSettings {
     protected ImageView infoCircle;
     @FXML
     protected Label initialVelocity, angleRamp, accelerationY;
+    protected Ramp ramp;
+    protected Ball ball;
+    protected LandingArea landingArea;
+    protected Timeline timeline;
+    protected int currentRate;
+    protected double animationDuration;
 
 }

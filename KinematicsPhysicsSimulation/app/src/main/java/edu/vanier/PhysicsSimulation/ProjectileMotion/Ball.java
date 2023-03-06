@@ -12,7 +12,7 @@ import javafx.scene.shape.Circle;
  * @author antho
  */
 public class Ball extends Circle{
-    private static final int RADIUS = 10;
+    private static final int RADIUS = 15;
     
     public Ball(){
         this.setRadius(RADIUS);
