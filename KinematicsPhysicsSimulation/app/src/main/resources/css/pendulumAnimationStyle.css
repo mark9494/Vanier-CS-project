@@ -41,16 +41,55 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     -fx-background-radius: 30;
     -fx-background-insets: 0;
 }
-
+#graphBtn
+{
+    -fx-text-fill: black;
+    -fx-background-color: white;
+    -fx-border-color: black;
+    -fx-border-radius:30;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 30;
+    -fx-background-insets: 0;
+}
 #stopBtn:hover
 {
-    -fx-padding: 15 15 15 15;
+    -fx-padding: 15 20 15 15;
 }
 #stopBtn:pressed
 {
-    -fx-padding: 15 15 15 15;
+    -fx-padding: 10 10 10 10;
     
 }
+#pauseBtn:hover
+{
+    -fx-padding: 15 20 15 15;
+}
+#pauseBtn:pressed
+{
+    -fx-padding: 10 10 10 10;
+    
+}
+#graphBtn:hover
+{
+    -fx-padding: 15 20 15 15;
+}
+#graphBtn:pressed
+{
+    -fx-padding: 10 10 10 10;
+    
+}
+
+#playBtn:hover
+{
+    -fx-padding: 15 20 15 15;
+}
+#playBtn:pressed
+{
+    -fx-padding: 10 10 10 10;
+    
+}
+
 
 /*
 #graphBtn
