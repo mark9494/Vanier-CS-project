@@ -1,5 +1,7 @@
 package edu.vanier.PhysicsSimulation;
 
+import edu.vanier.PhysicsSimulation.Pendulum.AnimationLoader;
+import edu.vanier.PhysicsSimulation.Pendulum.User;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;

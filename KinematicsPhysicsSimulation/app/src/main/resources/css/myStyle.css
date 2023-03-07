@@ -1,0 +1,35 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Mar. 3, 2023, 10:24:47 a.m.
+    Author     : Youssif
+*/
+
+#tabPane
+{
+    -fx-tab-min-height:5em;
+    -fx-tab-max-height: 5em;
+    
+    -fx-tab-min-width:5em;
+    -fx-tab-max-width: 5em;
+}
+#tab1
+{
+    
+}
+
+.tab .tab-label
+{
+    -fx-background-color: transparent;
+    -fx-alignement: CENTER;
+    -fx-text-fill: #EBEAF0;
+}
+
+.tab
+{
+    -fx-background-color: #FFFFFF;
+    -fx-background-insets: 0.0;
+    -fx-background-radius: 0.0;
+}

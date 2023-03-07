@@ -3,6 +3,7 @@ plugins {
     id 'application'
     // Load and apply the required JavaFX plugin.
     id 'org.openjfx.javafxplugin' version '0.0.13'
+    id("io.freefair.lombok") version "6.6.3"
 }
 
 repositories {
@@ -34,8 +35,8 @@ application {
    // Define the main class for the application.
    // TODO: specify the fully qualified name of the class 
    //       that contains the main method your would like to run.
-   //mainClass = 'edu.vanier.PhysicsSimulation.PhysicsSimulation'
-   mainClass = 'edu.vanier.PhysicsSimulation.ProjectileMotion.ProjectileMotion'
+   mainClass = 'edu.vanier.PhysicsSimulation.PhysicsSimulation'
+   //mainClass = 'edu.vanier.PhysicsSimulation.ProjectileMotion.ProjectileMotion'
 }
 
 test {
