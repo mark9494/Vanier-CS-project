@@ -22,7 +22,7 @@ public class CarAnimationLoader extends Stage{
         try{
             MakeComponents();
         }catch (IOException ex) {
-                Logger.getLogger(PhysicsSimulationController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PhysicsSimulationController.class.getName()).log(Level.SEVERE, null, ex);
         }catch(Exception e){
             System.out.println(e);
         }
