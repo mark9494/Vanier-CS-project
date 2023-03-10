@@ -27,6 +27,7 @@ public class Ramp extends Rectangle {
         this.setFill(Color.BLUE);
     }
 
+    // TODO: getter modify values, need to be changed
     public double getCornerX() {
         cornerX = this.getTranslateX() + this.WIDTH;
         return cornerX;

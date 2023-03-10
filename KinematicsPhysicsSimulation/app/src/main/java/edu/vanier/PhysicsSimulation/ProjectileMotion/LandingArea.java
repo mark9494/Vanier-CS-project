@@ -22,6 +22,7 @@ public class LandingArea extends Rectangle {
         this.setFill(Color.GREENYELLOW);
     }
 
+    //TODO
     public void randomSpawn(double maxX, double minX, double height){
         //set height to pane.getHeight when calling method 
     }

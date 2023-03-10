@@ -4,12 +4,9 @@
  */
 package edu.vanier.PhysicsSimulation.ProjectileMotion;
 
-import java.util.ResourceBundle;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 
 /**
@@ -21,6 +18,7 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
     @FXML
     public void initialize() {
         int initranslateX = 500;
+        
         ramp = new Ramp();
         ramp.setTranslateY(25);
         ramp.setTranslateX(300);
@@ -40,7 +38,6 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
                 new KeyFrame(Duration.millis(animationDuration), e -> handleUpdateAnimation()));
         timeline.setRate(currentRate);
         timeline.setCycleCount(Timeline.INDEFINITE);
-
     }
 
     @FXML
@@ -63,6 +60,7 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
         ball.setTranslateX(ball.getTranslateX() + 1);
     }
 
+    //TODO: 
     private void generateParameters() {
         setInitialVelocity();
         setAccelerationY();

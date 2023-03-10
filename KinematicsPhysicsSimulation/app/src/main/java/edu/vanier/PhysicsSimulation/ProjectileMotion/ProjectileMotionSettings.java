@@ -10,12 +10,8 @@ import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
-import javafx.scene.*;
-import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 
 /**
  *
@@ -25,14 +21,18 @@ public class ProjectileMotionSettings {
 
     @FXML
     protected Pane pane;
+    
     @FXML
     protected Button btnHome;
+    
     @FXML
     protected ImageView infoCircle;
+    
     //@FXML
     //protected Label initialVelocity, angleRamp, accelerationY;
     @FXML
     protected Slider sldInitialVelocity, sldRampAngle, sldAccelerationY;
+    
     protected Ramp ramp;
     protected Ball ball;
     protected LandingArea landingArea;
@@ -59,13 +59,13 @@ public class ProjectileMotionSettings {
 
     //1
     protected void setVelocityX() {
-        initVelocityX = initialVelocity * (cos(rampAngle));
+        initVelocityX = initialVelocity * cos(rampAngle);
         finalVelocityX = initVelocityX;
     }
 
     //2
     protected void setVelocityY() {
-        initVelocityY = initialVelocity * (sin(rampAngle));
+        initVelocityY = initialVelocity * sin(rampAngle);
     }
 
     //3
