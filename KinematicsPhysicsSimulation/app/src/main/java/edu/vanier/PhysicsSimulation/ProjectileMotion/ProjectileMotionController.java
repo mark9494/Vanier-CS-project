@@ -56,10 +56,21 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
     @FXML
     public void handleBegin() {
         timeline.play();
+        generateParameters();
     }
 
     private void handleUpdateAnimation() {
         ball.setTranslateX(ball.getTranslateX() + 1);
     }
 
+    private void generateParameters() {
+        setInitialVelocity();
+        setAccelerationY();
+        setRampAngle();
+        setVelocityX();
+        setVelocityY();
+        setTime();
+        setDeltaX();
+        //.....
+    }
 }
