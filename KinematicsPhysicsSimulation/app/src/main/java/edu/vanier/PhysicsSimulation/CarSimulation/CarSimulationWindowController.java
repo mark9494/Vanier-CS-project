@@ -107,7 +107,6 @@ public class CarSimulationWindowController extends Settings {
         for(int i = 0; i< allLines.size();i++){
             
           allLines.get(i).setLayoutY(allLines.get(i).getLayoutY() - middlePane.getHeight()/500);
-         
             
         }
             }else{
