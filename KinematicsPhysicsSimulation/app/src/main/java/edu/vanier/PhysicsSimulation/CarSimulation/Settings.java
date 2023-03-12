@@ -15,7 +15,8 @@ public class Settings {
   
   protected double animationDuration = 50;
   protected double currentRate = 10;
-    
+  
+ 
     
     
 }

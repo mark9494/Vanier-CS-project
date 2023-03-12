@@ -4,7 +4,6 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Line?>
-<?import javafx.scene.shape.Rectangle?>
 
 <BorderPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <top>
@@ -17,8 +16,6 @@
       <Pane fx:id="middlePane" prefHeight="298.0" prefWidth="600.0" style="-fx-border-color: black; -fx-border-width: 2;" BorderPane.alignment="CENTER">
          <children>
             <Line fx:id="top" endX="569.0" layoutX="28.0" layoutY="160.0" startX="-25.0" strokeWidth="2.0" />
-            <Rectangle fx:id="blueRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="24.0" layoutX="5.0" layoutY="172.0" stroke="BLACK" strokeType="INSIDE" width="51.0" />
-            <Rectangle fx:id="redRectangle" arcHeight="5.0" arcWidth="5.0" fill="#ff341f" height="24.0" layoutX="5.0" layoutY="230.0" stroke="BLACK" strokeType="INSIDE" width="51.0" />
             <Line fx:id="bottom" endX="531.0" layoutX="69.0" layoutY="265.0" startX="-69.0" strokeWidth="2.0" />
             <Line fx:id="line1" endX="-57.0" layoutX="117.0" layoutY="213.0" startX="-107.0" strokeWidth="3.0" />
             <Line fx:id="line2" endX="-50.0" layoutX="191.0" layoutY="213.0" startX="-100.0" strokeWidth="3.0" />

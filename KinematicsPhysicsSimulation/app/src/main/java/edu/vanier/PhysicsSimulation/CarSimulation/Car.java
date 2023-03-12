@@ -4,6 +4,7 @@
  */
 package edu.vanier.PhysicsSimulation.CarSimulation;
 
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 /**
@@ -11,5 +12,13 @@ import javafx.scene.shape.Rectangle;
  * @author antho
  */
 public class Car extends Rectangle {
+    
+   public Car(int layoutX, int layoutY){
+    this.setWidth(51);
+    this.setHeight(24);
+     this.setLayoutX(layoutX);
+     this.setLayoutY(layoutY);
+     this.setFill(Color.BLACK);   
+   }
     
 }

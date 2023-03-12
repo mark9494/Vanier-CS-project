@@ -9,6 +9,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
@@ -18,15 +19,14 @@ import javafx.util.Duration;
  * @author antho
  */
 public class CarSimulationWindowController extends Settings {
-
+ 
     @FXML
     Line top;
     
     @FXML
     Line line1, line2, line3, line4, line5, line6, line7;
     
-    @FXML
-    Rectangle blueRectangle, redRectangle;
+    
     
     @FXML
     Line bottom;
@@ -41,18 +41,28 @@ public class CarSimulationWindowController extends Settings {
     ArrayList<Line> allLines;
     ArrayList<Rectangle> cars;
     
+    private Car car1;
+    private Car car2;
+    
     @FXML
     public void initialize() {
+         car1 = new Car(5, 172); 
+      
+         car2 = new Car(5, 230);
+        
+        middlePane.getChildren().addAll(car1,car2);
+       
+      
         createAnimation();
-
+        
         timeline.play();
         
         dottedLines = new ArrayList<>();
         allLines = new ArrayList<>();
         cars = new ArrayList<>();
         
-        cars.add(redRectangle);
-        cars.add(blueRectangle);
+        cars.add(car1);
+        cars.add(car2);
         
         
         dottedLines.add(line1);
@@ -77,7 +87,7 @@ public class CarSimulationWindowController extends Settings {
 
     public void resizeLineHorizontal() {
         final int increaseLineLength = 50;
-
+        
         top.setStartX(middlePane.getMinWidth()- increaseLineLength);
         top.setEndX(middlePane.getWidth());
         bottom.setEndX(middlePane.getWidth());
@@ -136,9 +146,9 @@ public class CarSimulationWindowController extends Settings {
     private void handleUpdateAnimation() {
         //TODO move this to the moveRectangle method
         int dx = 1;
-        if(blueRectangle.getTranslateX() != middlePane.getWidth()- blueRectangle.getWidth()){
+        if(car1.getTranslateX() != middlePane.getWidth()- car1.getWidth()){
         
-        blueRectangle.setTranslateX(blueRectangle.getTranslateX() + dx);
+        car1.setTranslateX(car1.getTranslateX() + dx);
         }
         
         
