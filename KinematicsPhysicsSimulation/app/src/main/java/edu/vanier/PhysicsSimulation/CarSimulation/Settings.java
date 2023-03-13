@@ -12,6 +12,7 @@ import javafx.animation.Timeline;
  */
 public class Settings {
   protected Timeline timeline; 
+   protected Timeline timelineToUpdateSliders; 
   
   protected double animationDuration = 50;
   protected double currentRate = 10;

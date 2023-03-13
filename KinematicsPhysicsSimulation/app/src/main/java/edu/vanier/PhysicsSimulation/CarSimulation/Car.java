@@ -4,7 +4,9 @@
  */
 package edu.vanier.PhysicsSimulation.CarSimulation;
 
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
 /**
@@ -13,12 +15,116 @@ import javafx.scene.shape.Rectangle;
  */
 public class Car extends Rectangle {
     
-   public Car(int layoutX, int layoutY){
+    
+   
+    private double initialPosition;
+    private double currentPosition;
+    private double finalPosition;
+    private double initialVelocity;
+    private double currentVelocity;
+    private double finalVelocity;
+    private double acceleration;
+    private double time;
+    
+    
+   
+    
+    
+   public Car(int layoutX, int layoutY, String color){
+       
+   
     this.setWidth(51);
     this.setHeight(24);
-     this.setLayoutX(layoutX);
-     this.setLayoutY(layoutY);
-     this.setFill(Color.BLACK);   
+    this.setLayoutX(layoutX);
+    this.setLayoutY(layoutY);
+    Image blueCar = new Image("/images/blue-car.png", false);
+    this.setFill(new ImagePattern(blueCar)); 
    }
+   
+   public Car(int layoutX, int layoutY){
+   
+    this.setWidth(51);
+    this.setHeight(24);
+    this.setLayoutX(layoutX);
+    this.setLayoutY(layoutY);
+    Image redCar = new Image("/images/red-car.png", false);
+    this.setFill(new ImagePattern(redCar)); 
+   }
+   
+   
+   
+   
+   private void calculateCurrentVelocity(){
+       
+   }
+
+    public double getInitialPosition() {
+        return initialPosition;
+    }
+
+    public void setInitialPosition(double initialPosition) {
+        this.initialPosition = initialPosition;
+    }
+
+    public double getCurrentPosition() {
+        return currentPosition;
+    }
+
+    public void setCurrentPosition(double currentPosition) {
+        this.currentPosition = currentPosition;
+    }
+
+    public double getFinalPosition() {
+        return finalPosition;
+    }
+
+    public void setFinalPosition(double finalPosition) {
+        this.finalPosition = finalPosition;
+    }
+
+    public double getInitialVelocity() {
+        return initialVelocity;
+    }
+
+    public void setInitialVelocity(double initialVelocity) {
+        this.initialVelocity = initialVelocity;
+    }
+
+    public double getCurrentVelocity() {
+        return currentVelocity;
+    }
+
+    public void setCurrentVelocity(double currentVelocity) {
+        this.currentVelocity = currentVelocity;
+    }
+
+    public double getFinalVelocity() {
+        return finalVelocity;
+    }
+
+    public void setFinalVelocity(double finalVelocity) {
+        this.finalVelocity = finalVelocity;
+    }
+
+    public double getAcceleration() {
+        return acceleration;
+    }
+
+    public void setAcceleration(double acceleration) {
+        this.acceleration = acceleration;
+    }
+
+    public double getTime() {
+        return time;
+    }
+
+    public void setTime(double time) {
+        this.time = time;
+    }
+
     
+   
+   
+    
+   
 }
