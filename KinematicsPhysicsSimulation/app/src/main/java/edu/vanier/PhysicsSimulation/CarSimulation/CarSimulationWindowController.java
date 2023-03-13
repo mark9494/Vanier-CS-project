@@ -31,7 +31,7 @@ public class CarSimulationWindowController extends Settings {
     Slider redInitialPositionSlider, redFinalPositionSlider,blueInitialPositionSlider, blueFinalPositionSlider, blueInitialVelocitySlider, blueAccelerationSlider, redInitialVelocitySlider, redAccelerationSlider;
     
     @FXML
-     private Button startBtn, stopBtn, resetBtn;
+     private Button startBtn, stopBtn, resetBtn, submitBtn;
     
     @FXML
     Line bottom;
@@ -55,7 +55,7 @@ public class CarSimulationWindowController extends Settings {
    
         createAnimationToUpdateData();
         timelineToUpdateSliders.play();
-        disableBtns(false, true, true);
+        disableBtns(true, true, true,false);
         
         blueCar = new Car(5, 82, "blue"); 
         redCar = new Car(5, 122);
@@ -134,18 +134,18 @@ public class CarSimulationWindowController extends Settings {
             
           allLines.get(i).setLayoutY(allLines.get(i).getLayoutY() + middlePane.getHeight()/500);
         }
-        
             }
- 
     }
 
     private void createAnimation() {
+        
         timeline = new Timeline(
                 new KeyFrame(Duration.millis(animationDuration), e -> handleUpdateAnimation()));
         timeline.setRate(currentRate);
         timeline.setCycleCount(Timeline.INDEFINITE);
     }
     private void createAnimationToUpdateData(){
+        
        timelineToUpdateSliders = new Timeline(
                 new KeyFrame(Duration.millis(animationDuration), e -> handleUpdateData()));
         timelineToUpdateSliders.setRate(currentRate);
@@ -158,7 +158,13 @@ public class CarSimulationWindowController extends Settings {
     }
       
     private void handleUpdateAnimation() { 
-        updateInput(); 
+        blueCar.calculateCurrentVelocity();
+        blueCar.calculateCurrentTime();
+        
+        //System.out.println(blueCar.getCurrentVelocity());
+        redCar.calculateCurrentVelocity();
+        redCar.calculateCurrentTime();
+
         moveCar();
     }
     
@@ -193,46 +199,60 @@ public class CarSimulationWindowController extends Settings {
         redCar.setFinalPosition(redFinalPositionSlider.getValue()*10);
         redCar.setInitialVelocity(redInitialVelocitySlider.getValue());
         redCar.setAcceleration(redAccelerationSlider.getValue());
+        
+        redCar.setTranslateX(redCar.getInitialPosition());
+        blueCar.setTranslateX(blueCar.getInitialPosition()); 
     }
 
     private void moveCar(){
 
       if(blueCar.getTranslateX() < blueCar.getFinalPosition()- blueCar.getWidth()){// if I make a for loop, i wont have access to getFinalPosition (Ask teacher why)
-          blueCar.setTranslateX(blueCar.getTranslateX() + 1);
+          blueCar.setTranslateX(blueCar.getTranslateX() + blueCar.getCurrentVelocity()/15);
       }
       if(redCar.getTranslateX() < redCar.getFinalPosition() - redCar.getWidth()){// if I make a for loop, i wont have access to getFinalPosition (Ask teacher why)
-          redCar.setTranslateX(redCar.getTranslateX() + 1);// change 1 to current velocity when it it calculated
-      }
+          redCar.setTranslateX(redCar.getTranslateX() + redCar.getCurrentVelocity()/15);// divide by 15 because otherwise the acceleartion will be too fast
+      }                                                     
     }
     
     @FXML
     private void handleStart(){
+        
        timeline.play(); 
-       disableBtns(true, false, true);
+       disableBtns(true, false, true, true);
     }
     
     @FXML
     private void handleStop(){
        
-       disableBtns(false,true,false); 
+       disableBtns(false,true,false, true); 
        timeline.pause();
     }
     
     @FXML
     private void handleReset(){
        
-        disableBtns(false, true, true);
+        disableBtns(true, true, true, false);
         timeline.stop();
+    }
+    @FXML
+    private void handleSubmit(){
+        
         updateInput();
-        blueCar.setTranslateX(blueCar.getInitialPosition());
-        redCar.setTranslateX(redCar.getInitialPosition());
+        disableBtns(false, true, true, true);
+        
+        System.out.println(blueCar.getInitialPosition());
+        System.out.println(blueCar.getFinalPosition());
+        System.out.println(blueCar.getInitialVelocity());
+        System.out.println(blueCar.getAcceleration());
+        
     }
     
-    private void disableBtns(boolean start, boolean stop, boolean reset){
+    private void disableBtns(boolean start, boolean stop, boolean reset, boolean submit){
         
       startBtn.setDisable(start);
       stopBtn.setDisable(stop);
       resetBtn.setDisable(reset); 
+      submitBtn.setDisable(submit);
     }
     
     

@@ -54,10 +54,24 @@ public class Car extends Rectangle {
    
    
    
-   private void calculateCurrentVelocity(){
-       
+   public void calculateCurrentVelocity(){
+      double velocitySquared = Math.pow(this.initialVelocity, 2) + 2*this.acceleration * this.calculatecCurrentDisplacement();
+       this.currentVelocity = Math.sqrt(velocitySquared);
    }
-
+   
+   
+    public void calculateCurrentTime(){
+ 
+       this.time = ((this.currentVelocity - this.initialVelocity)/this.acceleration);// we divide by 10 because we multiplied both initial and final position by 10 before
+   }
+    private double calculatecCurrentDisplacement(){
+      
+        return this.getTranslateX()/10 - this.initialPosition/10;
+    }
+    private double calculateFinalDisplacement(){
+      
+        return this.finalPosition/10 - this.initialPosition/10;
+    }
     public double getInitialPosition() {
         return initialPosition;
     }
