@@ -55,6 +55,9 @@ public class Settings {
     protected ArrayList<Line> allLines;
     protected ArrayList<Rectangle> cars;
     
+    protected double[][] redCarPositionGraph;
+    protected double[][] blueCarPositionGraph;
+    
     protected Car blueCar;
     protected Car redCar;
     protected Timeline timeline; 

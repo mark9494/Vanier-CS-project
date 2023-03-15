@@ -23,6 +23,9 @@ public class Car extends Rectangle {
     private double finalVelocity;
     private double acceleration;
     private double time;
+    private double finalTime;
+    private double graphDisplacement;
+    private double graphVelocity;
 
     public Car(int layoutX, int layoutY, String color) {
 
@@ -54,15 +57,38 @@ public class Car extends Rectangle {
         this.time = ((this.currentVelocity - this.initialVelocity) / this.acceleration);// we divide by 10 because we multiplied both initial and final position by 10 before
         
     }
-
+    
+    public double calculateFinalTime(){
+        
+      return this.finalTime = ((this.finalVelocity - this.initialVelocity) / this.acceleration); 
+    }
+        
+    public double calculateGraphDisplacement(double time){
+       // System.out.println((((calculateFinalVelocity() + this.initialVelocity)/2 ) * time));
+        //System.out.println(calculateFinalVelocity());
+       // System.out.println(this.initialVelocity);
+        System.out.println(time); // the time of the first point is being negative TODO: Fix it
+       return this.graphDisplacement = ((calculateFinalVelocity() + this.initialVelocity)/2 ) * time;
+    }  
+    
+    public void calculateGraphVelocity(double time){
+        this.graphVelocity = this.initialVelocity + (this.acceleration * time);
+    }
+    public double calculateFinalVelocity(){
+        
+        double velocitySquared = Math.pow(this.initialVelocity, 2) + 2 * this.acceleration * this.calculateFinalDisplacement();
+        this.finalVelocity = Math.sqrt(velocitySquared);
+        
+        return this.finalVelocity;
+    }
     private double calculatecCurrentDisplacement() {
 
         return this.getTranslateX() / 10 - this.initialPosition / 10;
     }
 
     private double calculateFinalDisplacement() {
-
-        return this.finalPosition / 10 - this.initialPosition / 10;
+       
+        return (this.finalPosition / 10) - (this.initialPosition / 10);
     }
 
     public double getInitialPosition() {

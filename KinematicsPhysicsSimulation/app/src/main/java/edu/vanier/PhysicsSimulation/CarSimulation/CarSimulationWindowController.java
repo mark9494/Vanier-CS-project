@@ -21,11 +21,14 @@ import javafx.util.Duration;
  */
 public class CarSimulationWindowController extends Settings {
  
-    
-    
+   
+   
     
     @FXML
     public void initialize() {
+        
+        redCarPositionGraph = new double[10][2];
+        blueCarPositionGraph = new double[10][2];
         
         createAnimationToUpdateData();
         timelineToUpdateSliders.play();
@@ -178,20 +181,39 @@ public class CarSimulationWindowController extends Settings {
     }
 
     private void moveCar(){
-
+        
       if(blueCar.getTranslateX() < blueCar.getFinalPosition()){
           blueCar.setTranslateX(blueCar.getTranslateX() + blueCar.getCurrentVelocity()/10);
       }
       if(redCar.getTranslateX() < redCar.getFinalPosition()){// if I make a for loop, i wont have access to getFinalPosition (Ask teacher why)
-          redCar.setTranslateX(redCar.getTranslateX() + redCar.getCurrentVelocity()/10);// divide by 10 because otherwise the acceleartion will be too fast
+          redCar.setTranslateX(redCar.getTranslateX() + redCar.getCurrentVelocity()/10);// divide by 10 because otherwise the accelerartion will be too fast
       }                                                     
+    }
+    
+    private void makeGraphPoints(){
+      for (int i=0 ; i<10;i++){
+            for(int j =0;j<1;j++){
+          redCarPositionGraph[i][j] = (redCar.calculateGraphDisplacement(redCar.calculateFinalTime()/(10-i)));
+          redCarPositionGraph[i][j+1] = (redCar.calculateFinalTime()/(10 - i));   
+          
+          blueCarPositionGraph[i][j] = (blueCar.calculateGraphDisplacement(blueCar.calculateFinalTime()/(10-i)));//the time going in the method is correct
+          blueCarPositionGraph[i][j+1] = (blueCar.calculateFinalTime()/(10 - i)); 
+          //System.out.println((blueCar.calculateFinalTime()/(10)));
+              
+            }
+        } 
+        
     }
     
     @FXML
     private void handleStart(){
-        
+       makeGraphPoints();
+       
        timeline.play(); 
        disableBtns(true, false, true, true);
+       
+        
+        
     }
     
     @FXML
@@ -256,7 +278,7 @@ public class CarSimulationWindowController extends Settings {
        
         Stage secondWindow = new Stage();
                 
-        PositionGraphWindowController positionGraphWindow = new PositionGraphWindowController(blueCar, redCar);
+        PositionGraphWindowController positionGraphWindow = new PositionGraphWindowController(blueCar, redCar, blueCarPositionGraph, redCarPositionGraph);
                 
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/PositionGraphCarSimulation.fxml"));
         loader.setController(positionGraphWindow);

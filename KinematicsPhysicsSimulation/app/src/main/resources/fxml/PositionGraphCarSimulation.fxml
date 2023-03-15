@@ -7,20 +7,20 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <LineChart fx:id="blueLineChart" layoutX="2.0" legendSide="TOP" legendVisible="false" prefHeight="400.0" prefWidth="294.0" style="-fx-background-color: white;" title="blue car">
+      <LineChart fx:id="blueLineChart" layoutX="2.0" legendSide="TOP" legendVisible="false" prefHeight="400.0" prefWidth="294.0" style="-fx-background-color: white;" title="Blue car">
         <xAxis>
-          <CategoryAxis fx:id="blueX" prefHeight="22.0" prefWidth="543.0" side="BOTTOM" />
+          <CategoryAxis fx:id="blueX" label="Time" prefHeight="22.0" prefWidth="543.0" side="BOTTOM" />
         </xAxis>
         <yAxis>
-          <NumberAxis fx:id="blueY" side="LEFT" tickLabelFill="#f20303" />
+          <NumberAxis fx:id="blueY" label="Position" side="LEFT" tickLabelFill="#f20303" />
         </yAxis>
       </LineChart>
-      <LineChart fx:id="redLineChart" layoutX="288.0" legendSide="TOP" legendVisible="false" prefHeight="400.0" prefWidth="312.0" style="-fx-background-color: white;" title="red car">
+      <LineChart fx:id="redLineChart" layoutX="288.0" legendSide="TOP" legendVisible="false" prefHeight="400.0" prefWidth="312.0" style="-fx-background-color: white;" title="Red car">
          <xAxis>
-            <CategoryAxis fx:id="redX" prefHeight="22.0" prefWidth="543.0" side="BOTTOM" />
+            <CategoryAxis fx:id="redX" label="Time" prefHeight="22.0" prefWidth="543.0" side="BOTTOM" />
          </xAxis>
          <yAxis>
-            <NumberAxis fx:id="redY" side="LEFT" tickLabelFill="#f20303" />
+            <NumberAxis fx:id="redY" label="Position" side="LEFT" tickLabelFill="#f20303" />
          </yAxis>
       </LineChart>
    </children>

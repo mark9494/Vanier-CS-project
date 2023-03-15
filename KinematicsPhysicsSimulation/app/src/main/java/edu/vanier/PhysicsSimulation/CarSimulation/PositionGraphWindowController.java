@@ -45,16 +45,58 @@ public class PositionGraphWindowController extends CarSimulationWindowController
     private Car red;
    @FXML
     public void initialize() {
-        
-    createAnimationToUpdateData();
+         XYChart.Series series = new XYChart.Series(); 
+     series.getData().add(new XYChart.Data(df.format(blueCarPositionGraph[0][1])+"", Double.parseDouble((df.format(blueCarPositionGraph[0][0])))));
+     series.getData().add(new XYChart.Data(df.format(blueCarPositionGraph[1][1])+"", Double.parseDouble((df.format(blueCarPositionGraph[1][0])))));
+     series.getData().add(new XYChart.Data(df.format(blueCarPositionGraph[2][1])+"", Double.parseDouble((df.format(blueCarPositionGraph[2][0])))));
+     series.getData().add(new XYChart.Data(df.format(blueCarPositionGraph[3][1])+"", Double.parseDouble((df.format(blueCarPositionGraph[3][0])))));
+     series.getData().add(new XYChart.Data(df.format(blueCarPositionGraph[4][1])+"", Double.parseDouble((df.format(blueCarPositionGraph[4][0])))));
+     series.getData().add(new XYChart.Data(df.format(blueCarPositionGraph[5][1])+"", Double.parseDouble((df.format(blueCarPositionGraph[5][0])))));
+     series.getData().add(new XYChart.Data(df.format(blueCarPositionGraph[6][1])+"", Double.parseDouble((df.format(blueCarPositionGraph[6][0])))));
+     series.getData().add(new XYChart.Data(df.format(blueCarPositionGraph[7][1])+"", Double.parseDouble((df.format(blueCarPositionGraph[7][0])))));
+     series.getData().add(new XYChart.Data(df.format(blueCarPositionGraph[8][1])+"", Double.parseDouble((df.format(blueCarPositionGraph[8][0])))));
+     series.getData().add(new XYChart.Data(df.format(blueCarPositionGraph[9][1])+"", Double.parseDouble((df.format(blueCarPositionGraph[9][0])))));
+
+    XYChart.Series series2 = new XYChart.Series();
+
+     series2.getData().add(new XYChart.Data(df.format(redCarPositionGraph[0][1])+"", Double.parseDouble((df.format(redCarPositionGraph[0][0])))));
+     series2.getData().add(new XYChart.Data(df.format(redCarPositionGraph[1][1])+"", Double.parseDouble((df.format(redCarPositionGraph[1][0])))));
+     series2.getData().add(new XYChart.Data(df.format(redCarPositionGraph[2][1])+"", Double.parseDouble((df.format(redCarPositionGraph[2][0])))));
+     series2.getData().add(new XYChart.Data(df.format(redCarPositionGraph[3][1])+"", Double.parseDouble((df.format(redCarPositionGraph[3][0])))));
+     series2.getData().add(new XYChart.Data(df.format(redCarPositionGraph[4][1])+"", Double.parseDouble((df.format(redCarPositionGraph[4][0])))));
+     series2.getData().add(new XYChart.Data(df.format(redCarPositionGraph[5][1])+"", Double.parseDouble((df.format(redCarPositionGraph[5][0])))));
+     series2.getData().add(new XYChart.Data(df.format(redCarPositionGraph[6][1])+"", Double.parseDouble((df.format(redCarPositionGraph[6][0])))));
+     series2.getData().add(new XYChart.Data(df.format(redCarPositionGraph[7][1])+"", Double.parseDouble((df.format(redCarPositionGraph[7][0])))));
+     series2.getData().add(new XYChart.Data(df.format(redCarPositionGraph[8][1])+"", Double.parseDouble((df.format(redCarPositionGraph[8][0])))));
+     series2.getData().add(new XYChart.Data(df.format(redCarPositionGraph[9][1])+"", Double.parseDouble((df.format(redCarPositionGraph[9][0])))));
+
+
+//       System.out.println(blueCarPositionGraph[0][0]);     
+//       System.out.println(blueCarPositionGraph[1][0]);     
+//       System.out.println(blueCarPositionGraph[2][0]);     
+//       System.out.println(blueCarPositionGraph[3][0]);     
+//       System.out.println(blueCarPositionGraph[4][0]);     
+//       System.out.println(blueCarPositionGraph[5][0]);     
+//       System.out.println(blueCarPositionGraph[6][0]);
+//       System.out.println(blueCarPositionGraph[7][0]);
+//       System.out.println(blueCarPositionGraph[8][0]);
+//       System.out.println(blueCarPositionGraph[9][0]);
+       
+     blueLineChart.getData().addAll(series);
+     redLineChart.getData().addAll(series2);
+   // createAnimationToUpdateData();
   //  graphTimeline.play();
      
        
     }
    
-    public PositionGraphWindowController(Car blueCar, Car redCar){
+    public PositionGraphWindowController(Car blueCar, Car redCar, double[][] blueCarPoints, double[][] redCarPoints){
        this.blue = blueCar;
        this.red = redCar;
+       this.redCarPositionGraph = redCarPoints;
+       this.blueCarPositionGraph = blueCarPoints;
+       
+       
     }
     
     
