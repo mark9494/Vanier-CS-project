@@ -14,9 +14,7 @@ import javafx.scene.shape.Rectangle;
  * @author antho
  */
 public class Car extends Rectangle {
-    
-    
-   
+
     private double initialPosition;
     private double currentPosition;
     private double finalPosition;
@@ -25,53 +23,71 @@ public class Car extends Rectangle {
     private double finalVelocity;
     private double acceleration;
     private double time;
+    private double finalTime;
+    private double graphDisplacement;
+    private double graphVelocity;
+
+    public Car(int layoutX, int layoutY, String color) {
+
+        this.setWidth(51);
+        this.setHeight(24);
+        this.setLayoutX(layoutX);
+        this.setLayoutY(layoutY);
+        Image blueCar = new Image("/images/blue-car.png", false);
+        this.setFill(new ImagePattern(blueCar));
+    }
+
+    public Car(int layoutX, int layoutY) {
+
+        this.setWidth(51);
+        this.setHeight(24);
+        this.setLayoutX(layoutX);
+        this.setLayoutY(layoutY);
+        Image redCar = new Image("/images/red-car.png", false);
+        this.setFill(new ImagePattern(redCar));
+    }
+
+    public void calculateCurrentVelocity() {
+        double velocitySquared = Math.pow(this.initialVelocity, 2) + 2 * this.acceleration * this.calculateCurrentDisplacement();
+        this.currentVelocity = Math.sqrt(velocitySquared);
+    }
+
+    public void calculateCurrentTime() {
+
+        this.time = (2 *calculateCurrentDisplacement())/(this.initialVelocity + this.finalVelocity);// we divide by 10 because we multiplied both initial and final position by 10 before
+        
+    }
     
+    public double calculateFinalTime(){
+       calculateFinalVelocity();
+      return this.finalTime = (2 *calculateFinalDisplacement())/(this.initialVelocity + this.finalVelocity); //((this.finalVelocity - this.initialVelocity) / this.acceleration); 
+    }
+        
+    public double calculateGraphDisplacement(double time){
+        System.out.println( ((calculateFinalVelocity() + this.initialVelocity)/2 ) * time);
+       return this.graphDisplacement = ((calculateFinalVelocity() + this.initialVelocity)/2 ) * time;
+    }  
     
-   
-    
-    
-   public Car(int layoutX, int layoutY, String color){
+    public void calculateGraphVelocity(double time){
+        this.graphVelocity = this.initialVelocity + (this.acceleration * time);
+    }
+    public double calculateFinalVelocity(){
+        
+        double velocitySquared = Math.pow(this.initialVelocity, 2) + 2 * this.acceleration * this.calculateFinalDisplacement();
+        this.finalVelocity = Math.sqrt(velocitySquared);
+        
+        return this.finalVelocity;
+    }
+    private double calculateCurrentDisplacement() {
+
+        return this.getTranslateX() / 10 - this.initialPosition / 10;
+    }
+
+    private double calculateFinalDisplacement() {
        
-   
-    this.setWidth(51);
-    this.setHeight(24);
-    this.setLayoutX(layoutX);
-    this.setLayoutY(layoutY);
-    Image blueCar = new Image("/images/blue-car.png", false);
-    this.setFill(new ImagePattern(blueCar)); 
-   }
-   
-   public Car(int layoutX, int layoutY){
-   
-    this.setWidth(51);
-    this.setHeight(24);
-    this.setLayoutX(layoutX);
-    this.setLayoutY(layoutY);
-    Image redCar = new Image("/images/red-car.png", false);
-    this.setFill(new ImagePattern(redCar)); 
-   }
-   
-   
-   
-   
-   public void calculateCurrentVelocity(){
-      double velocitySquared = Math.pow(this.initialVelocity, 2) + 2*this.acceleration * this.calculatecCurrentDisplacement();
-       this.currentVelocity = Math.sqrt(velocitySquared);
-   }
-   
-   
-    public void calculateCurrentTime(){
- 
-       this.time = ((this.currentVelocity - this.initialVelocity)/this.acceleration);// we divide by 10 because we multiplied both initial and final position by 10 before
-   }
-    private double calculatecCurrentDisplacement(){
-      
-        return this.getTranslateX()/10 - this.initialPosition/10;
+        return (this.finalPosition / 10) - (this.initialPosition / 10);
     }
-    private double calculateFinalDisplacement(){
-      
-        return this.finalPosition/10 - this.initialPosition/10;
-    }
+
     public double getInitialPosition() {
         return initialPosition;
     }
@@ -136,9 +152,4 @@ public class Car extends Rectangle {
         this.time = time;
     }
 
-    
-   
-   
-    
-   
 }
