@@ -192,6 +192,8 @@ public class CarSimulationWindowController extends Settings {
     
     private void makeGraphPoints(){
         double redFinalTime = redCar.calculateFinalTime()/10;
+        double blueFinalTime = blueCar.calculateFinalTime()/10;
+        
         for(int i=0 ; i<10;i++){
             for(int j =0;j<1;j++){
           redCarPositionGraph[i][j] = (redCar.calculateGraphDisplacement(redFinalTime));
@@ -199,13 +201,14 @@ public class CarSimulationWindowController extends Settings {
          //System.out.println(redCarPositionGraph[i][j]);
          //System.out.println(redCarPositionGraph[i][j+1]);
          
-          blueCarPositionGraph[i][j] = (blueCar.calculateGraphDisplacement(blueCar.calculateFinalTime()/(10-i)));//the time going in the method is correct
-          blueCarPositionGraph[i][j+1] = (blueCar.calculateFinalTime()/(10-i));
+          blueCarPositionGraph[i][j] = (blueCar.calculateGraphDisplacement(blueFinalTime));//the time going in the method is correct
+          blueCarPositionGraph[i][j+1] = (blueFinalTime);
                
                 //System.out.println(finalTime/(10-i));
                // System.out.println(blueCar.calculateFinalTime()/(10-0));
                // System.out.println(blueCarPositionGraph[0][0]);
                redFinalTime += redCar.calculateFinalTime()/10;
+               blueFinalTime += blueCar.calculateFinalTime()/10;
                 //System.out.println(redFinalTime);
          // System.out.println((blueCar.calculateFinalTime()/(10-0))); 
          // System.out.println(blueCar.calculateFinalTime()/(10-i));
