@@ -38,14 +38,12 @@ public class PositionGraphWindowController extends CarSimulationWindowController
     @FXML
     private NumberAxis redY;
 
-   
-   
-    
     private Car blue;
     private Car red;
    @FXML
     public void initialize() {
-         XYChart.Series series = new XYChart.Series(); 
+     XYChart.Series series = new XYChart.Series(); 
+    
      series.getData().add(new XYChart.Data(df.format(blueCarPositionGraph[0][1])+"", Double.parseDouble((df.format(blueCarPositionGraph[0][0])))));
      series.getData().add(new XYChart.Data(df.format(blueCarPositionGraph[1][1])+"", Double.parseDouble((df.format(blueCarPositionGraph[1][0])))));
      series.getData().add(new XYChart.Data(df.format(blueCarPositionGraph[2][1])+"", Double.parseDouble((df.format(blueCarPositionGraph[2][0])))));
@@ -57,7 +55,7 @@ public class PositionGraphWindowController extends CarSimulationWindowController
      series.getData().add(new XYChart.Data(df.format(blueCarPositionGraph[8][1])+"", Double.parseDouble((df.format(blueCarPositionGraph[8][0])))));
      series.getData().add(new XYChart.Data(df.format(blueCarPositionGraph[9][1])+"", Double.parseDouble((df.format(blueCarPositionGraph[9][0])))));
 
-    XYChart.Series series2 = new XYChart.Series();
+     XYChart.Series series2 = new XYChart.Series();
 
      series2.getData().add(new XYChart.Data(df.format(redCarPositionGraph[0][1])+"", Double.parseDouble((df.format(redCarPositionGraph[0][0])))));
      series2.getData().add(new XYChart.Data(df.format(redCarPositionGraph[1][1])+"", Double.parseDouble((df.format(redCarPositionGraph[1][0])))));
@@ -71,7 +69,7 @@ public class PositionGraphWindowController extends CarSimulationWindowController
      series2.getData().add(new XYChart.Data(df.format(redCarPositionGraph[9][1])+"", Double.parseDouble((df.format(redCarPositionGraph[9][0])))));
 
 
-//       System.out.println(blueCarPositionGraph[0][0]);     
+       System.out.println(blueCarPositionGraph[0][1]);     
 //       System.out.println(blueCarPositionGraph[1][0]);     
 //       System.out.println(blueCarPositionGraph[2][0]);     
 //       System.out.println(blueCarPositionGraph[3][0]);     
@@ -85,31 +83,28 @@ public class PositionGraphWindowController extends CarSimulationWindowController
      blueLineChart.getData().addAll(series);
      redLineChart.getData().addAll(series2);
    // createAnimationToUpdateData();
-  //  graphTimeline.play();
-     
-       
+  //  graphTimeline.play();  
     }
    
     public PositionGraphWindowController(Car blueCar, Car redCar, double[][] blueCarPoints, double[][] redCarPoints){
+        
        this.blue = blueCar;
        this.red = redCar;
        this.redCarPositionGraph = redCarPoints;
-       this.blueCarPositionGraph = blueCarPoints;
-       
-       
+       this.blueCarPositionGraph = blueCarPoints;   
     }
     
     
-    private void createAnimationToUpdateData(){
-        
-       graphTimeline = new Timeline(
-              new KeyFrame(Duration.millis(100), e -> updateGraph()));
-        graphTimeline.setRate(1);
-        graphTimeline.setCycleCount(Timeline.INDEFINITE); 
-    }
+//    private void createAnimationToUpdateData(){
+//        
+//       graphTimeline = new Timeline(
+//              new KeyFrame(Duration.millis(100), e -> updateGraph()));
+//        graphTimeline.setRate(1);
+//        graphTimeline.setCycleCount(Timeline.INDEFINITE); 
+//    }
     
     
-   private void updateGraph() { // TODO : fix graphs not working properly
+//   private void updateGraph() { // TODO : fix graphs not working properly
 //       double time =blueCar.getTime();
 //       
 //       for(int i =10;i>0; i--){
@@ -132,4 +127,4 @@ public class PositionGraphWindowController extends CarSimulationWindowController
     
     
     
-}
+

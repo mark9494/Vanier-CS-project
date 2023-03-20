@@ -48,26 +48,23 @@ public class Car extends Rectangle {
     }
 
     public void calculateCurrentVelocity() {
-        double velocitySquared = Math.pow(this.initialVelocity, 2) + 2 * this.acceleration * this.calculatecCurrentDisplacement();
+        double velocitySquared = Math.pow(this.initialVelocity, 2) + 2 * this.acceleration * this.calculateCurrentDisplacement();
         this.currentVelocity = Math.sqrt(velocitySquared);
     }
 
     public void calculateCurrentTime() {
 
-        this.time = ((this.currentVelocity - this.initialVelocity) / this.acceleration);// we divide by 10 because we multiplied both initial and final position by 10 before
+        this.time = (2 *calculateCurrentDisplacement())/(this.initialVelocity + this.finalVelocity);// we divide by 10 because we multiplied both initial and final position by 10 before
         
     }
     
     public double calculateFinalTime(){
-        
-      return this.finalTime = ((this.finalVelocity - this.initialVelocity) / this.acceleration); 
+       calculateFinalVelocity();
+      return this.finalTime = (2 *calculateFinalDisplacement())/(this.initialVelocity + this.finalVelocity); //((this.finalVelocity - this.initialVelocity) / this.acceleration); 
     }
         
     public double calculateGraphDisplacement(double time){
-       // System.out.println((((calculateFinalVelocity() + this.initialVelocity)/2 ) * time));
-        //System.out.println(calculateFinalVelocity());
-       // System.out.println(this.initialVelocity);
-        System.out.println(time); // the time of the first point is being negative TODO: Fix it
+        System.out.println( ((calculateFinalVelocity() + this.initialVelocity)/2 ) * time);
        return this.graphDisplacement = ((calculateFinalVelocity() + this.initialVelocity)/2 ) * time;
     }  
     
@@ -81,7 +78,7 @@ public class Car extends Rectangle {
         
         return this.finalVelocity;
     }
-    private double calculatecCurrentDisplacement() {
+    private double calculateCurrentDisplacement() {
 
         return this.getTranslateX() / 10 - this.initialPosition / 10;
     }

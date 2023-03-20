@@ -191,15 +191,24 @@ public class CarSimulationWindowController extends Settings {
     }
     
     private void makeGraphPoints(){
-      for (int i=0 ; i<10;i++){
+        double redFinalTime = redCar.calculateFinalTime()/10;
+        for(int i=0 ; i<10;i++){
             for(int j =0;j<1;j++){
-          redCarPositionGraph[i][j] = (redCar.calculateGraphDisplacement(redCar.calculateFinalTime()/(10-i)));
-          redCarPositionGraph[i][j+1] = (redCar.calculateFinalTime()/(10 - i));   
-          
+          redCarPositionGraph[i][j] = (redCar.calculateGraphDisplacement(redFinalTime));
+          redCarPositionGraph[i][j+1] = (redFinalTime);   
+         //System.out.println(redCarPositionGraph[i][j]);
+         //System.out.println(redCarPositionGraph[i][j+1]);
+         
           blueCarPositionGraph[i][j] = (blueCar.calculateGraphDisplacement(blueCar.calculateFinalTime()/(10-i)));//the time going in the method is correct
-          blueCarPositionGraph[i][j+1] = (blueCar.calculateFinalTime()/(10 - i)); 
-          //System.out.println((blueCar.calculateFinalTime()/(10)));
-              
+          blueCarPositionGraph[i][j+1] = (blueCar.calculateFinalTime()/(10-i));
+               
+                //System.out.println(finalTime/(10-i));
+               // System.out.println(blueCar.calculateFinalTime()/(10-0));
+               // System.out.println(blueCarPositionGraph[0][0]);
+               redFinalTime += redCar.calculateFinalTime()/10;
+                //System.out.println(redFinalTime);
+         // System.out.println((blueCar.calculateFinalTime()/(10-0))); 
+         // System.out.println(blueCar.calculateFinalTime()/(10-i));
             }
         } 
         
@@ -207,21 +216,17 @@ public class CarSimulationWindowController extends Settings {
     
     @FXML
     private void handleStart(){
-       makeGraphPoints();
-       
+       makeGraphPoints();  
        timeline.play(); 
        disableBtns(true, false, true, true);
-       
-        
-        
+   
     }
     
     @FXML
     private void handleStop(){
        
        disableBtns(false,true,false, true); 
-       timeline.pause();
-       
+       timeline.pause();  
     }
     
     @FXML
@@ -229,7 +234,6 @@ public class CarSimulationWindowController extends Settings {
        
         disableBtns(true, true, true, false);
         timeline.stop();
-       
     }
     @FXML
     private void handleSubmit(){
@@ -248,8 +252,7 @@ public class CarSimulationWindowController extends Settings {
      redPositionLabel.setText("0");
      redVelocityLabel.setText("0");
      redAccelerationLabel.setText("0");
-     redTimeLabel.setText("0");    
-        
+     redTimeLabel.setText("0");     
     }
     
     private void disableBtns(boolean start, boolean stop, boolean reset, boolean submit){
@@ -294,8 +297,6 @@ public class CarSimulationWindowController extends Settings {
     
     @FXML
     private void handleVelocityGraphBtn(){
-      
-        System.out.println("asd"); 
         
     }
             
