@@ -39,7 +39,7 @@
                 <VBox prefHeight="200.0" prefWidth="100.0">
                     <children>
                         <Label fx:id="angleRamp" text="Angle of Ramp" />
-                        <Slider fx:id="sldRampAngle" showTickLabels="true" showTickMarks="true" />
+                        <Slider fx:id="sldRampAngle" max="55.0" min="20.0" minorTickCount="5" showTickLabels="true" showTickMarks="true" />
                     </children>
                 </VBox>
                 <VBox prefHeight="200.0" prefWidth="100.0">

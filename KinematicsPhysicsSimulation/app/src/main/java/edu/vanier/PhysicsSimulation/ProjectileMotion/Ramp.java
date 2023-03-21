@@ -4,6 +4,7 @@
  */
 package edu.vanier.PhysicsSimulation.ProjectileMotion;
 
+import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -18,7 +19,8 @@ public class Ramp extends Rectangle {
     private final int HEIGHT = 60;
     private double cornerX;
     private double cornerY;
-    private double angle = 25; //(bounded between 20 - 65)
+    private double angle; //(bounded between 20 - 55)
+    private double angleRadians;
 
     public Ramp() {
         this.setWidth(WIDTH);
@@ -27,15 +29,40 @@ public class Ramp extends Rectangle {
         this.setFill(Color.BLUE);
     }
 
-    // TODO: getter modify values, need to be changed
+    public double setCornerX() {
+        cornerX = this.getTranslateX() + WIDTH;
+        return cornerX;
+    }
+
+    public double setCornerY() {
+        cornerY = this.getTranslateY() + sin(this.getAngleRadians()) * this.HEIGHT;
+        return cornerY;
+    }
+
     public double getCornerX() {
-        cornerX = this.getTranslateX() + this.WIDTH;
+        setCornerX();
         return cornerX;
     }
 
     public double getCornerY() {
-        cornerY = sin(angle) * (WIDTH / 2);
+        setCornerY();
         return cornerY;
+    }
+
+    public double getAngleRadians() {
+        return this.angleRadians;
+    }
+
+    public void setAngleRadians(double angle) {
+        this.angleRadians = angle * Math.PI / 180;
+    }
+
+    public double getAngle() {
+        return angle;
+    }
+
+    public void setAngle(double angle) {
+        this.angle = angle;
     }
 
     public int getWIDTH() {

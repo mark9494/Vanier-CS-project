@@ -4,6 +4,7 @@
  */
 package edu.vanier.PhysicsSimulation.ProjectileMotion;
 
+import java.util.Random;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
@@ -13,18 +14,20 @@ import javafx.scene.shape.Rectangle;
  */
 public class LandingArea extends Rectangle {
 
-    private static final int INIT_WIDTH = 2;
-    private static final int INIT_HEIGHT = 10;
+    private static final int INIT_WIDTH = 50;
+    private static final double INIT_HEIGHT = 4;
 
-    public LandingArea (double width, double height) {
-        this.setWidth(width);
-        this.setHeight(height);
+    public LandingArea() {
+        this.setWidth(this.INIT_WIDTH);
+        this.setHeight(this.INIT_HEIGHT);
         this.setFill(Color.GREENYELLOW);
     }
 
-    //TODO
-    public void randomSpawn(double maxX, double minX, double height){
-        //set height to pane.getHeight when calling method 
+    public void randomSpawn(double maxX, double minX, double height) {
+        this.setTranslateY(height);
+        Random r = new Random();
+        double randomValue = minX + (maxX - minX) * r.nextDouble();
+        this.setTranslateX(randomValue);
     }
 
 }

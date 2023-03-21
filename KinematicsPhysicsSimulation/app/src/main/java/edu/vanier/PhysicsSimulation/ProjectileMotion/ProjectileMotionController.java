@@ -17,18 +17,16 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
 
     @FXML
     public void initialize() {
-        int initranslateX = 500;
-        
         ramp = new Ramp();
         ramp.setTranslateY(25);
         ramp.setTranslateX(300);
-        landingArea = new LandingArea(50, 50);
+        landingArea = new LandingArea();
         ball = new Ball();
-        ball.setTranslateX(ramp.getCornerX());
-        ball.setTranslateY(ramp.getCornerY());
-        landingArea.setTranslateX(initranslateX);
+        ball.setTranslateX(ramp.setCornerX() + ball.getRadius());
+        ball.setTranslateY(ramp.getCornerY() - ball.getRadius());
         pane.getChildren().addAll(landingArea, ball, ramp);
         createAnimation();
+        timeline.play();
     }
 
     public void createAnimation() {
@@ -52,16 +50,26 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
 
     @FXML
     public void handleBegin() {
-        timeline.play();
+        //timeline.play();
+        landingArea.randomSpawn(pane.getWidth() - landingArea.getWidth(), ball.getTranslateX(), pane.getHeight());
         generateParameters();
     }
 
     private void handleUpdateAnimation() {
-        ball.setTranslateX(ball.getTranslateX() + 1);
+        //ball.setTranslateX(ball.getTranslateX() + 1);
+        moveRectangleAndBall();
     }
 
-    //TODO: 
+    private void moveRectangleAndBall() {
+        setRampAngle();
+        ramp.setRotate(ramp.getAngle());
+        ball.setTranslateX(ramp.getCornerX() + ball.getRadius());
+        ball.setTranslateY(ramp.getCornerY() - ball.getRadius());
+    }
+
+    //TODO: Finish adding the rest of the methods
     private void generateParameters() {
+        setDeltaY(pane.getHeight());
         setInitialVelocity();
         setAccelerationY();
         setRampAngle();
@@ -69,6 +77,8 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
         setVelocityY();
         setTime();
         setDeltaX();
-        //.....
+        System.out.println(initVelocityY);
+        System.out.println(deltaX);
+        
     }
 }
