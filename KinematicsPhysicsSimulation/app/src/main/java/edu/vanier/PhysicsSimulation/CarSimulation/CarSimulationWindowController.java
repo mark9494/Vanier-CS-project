@@ -26,9 +26,13 @@ public class CarSimulationWindowController extends Settings {
     
     @FXML
     public void initialize() {
-        currentPaneHeight = middlePane.getHeight();
+       // currentPaneHeight = middlePane.getHeight(); to rescale lines up or down
+
         redCarPositionGraph = new double[10][2];
         blueCarPositionGraph = new double[10][2];
+        
+        redCarVelocityGraph = new double[10][2];
+        blueCarVelocityGraph = new double[10][2];
         
         createAnimationToUpdateData();
         timelineToUpdateSliders.play();
@@ -136,12 +140,12 @@ public class CarSimulationWindowController extends Settings {
     }
       
     private void handleUpdateAnimation() { 
-        blueCar.calculateCurrentVelocity();
-        blueCar.calculateCurrentTime();
+        blueCar.calculateCurrentVelocity(blueCar.calculateCurrentDisplacement());
+        blueCar.calculateCurrentTime(blueCar.calculateCurrentDisplacement());
         
         //System.out.println(blueCar.getCurrentVelocity());
-        redCar.calculateCurrentVelocity();
-        redCar.calculateCurrentTime();
+        redCar.calculateCurrentVelocity(redCar.calculateCurrentDisplacement());
+        redCar.calculateCurrentTime(redCar.calculateCurrentDisplacement());
         displayLiveStats();
         moveCar();
         
@@ -159,7 +163,7 @@ public class CarSimulationWindowController extends Settings {
     
     public void updateInput(){
        if(blueInitialPositionSlider.getValue() > blueInitialPositionSlider.getMax() - blueCar.getWidth()){
-            blueCar.setInitialPosition((blueInitialPositionSlider.getValue()*10 - blueCar.getWidth())); // this prevents the car from going outside the pane
+            blueCar.setInitialPosition((blueInitialPositionSlider.getValue()*10)); // this prevents the car from going outside the pane
        }else{
          blueCar.setInitialPosition((blueInitialPositionSlider.getValue()*10));  
        }
@@ -169,7 +173,7 @@ public class CarSimulationWindowController extends Settings {
         blueCar.setAcceleration(blueAccelerationSlider.getValue());
         
         if(redInitialPositionSlider.getValue() > redInitialPositionSlider.getMax() - redCar.getWidth()){
-           redCar.setInitialPosition(redInitialPositionSlider.getValue()*10 - redCar.getWidth()); 
+           redCar.setInitialPosition(redInitialPositionSlider.getValue()*10 ); 
         }else{
             redCar.setInitialPosition(redInitialPositionSlider.getValue()*10);
         }
@@ -200,27 +204,29 @@ public class CarSimulationWindowController extends Settings {
     }
     
     private void makeGraphPoints(){
-        double redFinalTime = redCar.calculateFinalTime()/10;
-        double blueFinalTime = blueCar.calculateFinalTime()/10;
+        double redFinalTime = redCar.calculateFinalTime(redCar.calculateFinalDisplacement(), redCar.calculateFinalVelocity(redCar.calculateFinalDisplacement()))/10;
+        double blueFinalTime = blueCar.calculateFinalTime(blueCar.calculateFinalDisplacement(), blueCar.calculateFinalVelocity(blueCar.calculateFinalDisplacement()))/10;
         
         for(int i=0 ; i<10;i++){
             for(int j =0;j<1;j++){
-          redCarPositionGraph[i][j] = (redCar.calculateGraphDisplacement(redFinalTime));
-          redCarPositionGraph[i][j+1] = (redFinalTime);   
+          redCarPositionGraph[i][j] = (redCar.calculateGraphDisplacement(redCar.calculateCurrentDisplacement(),redFinalTime));
+          redCarPositionGraph[i][j+1] = redFinalTime;   
+          
+          redCarVelocityGraph[i][j] = (redCar.calculateCurrentVelocity(redCar.calculateGraphDisplacement(redCar.calculateCurrentDisplacement(),redFinalTime)));
+          redCarVelocityGraph[i][j+1] = redFinalTime;
+         // redCarVelocityGraph[i][j] = (redCar.calculateCurrentVelocity(redCar.calculateGraphDisplacement(redFinalTime)));
          //System.out.println(redCarPositionGraph[i][j]);
          //System.out.println(redCarPositionGraph[i][j+1]);
          
-          blueCarPositionGraph[i][j] = (blueCar.calculateGraphDisplacement(blueFinalTime));//the time going in the method is correct
-          blueCarPositionGraph[i][j+1] = (blueFinalTime);
-               
-                //System.out.println(finalTime/(10-i));
-               // System.out.println(blueCar.calculateFinalTime()/(10-0));
-               // System.out.println(blueCarPositionGraph[0][0]);
-               redFinalTime += redCar.calculateFinalTime()/10;
-               blueFinalTime += blueCar.calculateFinalTime()/10;
-                //System.out.println(redFinalTime);
-         // System.out.println((blueCar.calculateFinalTime()/(10-0))); 
-         // System.out.println(blueCar.calculateFinalTime()/(10-i));
+          blueCarPositionGraph[i][j] = (blueCar.calculateGraphDisplacement(blueCar.calculateCurrentDisplacement(),blueFinalTime));//the time going in the method is correct
+          blueCarPositionGraph[i][j+1] = blueFinalTime;
+          
+          blueCarVelocityGraph[i][j] = (blueCar.calculateCurrentVelocity(blueCar.calculateGraphDisplacement(blueCar.calculateCurrentDisplacement(),blueFinalTime)));     
+          blueCarVelocityGraph[i][j+1] = blueFinalTime;   
+
+          redFinalTime += redCar.calculateFinalTime(redCar.calculateFinalDisplacement(), redCar.calculateFinalVelocity(redCar.calculateFinalDisplacement()))/10;
+          blueFinalTime += blueCar.calculateFinalTime(blueCar.calculateFinalDisplacement(), blueCar.calculateFinalVelocity(blueCar.calculateFinalDisplacement()))/10;
+             
             }
         } 
         
@@ -293,7 +299,7 @@ public class CarSimulationWindowController extends Settings {
        
         Stage secondWindow = new Stage();
                 
-        PositionGraphWindowController positionGraphWindow = new PositionGraphWindowController(blueCar, redCar, blueCarPositionGraph, redCarPositionGraph);
+        PositionGraphWindowController positionGraphWindow = new PositionGraphWindowController(blueCarPositionGraph, redCarPositionGraph);
                 
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/PositionGraphCarSimulation.fxml"));
         loader.setController(positionGraphWindow);
@@ -308,7 +314,20 @@ public class CarSimulationWindowController extends Settings {
     
     
     @FXML
-    private void handleVelocityGraphBtn(){
+    private void handleVelocityGraphBtn() throws IOException{
+        Stage secondWindow = new Stage();
+                
+        VelocityGraphWindowController velocityGraphWindow = new VelocityGraphWindowController(blueCarVelocityGraph, redCarVelocityGraph);
+                
+        FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/VelocityGraphCarSimulation.fxml"));
+        loader.setController(velocityGraphWindow);
+        Pane root = loader.load();
+        Scene scene = new Scene(root, 900, 600);
+        secondWindow.setScene(scene);
+                
+        secondWindow.setTitle("Velocity Graph");
+        secondWindow.sizeToScene();
+        secondWindow.show(); 
         
     }
             

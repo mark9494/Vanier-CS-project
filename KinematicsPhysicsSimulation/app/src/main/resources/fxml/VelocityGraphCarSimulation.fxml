@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.layout.Pane?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <LineChart fx:id="blueLineChart" legendVisible="false" prefHeight="400.0" prefWidth="297.0" title="blue Car">
+        <xAxis>
+          <CategoryAxis fx:id="blueX" label="time" prefHeight="49.0" prefWidth="219.0" side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis fx:id="blueY" label="velocity" side="LEFT" />
+        </yAxis>
+      </LineChart>
+      <LineChart fx:id="redLineChart" layoutX="290.0" legendVisible="false" prefHeight="400.0" prefWidth="308.0" title="red Car">
+        <xAxis>
+          <CategoryAxis fx:id="redX" label="time" prefHeight="48.0" prefWidth="235.0" side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis fx:id="redY" label="velocity" prefHeight="335.0" prefWidth="43.0" side="LEFT" />
+        </yAxis>
+      </LineChart>
+   </children>
+</Pane>
