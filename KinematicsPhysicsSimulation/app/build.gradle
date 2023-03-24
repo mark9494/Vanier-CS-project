@@ -12,6 +12,9 @@ repositories {
     mavenLocal()
 }
 
+test {
+    useJUnitPlatform()
+}
 dependencies {
     // The following .jars are pulled from:
     // https://repo.maven.apache.org/maven2/org/openjfx/    
@@ -25,6 +28,9 @@ dependencies {
     compileOnly  "org.openjfx:javafx-controls:18.0.2:javadoc"
     compileOnly  "org.openjfx:javafx-fxml:18.0.2:javadoc"
     compileOnly  "org.openjfx:javafx-graphics:18.0.2:javadoc"
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 }
 //-- Loads the JavaFX modules of the selected JavaFX version.
 javafx {    

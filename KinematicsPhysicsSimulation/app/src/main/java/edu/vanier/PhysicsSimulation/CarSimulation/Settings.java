@@ -58,6 +58,9 @@ public class Settings {
     protected double[][] redCarPositionGraph;
     protected double[][] blueCarPositionGraph;
     
+    protected double[][] redCarVelocityGraph;
+    protected double[][] blueCarVelocityGraph;
+    
     protected Car blueCar;
     protected Car redCar;
     protected Timeline timeline; 
