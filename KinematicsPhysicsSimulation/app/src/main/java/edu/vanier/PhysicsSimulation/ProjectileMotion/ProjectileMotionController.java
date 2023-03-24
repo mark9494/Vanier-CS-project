@@ -7,6 +7,10 @@ package edu.vanier.PhysicsSimulation.ProjectileMotion;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.util.Duration;
 
 /**
@@ -14,7 +18,7 @@ import javafx.util.Duration;
  * @author antho
  */
 public class ProjectileMotionController extends ProjectileMotionSettings {
-    
+
     @FXML
     public void initialize() {
         ramp = new Ramp();
@@ -22,59 +26,90 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
         ramp.setTranslateX(100);
         landingArea = new LandingArea();
         ball = new Ball();
-        ball.setTranslateX(ramp.setCornerX() + ball.getRadius());
-        ball.setTranslateY(ramp.getCornerY() - ball.getRadius());
+        setBallDefaultLocation();
         pane.getChildren().addAll(landingArea, ball, ramp);
         createAnimation();
         timelineRectangleAndBall.play();
+        timelinePaneResize.play();
+        landingArea.randomSpawn(pane.getWidth() - landingArea.getWidth(), (ramp.getTranslateX() + ramp.getWIDTH()), pane.getHeight());
     }
-    
+
+    public void setBallDefaultLocation() {
+        ball.setTranslateX(ramp.setCornerX() + ball.getRadius());
+        ball.setTranslateY(ramp.getCornerY() - ball.getRadius());
+    }
+
     public void createAnimation() {
         animationDuration = 10;
         currentRate = 5;
-        
+
         timelineRectangleAndBall = new Timeline(
                 new KeyFrame(Duration.millis(animationDuration), e -> handleUpdateAnimation()));
         timelineRectangleAndBall.setRate(currentRate);
         timelineRectangleAndBall.setCycleCount(Timeline.INDEFINITE);
-        
+
+        timelinePaneResize = new Timeline(
+                new KeyFrame(Duration.millis(animationDuration), e -> handleUpdateSliders()));
+        timelinePaneResize.setRate(currentRate);
+        timelinePaneResize.setCycleCount(Timeline.INDEFINITE);
     }
-    
+
+    private void disableButtons(boolean reset, boolean begin) {
+        btnBegin.setDisable(begin);
+        btnReset.setDisable(reset);
+    }
+
     @FXML
     public void handleHomeButton() {
         System.out.println("Going Back...");
     }
-    
+
     @FXML
     public void handleMouseHoverInfo() {
         System.out.println("info.");
     }
-    
+
     @FXML
     public void handleBegin() {
-        
+        disableButtons(false, true);
         timelineRectangleAndBall.stop();
-        landingArea.randomSpawn(pane.getWidth() - landingArea.getWidth(), (ramp.getTranslateX() + ramp.getWIDTH()), pane.getHeight());
+
         generateParameters();
-        double currentRateBall = time * 185;
-        
+        double currentRateBall = 5000;
+
         timelineBall = new Timeline(
                 new KeyFrame(Duration.seconds(100), e -> handleUpdateAnimationBall()));
         timelineBall.setRate(currentRateBall);
         timelineBall.setCycleCount(Timeline.INDEFINITE);
         timelineBall.play();
+
+        lblTime.setText("" + df.format(time));
+        lblPosition.setText("" + df.format(finalPosition));
     }
-    
+
+    @FXML
+    public void handleResetButton() {
+        disableButtons(true, false);
+        setBallDefaultLocation();
+        resetParameters();
+        moveRectangleAndBall();
+        timelineRectangleAndBall.play();
+        landingArea.randomSpawn(pane.getWidth() - landingArea.getWidth(), (ramp.getTranslateX() + ramp.getWIDTH()), pane.getHeight());
+    }
+
     private void handleUpdateAnimation() {
         moveRectangleAndBall();
+        ball.setRotate(0);
     }
-    
+
     private void handleUpdateAnimationBall() {
+        ball.setRotate(ball.getRotate() - Math.PI * 3);
         moveBallX();
         moveBallY();
         endOfMotion();
+        ballInLandingArea();
     }
-    
+
     private void moveRectangleAndBall() {
         setRampAngle();
         ramp.setRotate(ramp.getAngle());
@@ -82,7 +117,6 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
         ball.setTranslateY(ramp.getCornerY() - ball.getRadius());
     }
 
-    //TODO: Finish adding the rest of the methods
     private void generateParameters() {
         setDeltaY(pane.getHeight());
         setInitialVelocity();
@@ -99,23 +133,61 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
         System.out.println(time);
         System.out.println(deltaX);
     }
-    
+
+    private void resetParameters() {
+        time = 0;
+        finalPosition = 0;
+        deltaX = 0;
+        lblTime.setText("");
+        lblPosition.setText("");
+    }
+
     private void moveBallX() {
         ball.setTranslateX(ball.getTranslateX() + ball.getDx());
-        
+
     }
-    
+
     private void moveBallY() {
         ball.setDy(ball.getDy() - accelerationY);
         ball.setTranslateY(ball.getTranslateY() - ball.getDy());
-        
+
     }
-    
+
     private void endOfMotion() {
         if (ball.getTranslateY() + ball.getRadius() >= pane.getHeight()) {
             ball.setTranslateY(pane.getHeight() - ball.getRadius());
             timelineBall.pause();
+            finalPosition = ball.getTranslateX();
         }
     }
-    
+//TODO: FIX LOGIC
+
+    private void ballInLandingArea() {
+        boolean ballLanded;
+        System.out.println(finalPosition);
+        System.out.println(landingArea.getLeftX());
+        if (finalPosition == 0) {
+            if (finalPosition > landingArea.getLeftX() && finalPosition < landingArea.getRightX()) {
+                ballLanded = true;
+            } else {
+                ballLanded = false;
+            }
+
+            if (ballLanded) {
+                VBox winAnnouncement = new VBox();
+                Label win = new Label();
+                win.setTextFill(Color.GREEN);
+                win.setFont(new Font(100));
+                win.setText("you won");
+                pane.getChildren().add(winAnnouncement);
+            } else {
+                System.out.println("Ball Didnt Land D:");
+            }
+        }
+    }
+
+    private void handleUpdateSliders() {
+        sldInitialVelocity.setMax(pane.getWidth() / 24);
+    }
+
 }

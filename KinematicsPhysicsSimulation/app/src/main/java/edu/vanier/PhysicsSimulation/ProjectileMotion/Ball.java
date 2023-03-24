@@ -4,7 +4,9 @@
  */
 package edu.vanier.PhysicsSimulation.ProjectileMotion;
 
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 
 /**
@@ -17,10 +19,11 @@ public class Ball extends Circle {
     private double dx, dy;
 
     public Ball() {
-        //this.dy = 5;
-        //this.dx = 5;
+
         this.setRadius(RADIUS);
         this.setFill(Color.RED);
+        Image basketball = new Image("/images/basketball.png");
+        this.setFill(new ImagePattern(basketball));
     }
 
     public double getDx() {

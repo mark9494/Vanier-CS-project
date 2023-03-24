@@ -6,9 +6,11 @@ package edu.vanier.PhysicsSimulation.ProjectileMotion;
 
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
+import java.text.DecimalFormat;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.Pane;
@@ -23,20 +25,20 @@ public class ProjectileMotionSettings {
     protected Pane pane;
 
     @FXML
-    protected Button btnHome;
+    protected Button btnHome, btnReset, btnBegin;
 
     @FXML
     protected ImageView infoCircle;
 
-    //@FXML
-    //protected Label initialVelocity, angleRamp, accelerationY;
+    @FXML
+    protected Label lblTime, lblPosition;
     @FXML
     protected Slider sldInitialVelocity, sldRampAngle, sldAccelerationY;
 
     protected Ramp ramp;
     protected Ball ball;
     protected LandingArea landingArea;
-    protected Timeline timelineRectangleAndBall, timelineBall;
+    protected Timeline timelineRectangleAndBall, timelineBall, timelinePaneResize;
     protected int currentRate;
     protected double animationDuration;
     protected double rampAngle, accelerationY;
@@ -44,6 +46,7 @@ public class ProjectileMotionSettings {
     protected double finalVelocityX, finalVelocityY;
     protected double time;
     protected double deltaY, deltaX, finalPosition;
+    protected static final DecimalFormat df = new DecimalFormat("0.00");
 
     public void setInitialVelocity() {
         initialVelocity = sldInitialVelocity.getValue();
@@ -89,10 +92,11 @@ public class ProjectileMotionSettings {
     //4
     protected void setDeltaX() {
         deltaX = (initVelocityX * time);
-        finalPosition = ball.getTranslateX() + deltaX;
+        //finalPosition = ball.getTranslateX() + deltaX;
     }
 
     protected void setDeltaY(double deltaYt) {
         deltaY = deltaYt;
     }
+
 }

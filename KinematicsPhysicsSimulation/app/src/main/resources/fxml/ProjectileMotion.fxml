@@ -13,7 +13,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="482.0" prefWidth="703.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="506.0" prefWidth="753.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
     <center>
         <Pane fx:id="pane" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: black; -fx-border-width: 1.5;" BorderPane.alignment="CENTER">
             <padding>
@@ -33,7 +33,7 @@
                 <VBox prefHeight="200.0" prefWidth="100.0">
                     <children>
                         <Label fx:id="initialVelocity" text="Initial Velocity" />
-                        <Slider fx:id="sldInitialVelocity" blockIncrement="5.0" majorTickUnit="5.0" max="35.0" min="5.0" showTickLabels="true" showTickMarks="true" />
+                        <Slider fx:id="sldInitialVelocity" blockIncrement="5.0" majorTickUnit="5.0" max="40.0" min="10.0" showTickLabels="true" showTickMarks="true" />
                     </children>
                 </VBox>
                 <VBox prefHeight="200.0" prefWidth="100.0">
@@ -45,7 +45,7 @@
                 <VBox prefHeight="200.0" prefWidth="100.0">
                     <children>
                         <Label fx:id="accelerationY" text="Acceleration Y" />
-                        <Slider fx:id="sldAccelerationY" majorTickUnit="1.5" max="11.0" min="1.0" minorTickCount="1" showTickLabels="true" showTickMarks="true" />
+                        <Slider fx:id="sldAccelerationY" majorTickUnit="1.5" max="5.0" min="1.0" minorTickCount="1" showTickLabels="true" showTickMarks="true" />
                     </children>
                 </VBox>
                 <Line endX="-100.41421508789062" endY="57.29289245605469" startX="-100.0">
@@ -53,7 +53,7 @@
                         <Insets bottom="-20.0" left="15.0" />
                     </HBox.margin>
                 </Line>
-                <VBox prefHeight="200.0" prefWidth="100.0">
+                <VBox prefHeight="73.0" prefWidth="61.0">
                     <children>
                         <Label text="Time :">
                             <font>
@@ -67,8 +67,22 @@
                         </Label>
                     </children>
                 </VBox>
-                <Button mnemonicParsing="false" prefHeight="61.0" prefWidth="92.0" text="Pause" />
-                <Button mnemonicParsing="false" onAction="#handleBegin" prefHeight="56.0" prefWidth="94.0" text="Begin" />
+            <VBox prefHeight="73.0" prefWidth="61.0">
+               <children>
+                  <Label fx:id="lblTime">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblPosition">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+                <Button fx:id="btnReset" mnemonicParsing="false" onAction="#handleResetButton" prefHeight="58.0" prefWidth="93.0" text="Reset" />
+                <Button fx:id="btnBegin" mnemonicParsing="false" onAction="#handleBegin" prefHeight="56.0" prefWidth="94.0" text="Begin" />
             </children>
             <padding>
                 <Insets right="10.0" />
