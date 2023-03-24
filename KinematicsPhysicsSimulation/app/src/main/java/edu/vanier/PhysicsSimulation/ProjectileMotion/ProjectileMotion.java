@@ -27,7 +27,7 @@ public class ProjectileMotion extends Application {
         stage.setScene(scene);
         stage.setTitle("Projectile Motion");
         stage.sizeToScene();
-        stage.show();
+        stage.show(); 
     }
 
     @Override

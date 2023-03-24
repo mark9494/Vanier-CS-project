@@ -18,13 +18,13 @@ import javafx.scene.layout.Pane;
  * @author antho
  */
 public class ProjectileMotionSettings {
-    
+
     @FXML
     protected Pane pane;
-    
+
     @FXML
     protected Button btnHome;
-    
+
     @FXML
     protected ImageView infoCircle;
 
@@ -32,27 +32,27 @@ public class ProjectileMotionSettings {
     //protected Label initialVelocity, angleRamp, accelerationY;
     @FXML
     protected Slider sldInitialVelocity, sldRampAngle, sldAccelerationY;
-    
+
     protected Ramp ramp;
     protected Ball ball;
     protected LandingArea landingArea;
-    protected Timeline timeline;
+    protected Timeline timelineRectangleAndBall, timelineBall;
     protected int currentRate;
     protected double animationDuration;
     protected double rampAngle, accelerationY;
     protected double initialVelocity, initVelocityX, initVelocityY;
     protected double finalVelocityX, finalVelocityY;
     protected double time;
-    protected double deltaY, deltaX;
-    
+    protected double deltaY, deltaX, finalPosition;
+
     public void setInitialVelocity() {
         initialVelocity = sldInitialVelocity.getValue();
     }
-    
+
     public void setAccelerationY() {
         accelerationY = sldAccelerationY.getValue();
     }
-    
+
     public void setRampAngle() {
         rampAngle = sldRampAngle.getValue();
         ramp.setAngle(rampAngle);
@@ -61,13 +61,13 @@ public class ProjectileMotionSettings {
 
     //1
     protected void setVelocityX() {
-        initVelocityX = initialVelocity * cos(-ramp.getAngleRadians() * Math.PI / 180);
+        initVelocityX = initialVelocity * cos(-ramp.getAngleRadians());
         finalVelocityX = initVelocityX;
     }
 
     //2
     protected void setVelocityY() {
-        initVelocityY = initialVelocity * sin(-ramp.getAngleRadians() * Math.PI / 180);
+        initVelocityY = initialVelocity * sin(-ramp.getAngleRadians());
     }
 
     //3
@@ -79,7 +79,6 @@ public class ProjectileMotionSettings {
         double underRoot = (b * b) - (4 * a * c);
         double sqrt = Math.sqrt(underRoot);
         double time1 = (-b + sqrt) / (2 * a);
-        //System.out.println(a + " " + b + " " + c);
         if (time1 > 0) {
             time = time1;
         } else {
@@ -90,8 +89,9 @@ public class ProjectileMotionSettings {
     //4
     protected void setDeltaX() {
         deltaX = (initVelocityX * time);
+        finalPosition = ball.getTranslateX() + deltaX;
     }
-    
+
     protected void setDeltaY(double deltaYt) {
         deltaY = deltaYt;
     }

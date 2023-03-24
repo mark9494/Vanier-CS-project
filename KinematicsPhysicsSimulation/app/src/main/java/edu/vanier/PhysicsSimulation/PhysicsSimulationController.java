@@ -8,6 +8,7 @@ import com.sun.media.jfxmedia.events.MarkerEvent;
 import edu.vanier.PhysicsSimulation.CarSimulation.CarAnimationLoader;
 import edu.vanier.PhysicsSimulation.CarSimulation.CarSimulationWindowController;
 import edu.vanier.PhysicsSimulation.Pendulum.AnimationLoader;
+import edu.vanier.PhysicsSimulation.ProjectileMotion.ProjectileMotion;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -39,7 +40,7 @@ public class PhysicsSimulationController implements Initializable{
 
         });
         Anthony.setOnAction((e)->{
-        
+            ProjectileMotion animation = new ProjectileMotion();
         });
         Ammar.setOnAction((e)->{
         

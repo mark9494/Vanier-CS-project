@@ -33,7 +33,7 @@
                 <VBox prefHeight="200.0" prefWidth="100.0">
                     <children>
                         <Label fx:id="initialVelocity" text="Initial Velocity" />
-                        <Slider fx:id="sldInitialVelocity" showTickLabels="true" showTickMarks="true" />
+                        <Slider fx:id="sldInitialVelocity" blockIncrement="5.0" majorTickUnit="5.0" max="35.0" min="5.0" showTickLabels="true" showTickMarks="true" />
                     </children>
                 </VBox>
                 <VBox prefHeight="200.0" prefWidth="100.0">
@@ -45,7 +45,7 @@
                 <VBox prefHeight="200.0" prefWidth="100.0">
                     <children>
                         <Label fx:id="accelerationY" text="Acceleration Y" />
-                        <Slider fx:id="sldAccelerationY" majorTickUnit="1.5" max="11.0" minorTickCount="1" showTickLabels="true" showTickMarks="true" />
+                        <Slider fx:id="sldAccelerationY" majorTickUnit="1.5" max="11.0" min="1.0" minorTickCount="1" showTickLabels="true" showTickMarks="true" />
                     </children>
                 </VBox>
                 <Line endX="-100.41421508789062" endY="57.29289245605469" startX="-100.0">

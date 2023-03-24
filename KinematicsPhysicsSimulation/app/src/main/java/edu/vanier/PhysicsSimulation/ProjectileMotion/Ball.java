@@ -11,11 +11,32 @@ import javafx.scene.shape.Circle;
  *
  * @author antho
  */
-public class Ball extends Circle{
+public class Ball extends Circle {
+
     private static final int RADIUS = 15;
-    
-    public Ball(){
+    private double dx, dy;
+
+    public Ball() {
+        //this.dy = 5;
+        //this.dx = 5;
         this.setRadius(RADIUS);
         this.setFill(Color.RED);
     }
+
+    public double getDx() {
+        return dx;
+    }
+
+    public void setDx(double dx) {
+        this.dx = dx;
+    }
+
+    public double getDy() {
+        return dy;
+    }
+
+    public void setDy(double dy) {
+        this.dy = dy;
+    }
+
 }
