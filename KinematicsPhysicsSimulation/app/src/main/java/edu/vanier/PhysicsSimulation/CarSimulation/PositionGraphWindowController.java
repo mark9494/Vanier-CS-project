@@ -69,7 +69,7 @@ public class PositionGraphWindowController extends CarSimulationWindowController
      series2.getData().add(new XYChart.Data(df.format(redCarPositionGraph[9][1])+"", Double.parseDouble((df.format(redCarPositionGraph[9][0])))));
 
 
-       System.out.println(blueCarPositionGraph[0][1]);     
+       //System.out.println(blueCarPositionGraph[0][1]);     
 //       System.out.println(blueCarPositionGraph[1][0]);     
 //       System.out.println(blueCarPositionGraph[2][0]);     
 //       System.out.println(blueCarPositionGraph[3][0]);     

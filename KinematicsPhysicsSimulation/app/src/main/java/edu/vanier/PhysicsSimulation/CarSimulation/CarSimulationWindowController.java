@@ -21,12 +21,12 @@ import javafx.util.Duration;
  */
 public class CarSimulationWindowController extends Settings {
  
-   
+   public double currentPaneHeight;
    
     
     @FXML
     public void initialize() {
-        
+        currentPaneHeight = middlePane.getHeight();
         redCarPositionGraph = new double[10][2];
         blueCarPositionGraph = new double[10][2];
         
@@ -65,8 +65,9 @@ public class CarSimulationWindowController extends Settings {
             
         });
 //        middlePane.heightProperty().addListener((obs, oldVal, newVal) -> {
-//            resizeLineVertical(middlePane.getHeight());
-//        });
+//           resizeLineVertical(middlePane.getHeight());
+//           currentPaneHeight = middlePane.getHeight();
+//       });
     }
 
     public void resizeLineHorizontal() {
@@ -143,16 +144,17 @@ public class CarSimulationWindowController extends Settings {
         redCar.calculateCurrentTime();
         displayLiveStats();
         moveCar();
+        
     }
     
     public void updateSliderMax(){
       redInitialPositionSlider.setMax((middlePane.getWidth()/10));
       redFinalPositionSlider.setMin(redInitialPositionSlider.getValue());// this causes the final position ticks to start after the initial postion of the car
-      redFinalPositionSlider.setMax(middlePane.getWidth()/10- redCar.getWidth()/10-8/10);
+      redFinalPositionSlider.setMax(middlePane.getWidth()/10- redCar.getWidth()/10);
         
       blueInitialPositionSlider.setMax(middlePane.getWidth()/10);
       blueFinalPositionSlider.setMin(blueInitialPositionSlider.getValue());
-      blueFinalPositionSlider.setMax(middlePane.getWidth()/10 - blueCar.getWidth()/10-8/10);
+      blueFinalPositionSlider.setMax(middlePane.getWidth()/10 - blueCar.getWidth()/10);
     }
     
     public void updateInput(){
@@ -184,10 +186,17 @@ public class CarSimulationWindowController extends Settings {
         
       if(blueCar.getTranslateX() < blueCar.getFinalPosition()){
           blueCar.setTranslateX(blueCar.getTranslateX() + blueCar.getCurrentVelocity()/10);
+          
       }
       if(redCar.getTranslateX() < redCar.getFinalPosition()){// if I make a for loop, i wont have access to getFinalPosition (Ask teacher why)
-          redCar.setTranslateX(redCar.getTranslateX() + redCar.getCurrentVelocity()/10);// divide by 10 because otherwise the accelerartion will be too fast
-      }                                                     
+          redCar.setTranslateX(redCar.getTranslateX() + redCar.getCurrentVelocity()/10);// divide by 10 because otherwise the accelerartion will be too fast 
+      }    
+//      if(blueCar.getTranslateX() < blueCar.getFinalPosition() && redCar.getTranslateX() < redCar.getFinalPosition()){
+//         return true; 
+//      }else{
+//      return false;    
+//      }
+     
     }
     
     private void makeGraphPoints(){

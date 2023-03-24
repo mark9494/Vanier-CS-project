@@ -59,13 +59,14 @@ public class Car extends Rectangle {
     }
     
     public double calculateFinalTime(){
-       calculateFinalVelocity();
-      return this.finalTime = (2 *calculateFinalDisplacement())/(this.initialVelocity + this.finalVelocity); //((this.finalVelocity - this.initialVelocity) / this.acceleration); 
+       
+      return this.finalTime = (2 *calculateFinalDisplacement())/(this.initialVelocity + calculateFinalVelocity()); //((this.finalVelocity - this.initialVelocity) / this.acceleration); 
     }
         
     public double calculateGraphDisplacement(double time){
-        System.out.println( ((calculateFinalVelocity() + this.initialVelocity)/2 ) * time);
-       return this.graphDisplacement = ((calculateFinalVelocity() + this.initialVelocity)/2 ) * time;
+        this.calculateCurrentVelocity();
+       System.out.println((this.initialVelocity *time) + (0.5*this.acceleration*Math.pow(time, 2)));
+       return this.graphDisplacement = (this.initialVelocity *time) + (0.5*this.acceleration*Math.pow(time, 2));
     }  
     
     public void calculateGraphVelocity(double time){
