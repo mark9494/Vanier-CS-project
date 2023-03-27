@@ -19,6 +19,7 @@ public class AnimationLoader extends Stage{
             MakeComponents();
         }catch(Exception e){
             System.out.println(e);
+            e.printStackTrace();
         }
     }
     

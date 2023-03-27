@@ -21,7 +21,9 @@ public class PhysicsSimulation extends Application {
         stage.setTitle("KinematicPhysicsSimulation");
         stage.sizeToScene();
         stage.show();
+        
     }
+    
     @Override
     public void stop(){
         System.out.println("Closing Application.");
