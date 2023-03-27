@@ -1,12 +1,10 @@
 package edu.vanier.PhysicsSimulation;
 
-import edu.vanier.PhysicsSimulation.Pendulum.AnimationLoader;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 
@@ -22,9 +20,8 @@ public class PhysicsSimulation extends Application {
         stage.setScene(scene);        
         stage.setTitle("KinematicPhysicsSimulation");
         stage.sizeToScene();
-        //stage.show();
+        stage.show();
         
-        AnimationLoader anim = new AnimationLoader(); 
     }
     
     @Override

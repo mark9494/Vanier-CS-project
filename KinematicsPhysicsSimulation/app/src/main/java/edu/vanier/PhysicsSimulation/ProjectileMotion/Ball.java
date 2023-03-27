@@ -4,6 +4,7 @@
  */
 package edu.vanier.PhysicsSimulation.ProjectileMotion;
 
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 /**
@@ -11,5 +12,10 @@ import javafx.scene.shape.Circle;
  * @author antho
  */
 public class Ball extends Circle{
+    private static final int RADIUS = 15;
     
+    public Ball(){
+        this.setRadius(RADIUS);
+        this.setFill(Color.RED);
+    }
 }

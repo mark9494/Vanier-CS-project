@@ -22,7 +22,7 @@ public class CarAnimationLoader extends Stage{
         try{
             MakeComponents();
         }catch (IOException ex) {
-                Logger.getLogger(PhysicsSimulationController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PhysicsSimulationController.class.getName()).log(Level.SEVERE, null, ex);
         }catch(Exception e){
             System.out.println(e);
         }
@@ -36,7 +36,7 @@ public class CarAnimationLoader extends Stage{
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/CarSimulation.fxml"));
         loader.setController(carWindow);
         Pane root = loader.load();
-        Scene scene = new Scene(root, 1200.0, 1000.0);
+        Scene scene = new Scene(root, 900, 600);
         secondWindow.setScene(scene);
                 
         secondWindow.setTitle("Car simulation");
