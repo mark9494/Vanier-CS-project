@@ -7,8 +7,9 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-
 public class PhysicsSimulation extends Application {
+
+    public static Stage primaryStage = new Stage();
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -16,19 +17,20 @@ public class PhysicsSimulation extends Application {
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/WelcomeWindow.fxml"));
         loader.setController(mainController);
         Pane root = loader.load();
-        Scene scene = new Scene(root,600,370);
-        stage.setScene(scene);        
-        stage.setTitle("KinematicPhysicsSimulation");
-        stage.sizeToScene();
-        stage.show();
-        
+
+        Scene scene = new Scene(root, 600, 370);
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("KinematicPhysicsSimulation");
+        primaryStage.sizeToScene();
+        primaryStage.show();
     }
-    
+
+
     @Override
-    public void stop(){
+    public void stop() {
         System.out.println("Closing Application.");
     }
-    
+
     public static void main(String[] args) {
         launch(args);
     }
