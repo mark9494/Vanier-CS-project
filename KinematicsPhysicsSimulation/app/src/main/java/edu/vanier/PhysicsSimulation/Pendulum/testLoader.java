@@ -13,8 +13,8 @@ import javafx.stage.Stage;
  *
  * @author Youssif
  */
-public class AnimationLoader extends Stage{
-    public AnimationLoader(){
+public class testLoader extends Stage{
+    public testLoader(){
         try{
             MakeComponents();
         }catch(Exception e){
@@ -24,9 +24,9 @@ public class AnimationLoader extends Stage{
     }
     
     private void MakeComponents() throws Exception{
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/PendulumTab.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/test.fxml"));
         
-        loader.setController(new PendulumController());
+        loader.setController(new PolylinesTesting());
         
         Pane pane = loader.load();
         

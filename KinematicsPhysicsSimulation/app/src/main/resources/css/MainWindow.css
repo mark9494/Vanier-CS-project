@@ -1,0 +1,89 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Mar. 26, 2023, 11:03:54 p.m.
+    Author     : Youssif*/
+#Anthony
+{
+    -fx-text-fill: green;
+    -fx-background-color: white;
+    -fx-border-color: black;
+    -fx-border-radius:30;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 30;
+    -fx-background-insets: 0;
+   
+}
+#Ammar
+{
+    -fx-text-fill: yellow;
+    -fx-background-color: white;
+    -fx-border-color: black;
+    -fx-border-radius:30;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 30;
+    -fx-background-insets: 0;
+}
+#Mark
+{
+    -fx-text-fill: red;
+    -fx-background-color: white;
+    -fx-border-color: black;
+    -fx-border-radius:30;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 30;
+    -fx-background-insets: 0;
+}
+#Youssif
+{
+    -fx-text-fill: black;
+    -fx-background-color: white;
+    -fx-border-color: black;
+    -fx-border-radius:30;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 30;
+    -fx-background-insets: 0;
+}
+#Anthony:hover
+{
+    -fx-padding: 15 20 15 15;
+}
+#Anthony:pressed
+{
+    -fx-padding: 10 10 10 10;
+    
+}
+#Ammar:hover
+{
+    -fx-padding: 15 20 15 15;
+}
+#Ammar:pressed
+{
+    -fx-padding: 10 10 10 10;
+    
+}
+#Mark:hover
+{
+    -fx-padding: 15 20 15 15;
+}
+#Mark:pressed
+{
+    -fx-padding: 10 10 10 10;
+    
+}
+
+#Youssif:hover
+{
+    -fx-padding: 15 20 15 15;
+}
+#Youssif:pressed
+{
+    -fx-padding: 10 10 10 10;
+    
+}
