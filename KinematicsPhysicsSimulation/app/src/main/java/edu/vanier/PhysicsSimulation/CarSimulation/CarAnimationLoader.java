@@ -29,7 +29,7 @@ public class CarAnimationLoader extends Stage{
     }
     
     private void MakeComponents() throws Exception{
-        Stage secondWindow = new Stage();
+        
                 
         CarSimulationWindowController carWindow = new CarSimulationWindowController();
                 
@@ -37,10 +37,10 @@ public class CarAnimationLoader extends Stage{
         loader.setController(carWindow);
         Pane root = loader.load();
         Scene scene = new Scene(root, 900, 600);
-        secondWindow.setScene(scene);
+        PhysicsSimulationController.carSimulation.setScene(scene);
                 
-        secondWindow.setTitle("Car simulation");
-        secondWindow.sizeToScene();
-        secondWindow.show();
+        PhysicsSimulationController.carSimulation.setTitle("Car simulation");
+        PhysicsSimulationController.carSimulation.sizeToScene();
+        PhysicsSimulationController.carSimulation.show();
     }
 }

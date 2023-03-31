@@ -4,9 +4,14 @@
  */
 package edu.vanier.PhysicsSimulation.ProjectileMotion;
 
+import edu.vanier.PhysicsSimulation.PhysicsSimulationController;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.util.Duration;
 
 /**
@@ -17,30 +22,48 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
 
     @FXML
     public void initialize() {
+        disableButtons(false, true);
         ramp = new Ramp();
         ramp.setTranslateY(25);
-        ramp.setTranslateX(300);
+        ramp.setTranslateX(100);
         landingArea = new LandingArea();
         ball = new Ball();
-        ball.setTranslateX(ramp.setCornerX() + ball.getRadius());
-        ball.setTranslateY(ramp.getCornerY() - ball.getRadius());
+        setBallDefaultLocation();
         pane.getChildren().addAll(landingArea, ball, ramp);
         createAnimation();
-        timeline.play();
+        timelineRectangleAndBall.play();
+        timelinePaneResize.play();
+        landingArea.randomSpawn(pane.getWidth() - landingArea.getWidth(), (ramp.getTranslateX() + ramp.getWIDTH()), pane.getHeight());
+    }
+
+    public void setBallDefaultLocation() {
+        ball.setTranslateX(ramp.setCornerX() + ball.getRadius());
+        ball.setTranslateY(ramp.getCornerY() - ball.getRadius());
     }
 
     public void createAnimation() {
         animationDuration = 10;
         currentRate = 5;
-        timeline = new Timeline(
+
+        timelineRectangleAndBall = new Timeline(
                 new KeyFrame(Duration.millis(animationDuration), e -> handleUpdateAnimation()));
-        timeline.setRate(currentRate);
-        timeline.setCycleCount(Timeline.INDEFINITE);
+        timelineRectangleAndBall.setRate(currentRate);
+        timelineRectangleAndBall.setCycleCount(Timeline.INDEFINITE);
+
+        timelinePaneResize = new Timeline(
+                new KeyFrame(Duration.millis(animationDuration), e -> handlePaneResizeAffects()));
+        timelinePaneResize.setRate(currentRate);
+        timelinePaneResize.setCycleCount(Timeline.INDEFINITE);
+    }
+
+    private void disableButtons(boolean reset, boolean begin) {
+        btnBegin.setDisable(begin);
+        btnReset.setDisable(reset);
     }
 
     @FXML
     public void handleHomeButton() {
-        System.out.println("Going Back...");
+        PhysicsSimulationController.projectileMotion.close();
     }
 
     @FXML
@@ -50,14 +73,44 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
 
     @FXML
     public void handleBegin() {
-        //timeline.play();
-        landingArea.randomSpawn(pane.getWidth() - landingArea.getWidth(), ball.getTranslateX(), pane.getHeight());
+        disableButtons(true, true);
+        timelineRectangleAndBall.stop();
+
         generateParameters();
+        double currentRateBall = 5000;
+
+        timelineBall = new Timeline(
+                new KeyFrame(Duration.seconds(100), e -> handleUpdateAnimationBall()));
+        timelineBall.setRate(currentRateBall);
+        timelineBall.setCycleCount(Timeline.INDEFINITE);
+        timelineBall.play();
+
+        lblTime.setText("" + df.format(time));
+        lblPosition.setText("" + df.format(finalPosition));
+    }
+
+    @FXML
+    public void handleResetButton() {
+        removeWinAnnouncement();
+        disableButtons(true, false);
+        setBallDefaultLocation();
+        resetParameters();
+        moveRectangleAndBall();
+        timelineRectangleAndBall.play();
+        landingArea.randomSpawn(pane.getWidth() - landingArea.getWidth(), (ramp.getTranslateX() + ramp.getWIDTH()), pane.getHeight());
     }
 
     private void handleUpdateAnimation() {
-        //ball.setTranslateX(ball.getTranslateX() + 1);
         moveRectangleAndBall();
+        ball.setRotate(0);
+    }
+
+    private void handleUpdateAnimationBall() {
+        ball.setRotate(ball.getRotate() - Math.PI * 3);
+        moveBallX();
+        moveBallY();
+        endOfMotion();
+        ballInLandingArea();
     }
 
     private void moveRectangleAndBall() {
@@ -67,7 +120,6 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
         ball.setTranslateY(ramp.getCornerY() - ball.getRadius());
     }
 
-    //TODO: Finish adding the rest of the methods
     private void generateParameters() {
         setDeltaY(pane.getHeight());
         setInitialVelocity();
@@ -77,8 +129,80 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
         setVelocityY();
         setTime();
         setDeltaX();
+        ball.setDy(initVelocityY);
+        ball.setDx(initVelocityX);
         System.out.println(initVelocityY);
+        System.out.println(initVelocityX);
+        System.out.println(time);
         System.out.println(deltaX);
-        
+    }
+
+    private void resetParameters() {
+        time = 0;
+        finalPosition = 0;
+        deltaX = 0;
+        lblTime.setText("");
+        lblPosition.setText("");
+    }
+
+    private void moveBallX() {
+        ball.setTranslateX(ball.getTranslateX() + ball.getDx());
+
+    }
+
+    private void moveBallY() {
+        ball.setDy(ball.getDy() - accelerationY);
+        ball.setTranslateY(ball.getTranslateY() - ball.getDy());
+
+    }
+
+    private void endOfMotion() {
+        if (ball.getTranslateY() + ball.getRadius() >= pane.getHeight()) {
+            ball.setTranslateY(pane.getHeight() - ball.getRadius());
+            timelineBall.pause();
+            finalPosition = ball.getTranslateX();
+        }
+    }
+
+    private void ballInLandingArea() {
+        boolean ballLanded;
+        if (finalPosition != 0) {
+            if (finalPosition > landingArea.getLeftX() && finalPosition < landingArea.getRightX()) {
+                ballLanded = true;
+                disableButtons(false, true);
+            } else {
+                ballLanded = false;
+            }
+
+            if (ballLanded) {
+                winAnnouncement();
+            } else {
+                System.out.println("Ball Didnt Land D:");
+                disableButtons(false, true);
+            }
+        }
+    }
+
+    private void handlePaneResizeAffects() {
+        sldInitialVelocity.setMax(pane.getWidth() / 24);
+        hboxBottom.setTranslateX(pane.getWidth() / 6);
+    }
+
+    private void winAnnouncement() {
+        System.out.println("Landed");
+        winAnnouncement = new VBox();
+        win = new Label();
+
+        win.setTextFill(Color.GREEN);
+        win.setFont(new Font(100));
+        win.setText("You Won!");
+        winAnnouncement.setTranslateX(pane.getWidth() / 3);
+        winAnnouncement.setTranslateY(pane.getHeight() / 3);
+        winAnnouncement.getChildren().add(win);
+        pane.getChildren().add(winAnnouncement);
+    }
+
+    private void removeWinAnnouncement() {
+        pane.getChildren().remove(winAnnouncement);
     }
 }
