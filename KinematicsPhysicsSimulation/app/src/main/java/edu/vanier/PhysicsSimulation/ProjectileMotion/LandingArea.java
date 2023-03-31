@@ -17,15 +17,15 @@ import javafx.scene.shape.Rectangle;
 public class LandingArea extends Rectangle {
 
     private static final int INIT_WIDTH = 100;
-    private static final double INIT_HEIGHT = 25;
+    private static final double INIT_HEIGHT = 5;
 
     public LandingArea() {
 
         this.setWidth(this.INIT_WIDTH);
         this.setHeight(this.INIT_HEIGHT);
-        this.setFill(Color.GREENYELLOW);
-        Image garbage = new Image("/images/garbage.png");
-        this.setFill(new ImagePattern(garbage));
+        this.setFill(Color.BLACK);
+        //Image garbage = new Image("/images/garbage.png");
+        //this.setFill(new ImagePattern(garbage));
 
     }
 

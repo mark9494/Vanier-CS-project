@@ -13,7 +13,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Slider;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 
 /**
  *
@@ -34,7 +36,11 @@ public class ProjectileMotionSettings {
     protected Label lblTime, lblPosition;
     @FXML
     protected Slider sldInitialVelocity, sldRampAngle, sldAccelerationY;
-
+    @FXML
+    protected HBox hboxBottom;
+    
+    protected VBox winAnnouncement;
+    protected Label win;
     protected Ramp ramp;
     protected Ball ball;
     protected LandingArea landingArea;

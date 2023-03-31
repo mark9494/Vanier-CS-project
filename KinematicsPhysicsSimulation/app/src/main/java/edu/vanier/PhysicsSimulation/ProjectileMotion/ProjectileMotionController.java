@@ -4,6 +4,7 @@
  */
 package edu.vanier.PhysicsSimulation.ProjectileMotion;
 
+import edu.vanier.PhysicsSimulation.PhysicsSimulationController;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
@@ -21,6 +22,7 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
 
     @FXML
     public void initialize() {
+        disableButtons(false, true);
         ramp = new Ramp();
         ramp.setTranslateY(25);
         ramp.setTranslateX(100);
@@ -49,7 +51,7 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
         timelineRectangleAndBall.setCycleCount(Timeline.INDEFINITE);
 
         timelinePaneResize = new Timeline(
-                new KeyFrame(Duration.millis(animationDuration), e -> handleUpdateSliders()));
+                new KeyFrame(Duration.millis(animationDuration), e -> handlePaneResizeAffects()));
         timelinePaneResize.setRate(currentRate);
         timelinePaneResize.setCycleCount(Timeline.INDEFINITE);
     }
@@ -61,7 +63,7 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
 
     @FXML
     public void handleHomeButton() {
-        System.out.println("Going Back...");
+        PhysicsSimulationController.projectileMotion.close();
     }
 
     @FXML
@@ -71,7 +73,7 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
 
     @FXML
     public void handleBegin() {
-        disableButtons(false, true);
+        disableButtons(true, true);
         timelineRectangleAndBall.stop();
 
         generateParameters();
@@ -89,6 +91,7 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
 
     @FXML
     public void handleResetButton() {
+        removeWinAnnouncement();
         disableButtons(true, false);
         setBallDefaultLocation();
         resetParameters();
@@ -160,34 +163,46 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
             finalPosition = ball.getTranslateX();
         }
     }
-//TODO: FIX LOGIC
 
     private void ballInLandingArea() {
         boolean ballLanded;
-        System.out.println(finalPosition);
-        System.out.println(landingArea.getLeftX());
-        if (finalPosition == 0) {
+        if (finalPosition != 0) {
             if (finalPosition > landingArea.getLeftX() && finalPosition < landingArea.getRightX()) {
                 ballLanded = true;
+                disableButtons(false, true);
             } else {
                 ballLanded = false;
             }
 
             if (ballLanded) {
-                VBox winAnnouncement = new VBox();
-                Label win = new Label();
-                win.setTextFill(Color.GREEN);
-                win.setFont(new Font(100));
-                win.setText("you won");
-                pane.getChildren().add(winAnnouncement);
+                winAnnouncement();
             } else {
                 System.out.println("Ball Didnt Land D:");
+                disableButtons(false, true);
             }
         }
     }
 
-    private void handleUpdateSliders() {
+    private void handlePaneResizeAffects() {
         sldInitialVelocity.setMax(pane.getWidth() / 24);
+        hboxBottom.setTranslateX(pane.getWidth() / 6);
     }
 
+    private void winAnnouncement() {
+        System.out.println("Landed");
+        winAnnouncement = new VBox();
+        win = new Label();
+
+        win.setTextFill(Color.GREEN);
+        win.setFont(new Font(100));
+        win.setText("You Won!");
+        winAnnouncement.setTranslateX(pane.getWidth() / 3);
+        winAnnouncement.setTranslateY(pane.getHeight() / 3);
+        winAnnouncement.getChildren().add(win);
+        pane.getChildren().add(winAnnouncement);
+    }
+
+    private void removeWinAnnouncement() {
+        pane.getChildren().remove(winAnnouncement);
+    }
 }

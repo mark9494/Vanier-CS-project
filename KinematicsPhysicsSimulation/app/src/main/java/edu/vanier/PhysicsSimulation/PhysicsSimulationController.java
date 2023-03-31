@@ -26,28 +26,37 @@ import javafx.stage.Stage;
  *
  * @author antho
  */
-public class PhysicsSimulationController implements Initializable{
+public class PhysicsSimulationController implements Initializable {
 
     @FXML
     Button Mark, Anthony, Ammar, Youssif;
-    
+    public static Stage projectileMotion = new Stage();
+    public static Stage carSimulation = new Stage();
+    public static Stage pendulum = new Stage();
+    public static Stage freeFall = new Stage();
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        projectileMotion.initOwner(PhysicsSimulation.primaryStage);
         //TODO Add the logic to eahc button in the main window
-        Mark.setOnAction((e)->{
+        Mark.setOnAction((e) -> {
             CarAnimationLoader animationStage = new CarAnimationLoader();
-            
 
         });
-        Anthony.setOnAction((e)->{
-            ProjectileMotion animation = new ProjectileMotion();
+        Anthony.setOnAction((e) -> {
+            try {
+                ProjectileMotion animation = new ProjectileMotion();
+            } catch (Exception ex) {
+                Logger.getLogger(PhysicsSimulationController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         });
-        Ammar.setOnAction((e)->{
-        
+        Ammar.setOnAction((e) -> {
+
         });
-        Youssif.setOnAction((e)->{
-            AnimationLoader anim = new AnimationLoader(); 
+        Youssif.setOnAction((e) -> {
+            AnimationLoader anim = new AnimationLoader();
         });
     }
-    
+
 }

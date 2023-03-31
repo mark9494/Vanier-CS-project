@@ -15,7 +15,7 @@ import javafx.scene.shape.Rectangle;
  */
 public class Ramp extends Rectangle {
 
-    private final int WIDTH = 90;
+    private final int WIDTH = 100;
     private final int HEIGHT = 60;
     private double cornerX;
     private double cornerY;
@@ -26,7 +26,7 @@ public class Ramp extends Rectangle {
         this.setWidth(WIDTH);
         this.setHeight(HEIGHT);
         this.setRotate(angle);
-        this.setFill(Color.BLUE);
+        this.setFill(Color.DARKSLATEGREY);
     }
 
     public double setCornerX() {
