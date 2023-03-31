@@ -42,6 +42,8 @@ public class PhysicsSimulationController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         projectileMotion.initOwner(PhysicsSimulation.primaryStage);
+        carSimulation.initOwner(PhysicsSimulation.primaryStage);
+        
         //TODO Add the logic to eahc button in the main window
 
         Mark.setOnAction((e)->{
