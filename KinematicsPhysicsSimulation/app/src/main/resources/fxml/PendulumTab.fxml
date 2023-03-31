@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="900.0" stylesheets="@../css/myStyle.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+    <center>
+        <TabPane fx:id="tabPane" prefHeight="387.0" prefWidth="565.0" side="LEFT" style="-fx-background-color: white;" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+            <tabs>
+                <Tab fx:id="tab1" style="-fx-background-color: white;">
+                    <content>
+                        <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="715.0" prefWidth="834.0" style="-fx-background-color: white;" stylesheets="@../css/pendulumAnimationStyle.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+                            <right>
+                                <Pane prefHeight="400.0" prefWidth="175.0" BorderPane.alignment="CENTER">
+                                    <children>
+                                        <Slider fx:id="lengthSlider" blockIncrement="100.0" layoutX="71.0" layoutY="40.0" majorTickUnit="100.0" max="300.0" min="100.0" minorTickCount="50" prefHeight="37.0" prefWidth="100.0" showTickLabels="true" showTickMarks="true" value="100.0" />
+                                        <Slider fx:id="dampingSlider" blockIncrement="1.0" layoutX="71.0" layoutY="100.0" majorTickUnit="1.0" max="10.0" minorTickCount="0" prefHeight="37.0" prefWidth="100.0" showTickLabels="true" showTickMarks="true" />
+                                        <Slider fx:id="massSlider" layoutX="71.0" layoutY="160.0" majorTickUnit="10.0" max="50.0" min="10.0" minorTickCount="0" prefHeight="37.0" prefWidth="100.0" showTickLabels="true" showTickMarks="true" value="10.0" />
+                              <Slider fx:id="gravitySlider" blockIncrement="1.0" layoutX="71.0" layoutY="220.0" majorTickUnit="3.0" max="15.0" min="5.0" prefHeight="14.0" prefWidth="100.0" showTickLabels="true" showTickMarks="true" value="9.8" />
+                                        <Text layoutX="20.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Length" />
+                                        <Text layoutX="14.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Damping" />
+                                        <Text layoutX="24.0" layoutY="170.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mass" />
+                              <Text layoutX="19.0" layoutY="230.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gravity" />
+                              <Slider fx:id="amplitudeSlider" layoutX="71.0" layoutY="280.0" majorTickUnit="5.0" max="20.0" min="5.0" minorTickCount="1" prefHeight="14.0" prefWidth="100.0" showTickLabels="true" showTickMarks="true" value="20.0" />
+                              <Text layoutX="10.0" layoutY="292.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Amplitude" />
+                                    </children>
+                                </Pane>
+                            </right>
+                            <bottom>
+                                <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                    <children>
+                                        <Button fx:id="playBtn" mnemonicParsing="false" text="Play">
+                                            <HBox.margin>
+                                                <Insets left="50.0" top="25.0" />
+                                            </HBox.margin>
+                                        </Button>
+                                        <Button fx:id="pauseBtn" mnemonicParsing="false" text="Pause">
+                                            <HBox.margin>
+                                                <Insets left="50.0" top="25.0" />
+                                            </HBox.margin>
+                                        </Button>
+                                        <Button fx:id="stopBtn" mnemonicParsing="false" text="Stop">
+                                            <HBox.margin>
+                                                <Insets left="50.0" top="25.0" />
+                                            </HBox.margin>
+                                        </Button>
+                                        <Button fx:id="graphBtn" mnemonicParsing="false" text="Graph">
+                                            <HBox.margin>
+                                                <Insets left="50.0" top="25.0" />
+                                            </HBox.margin>
+                                        </Button>
+                                    </children>
+                                </HBox>
+                            </bottom>
+                            <top>
+                                <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+                            </top>
+                            <left>
+                                <Pane fx:id="Base" prefHeight="500.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+                                    <children>
+                                        <Canvas fx:id="canvas" height="520.0" width="600.0" />
+                                        <Pane fx:id="animationPane" prefHeight="520.0" prefWidth="600.0">
+                                 <children>
+                                    <Separator fx:id="vSeparator" layoutX="597.0" layoutY="1.0" orientation="VERTICAL" prefHeight="515.0" prefWidth="13.0" />
+                                    <Separator fx:id="hSeparator" layoutX="4.0" layoutY="515.0" prefHeight="0.0" prefWidth="595.0" />
+                                    <Circle fx:id="circle" fill="DODGERBLUE" radius="30.0" stroke="BLACK" strokeType="INSIDE" />
+                                 </children></Pane>
+                                    </children>
+                                </Pane>
+                            </left>
+                        </BorderPane>
+                    </content>
+                    <graphic>
+                        <ImageView fitHeight="13.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../images/pie%20chart.jpg" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Tab>
+                <Tab fx:id="tab2" style="-fx-background-color: white;">
+                    <content>
+                        <BorderPane prefHeight="200.0" prefWidth="200.0" />
+                    </content>
+                    <graphic>
+                        <ImageView fitHeight="19.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../images/home.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Tab>
+            </tabs>
+        </TabPane>
+    </center>
+</BorderPane>

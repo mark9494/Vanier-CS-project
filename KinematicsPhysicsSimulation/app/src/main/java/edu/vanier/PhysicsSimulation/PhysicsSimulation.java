@@ -5,7 +5,6 @@ import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 
@@ -22,7 +21,9 @@ public class PhysicsSimulation extends Application {
         stage.setTitle("KinematicPhysicsSimulation");
         stage.sizeToScene();
         stage.show();
+        
     }
+    
     @Override
     public void stop(){
         System.out.println("Closing Application.");

@@ -3,6 +3,7 @@ plugins {
     id 'application'
     // Load and apply the required JavaFX plugin.
     id 'org.openjfx.javafxplugin' version '0.0.13'
+    id("io.freefair.lombok") version "6.6.3"
 }
 
 repositories {
@@ -11,6 +12,9 @@ repositories {
     mavenLocal()
 }
 
+test {
+    useJUnitPlatform()
+}
 dependencies {
     // The following .jars are pulled from:
     // https://repo.maven.apache.org/maven2/org/openjfx/    
@@ -24,6 +28,9 @@ dependencies {
     compileOnly  "org.openjfx:javafx-controls:18.0.2:javadoc"
     compileOnly  "org.openjfx:javafx-fxml:18.0.2:javadoc"
     compileOnly  "org.openjfx:javafx-graphics:18.0.2:javadoc"
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 }
 //-- Loads the JavaFX modules of the selected JavaFX version.
 javafx {    
@@ -35,7 +42,10 @@ application {
    // TODO: specify the fully qualified name of the class 
    //       that contains the main method your would like to run.
    mainClass = 'edu.vanier.PhysicsSimulation.PhysicsSimulation'
-  // mainClass = 'edu.vanier.PhysicsSimulation.ProjectileMotion.ProjectileMotion'
+
+   // mainClass = 'edu.vanier.PhysicsSimulation.ProjectileMotion.ProjectileMotion'
+
+   
 }
 
 test {

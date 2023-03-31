@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 
 /**
  *
- * @author antho
+ * @author Youssif
  */
 public class AnimationLoader extends Stage{
     public AnimationLoader(){
@@ -19,11 +19,14 @@ public class AnimationLoader extends Stage{
             MakeComponents();
         }catch(Exception e){
             System.out.println(e);
+            e.printStackTrace();
         }
     }
     
     private void MakeComponents() throws Exception{
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/PendulumWindow.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/PendulumTab.fxml"));
+        
+        loader.setController(new PendulumController());
         
         Pane pane = loader.load();
         
@@ -33,4 +36,6 @@ public class AnimationLoader extends Stage{
         
         this.show();
     }
+    
+    
 }
