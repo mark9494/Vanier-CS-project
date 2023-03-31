@@ -46,44 +46,48 @@ public class Car extends Rectangle {
         Image redCar = new Image("/images/red-car.png", false);
         this.setFill(new ImagePattern(redCar));
     }
-
-    public void calculateCurrentVelocity() {
-        double velocitySquared = Math.pow(this.initialVelocity, 2) + 2 * this.acceleration * this.calculateCurrentDisplacement();
-        this.currentVelocity = Math.sqrt(velocitySquared);
-    }
-
-    public void calculateCurrentTime() {
-
-        this.time = (2 *calculateCurrentDisplacement())/(this.initialVelocity + this.finalVelocity);// we divide by 10 because we multiplied both initial and final position by 10 before
+    public Car(){
         
     }
     
-    public double calculateFinalTime(){
-       calculateFinalVelocity();
-      return this.finalTime = (2 *calculateFinalDisplacement())/(this.initialVelocity + this.finalVelocity); //((this.finalVelocity - this.initialVelocity) / this.acceleration); 
+    public double calculateCurrentVelocity(double displacement) {
+        double velocitySquared = Math.pow(this.initialVelocity, 2) + 2 * this.acceleration * displacement;
+        this.currentVelocity = Math.sqrt(velocitySquared);
+        return this.currentVelocity;
+    }
+
+    public void calculateCurrentTime(double displacement) {
+
+        this.time = (2 *displacement)/(this.initialVelocity + this.finalVelocity);// we divide by 10 because we multiplied both initial and final position by 10 before
+        
+    }
+    
+    public double calculateFinalTime(double finalDisplacement, double finalVelocity){
+       
+      return this.finalTime = (2 *finalDisplacement)/(this.initialVelocity + finalVelocity); //((this.finalVelocity - this.initialVelocity) / this.acceleration); 
     }
         
-    public double calculateGraphDisplacement(double time){
-        System.out.println( ((calculateFinalVelocity() + this.initialVelocity)/2 ) * time);
-       return this.graphDisplacement = ((calculateFinalVelocity() + this.initialVelocity)/2 ) * time;
+    public double calculateGraphDisplacement(double displacement,double time){
+        
+       return this.graphDisplacement = (this.initialVelocity *time) + (0.5*this.acceleration*Math.pow(time, 2));
     }  
     
     public void calculateGraphVelocity(double time){
         this.graphVelocity = this.initialVelocity + (this.acceleration * time);
     }
-    public double calculateFinalVelocity(){
+    public double calculateFinalVelocity(double finalDisplacement){
         
         double velocitySquared = Math.pow(this.initialVelocity, 2) + 2 * this.acceleration * this.calculateFinalDisplacement();
         this.finalVelocity = Math.sqrt(velocitySquared);
         
         return this.finalVelocity;
     }
-    private double calculateCurrentDisplacement() {
+    public double calculateCurrentDisplacement() {
 
         return this.getTranslateX() / 10 - this.initialPosition / 10;
     }
 
-    private double calculateFinalDisplacement() {
+    public double calculateFinalDisplacement() {
        
         return (this.finalPosition / 10) - (this.initialPosition / 10);
     }

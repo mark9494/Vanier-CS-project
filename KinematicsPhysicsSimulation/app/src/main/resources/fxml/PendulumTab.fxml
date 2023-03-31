@@ -25,14 +25,16 @@
                             <right>
                                 <Pane prefHeight="400.0" prefWidth="175.0" BorderPane.alignment="CENTER">
                                     <children>
-                                        <Slider fx:id="lengthSlider" layoutX="77.0" layoutY="40.0" prefHeight="14.0" prefWidth="95.0" />
-                                        <Slider fx:id="dampingSlider" layoutX="77.0" layoutY="100.0" prefHeight="14.0" prefWidth="95.0" />
-                                        <Slider fx:id="massSlider" layoutX="77.0" layoutY="160.0" prefHeight="14.0" prefWidth="90.0" />
-                              <Slider fx:id="gravitySlider" layoutX="77.0" layoutY="220.0" prefHeight="14.0" prefWidth="95.0" />
+                                        <Slider fx:id="lengthSlider" blockIncrement="100.0" layoutX="71.0" layoutY="40.0" majorTickUnit="100.0" max="300.0" min="100.0" minorTickCount="50" prefHeight="37.0" prefWidth="100.0" showTickLabels="true" showTickMarks="true" value="100.0" />
+                                        <Slider fx:id="dampingSlider" blockIncrement="1.0" layoutX="71.0" layoutY="100.0" majorTickUnit="1.0" max="10.0" minorTickCount="0" prefHeight="37.0" prefWidth="100.0" showTickLabels="true" showTickMarks="true" />
+                                        <Slider fx:id="massSlider" layoutX="71.0" layoutY="160.0" majorTickUnit="10.0" max="50.0" min="10.0" minorTickCount="0" prefHeight="37.0" prefWidth="100.0" showTickLabels="true" showTickMarks="true" value="10.0" />
+                              <Slider fx:id="gravitySlider" blockIncrement="1.0" layoutX="71.0" layoutY="220.0" majorTickUnit="3.0" max="15.0" min="5.0" prefHeight="14.0" prefWidth="100.0" showTickLabels="true" showTickMarks="true" value="9.8" />
                                         <Text layoutX="20.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Length" />
                                         <Text layoutX="14.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Damping" />
                                         <Text layoutX="24.0" layoutY="170.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mass" />
                               <Text layoutX="19.0" layoutY="230.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gravity" />
+                              <Slider fx:id="amplitudeSlider" layoutX="71.0" layoutY="280.0" majorTickUnit="5.0" max="20.0" min="5.0" minorTickCount="1" prefHeight="14.0" prefWidth="100.0" showTickLabels="true" showTickMarks="true" value="20.0" />
+                              <Text layoutX="10.0" layoutY="292.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Amplitude" />
                                     </children>
                                 </Pane>
                             </right>
@@ -68,8 +70,8 @@
                             <left>
                                 <Pane fx:id="Base" prefHeight="500.0" prefWidth="600.0" BorderPane.alignment="CENTER">
                                     <children>
-                                        <Canvas fx:id="canvas" height="520.0" layoutY="-3.0" width="600.0" />
-                                        <Pane fx:id="animationPane" layoutX="-3.0" layoutY="-2.0" prefHeight="520.0" prefWidth="600.0">
+                                        <Canvas fx:id="canvas" height="520.0" width="600.0" />
+                                        <Pane fx:id="animationPane" prefHeight="520.0" prefWidth="600.0">
                                  <children>
                                     <Separator fx:id="vSeparator" layoutX="597.0" layoutY="1.0" orientation="VERTICAL" prefHeight="515.0" prefWidth="13.0" />
                                     <Separator fx:id="hSeparator" layoutX="4.0" layoutY="515.0" prefHeight="0.0" prefWidth="595.0" />

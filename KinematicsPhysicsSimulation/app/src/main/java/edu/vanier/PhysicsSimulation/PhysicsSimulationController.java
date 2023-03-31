@@ -7,6 +7,8 @@ package edu.vanier.PhysicsSimulation;
 import com.sun.media.jfxmedia.events.MarkerEvent;
 import edu.vanier.PhysicsSimulation.CarSimulation.CarAnimationLoader;
 import edu.vanier.PhysicsSimulation.CarSimulation.CarSimulationWindowController;
+import edu.vanier.PhysicsSimulation.FreeFallSimulation.FreeFallController;
+import edu.vanier.PhysicsSimulation.FreeFallSimulation.FreeFallLoader;
 import edu.vanier.PhysicsSimulation.Pendulum.AnimationLoader;
 import edu.vanier.PhysicsSimulation.ProjectileMotion.ProjectileMotion;
 import java.io.IOException;
@@ -30,20 +32,26 @@ public class PhysicsSimulationController implements Initializable {
 
     @FXML
     Button Mark, Anthony, Ammar, Youssif;
+
     public static Stage projectileMotion = new Stage();
     public static Stage carSimulation = new Stage();
     public static Stage pendulum = new Stage();
     public static Stage freeFall = new Stage();
 
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         projectileMotion.initOwner(PhysicsSimulation.primaryStage);
         //TODO Add the logic to eahc button in the main window
-        Mark.setOnAction((e) -> {
+
+        Mark.setOnAction((e)->{
+
             CarAnimationLoader animationStage = new CarAnimationLoader();
+
 
         });
         Anthony.setOnAction((e) -> {
+
             try {
                 ProjectileMotion animation = new ProjectileMotion();
             } catch (Exception ex) {
@@ -51,7 +59,10 @@ public class PhysicsSimulationController implements Initializable {
             }
 
         });
+        
         Ammar.setOnAction((e) -> {
+            FreeFallLoader anim = new FreeFallLoader();
+
 
         });
         Youssif.setOnAction((e) -> {

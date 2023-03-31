@@ -9,7 +9,7 @@
    <children>
       <LineChart fx:id="blueLineChart" layoutX="2.0" legendSide="TOP" legendVisible="false" prefHeight="400.0" prefWidth="294.0" style="-fx-background-color: white;" title="Blue car">
         <xAxis>
-          <CategoryAxis fx:id="blueX" label="Time" prefHeight="22.0" prefWidth="543.0" side="BOTTOM" />
+          <CategoryAxis fx:id="blueX" label="Time" prefHeight="47.0" prefWidth="216.0" side="BOTTOM" />
         </xAxis>
         <yAxis>
           <NumberAxis fx:id="blueY" label="Position" side="LEFT" tickLabelFill="#f20303" />
@@ -17,7 +17,7 @@
       </LineChart>
       <LineChart fx:id="redLineChart" layoutX="288.0" legendSide="TOP" legendVisible="false" prefHeight="400.0" prefWidth="312.0" style="-fx-background-color: white;" title="Red car">
          <xAxis>
-            <CategoryAxis fx:id="redX" label="Time" prefHeight="22.0" prefWidth="543.0" side="BOTTOM" />
+            <CategoryAxis fx:id="redX" label="Time" prefHeight="47.0" prefWidth="234.0" side="BOTTOM" />
          </xAxis>
          <yAxis>
             <NumberAxis fx:id="redY" label="Position" side="LEFT" tickLabelFill="#f20303" />
