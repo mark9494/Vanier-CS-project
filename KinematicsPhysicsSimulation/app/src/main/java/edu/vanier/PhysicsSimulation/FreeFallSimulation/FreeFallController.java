@@ -18,22 +18,22 @@ import javafx.scene.image.ImageView;
  */
 public class FreeFallController extends FreeFallSettings implements Initializable {
     
-    @FXML
-        public void handleBtnHome(){
-            System.out.println("btn clicked");
-        
-    }
+//    @FXML
+//        public void handleBtnHome(){
+//            System.out.println("btn clicked");
+//        
+//    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         
             
 
-            btnHome.setGraphic(homeImgView);
-        
-        homeImgView.setOnKeyPressed((e)->{
-            System.out.println("Hello");
-        });
+//            btnHome.setGraphic(homeImgView);
+//        
+//        homeImgView.setOnKeyPressed((e)->{
+//            System.out.println("Hello");
+//        });
         
         
 
