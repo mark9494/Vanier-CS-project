@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
 
@@ -75,7 +76,6 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
     public void handleBegin() {
         disableButtons(true, true);
         timelineRectangleAndBall.stop();
-
         generateParameters();
         double currentRateBall = 5000;
 
@@ -83,8 +83,19 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
                 new KeyFrame(Duration.seconds(100), e -> handleUpdateAnimationBall()));
         timelineBall.setRate(currentRateBall);
         timelineBall.setCycleCount(Timeline.INDEFINITE);
+        if (CBoxWind.isSelected()) {
+            isWind = true;
+            windStrength = -0.5;
+        } else {
+            isWind = false;
+        }
+        if (CBoxAir.isSelected()) {
+            isAir = true;
+        } else {
+            isAir = false;
+        }
+        
         timelineBall.play();
-
         lblTime.setText("" + df.format(time));
         lblPosition.setText("" + df.format(finalPosition));
     }
@@ -107,9 +118,13 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
 
     private void handleUpdateAnimationBall() {
         ball.setRotate(ball.getRotate() - Math.PI * 3);
+        if (!isWind) {
+            windStrength = 0;
+        }
         moveBallX();
         moveBallY();
         endOfMotion();
+        windAnimation();
         ballInLandingArea();
     }
 
@@ -146,12 +161,12 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
     }
 
     private void moveBallX() {
-        ball.setTranslateX(ball.getTranslateX() + ball.getDx());
+        ball.setTranslateX(ball.getTranslateX() + ball.getDx() + windStrength);
 
     }
 
     private void moveBallY() {
-        ball.setDy(ball.getDy() - accelerationY);
+        ball.setDy(ball.getDy() - accelerationY + windStrength);
         ball.setTranslateY(ball.getTranslateY() - ball.getDy());
 
     }
@@ -205,4 +220,13 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
     private void removeWinAnnouncement() {
         pane.getChildren().remove(winAnnouncement);
     }
+
+    private void windAnimation() {
+        if(!isWind){
+            windArrow.setOpacity(0);
+        }else{
+            windArrow.setOpacity(100);
+        }
+    }
+
 }

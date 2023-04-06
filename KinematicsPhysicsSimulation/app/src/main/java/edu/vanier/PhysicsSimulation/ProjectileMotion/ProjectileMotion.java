@@ -4,16 +4,11 @@
  */
 package edu.vanier.PhysicsSimulation.ProjectileMotion;
 
-import edu.vanier.PhysicsSimulation.PhysicsSimulation;
 import edu.vanier.PhysicsSimulation.PhysicsSimulationController;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 
 /**
  *
@@ -30,7 +25,7 @@ public class ProjectileMotion {
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/ProjectileMotion.fxml"));
         loader.setController(mainController);
         Pane root = loader.load();
-        Scene scene = new Scene(root, 1000, 650);
+        Scene scene = new Scene(root, 1000, 800);
         PhysicsSimulationController.projectileMotion.setScene(scene);
         PhysicsSimulationController.projectileMotion.setTitle("Projectile Motion");
         PhysicsSimulationController.projectileMotion.sizeToScene();
