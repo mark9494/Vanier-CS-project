@@ -10,12 +10,15 @@ import java.text.DecimalFormat;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.QuadCurve;
 
 /**
  *
@@ -34,10 +37,24 @@ public class ProjectileMotionSettings {
 
     @FXML
     protected Label lblTime, lblPosition;
+
     @FXML
     protected Slider sldInitialVelocity, sldRampAngle, sldAccelerationY;
+
     @FXML
     protected HBox hboxBottom;
+
+    @FXML
+    protected CheckBox CBoxWind;
+
+    @FXML
+    protected VBox windBox;
+
+    @FXML
+    protected ImageView windArrow;
+    
+    @FXML
+    protected ProgressBar windIntensity;
     
     protected VBox winAnnouncement;
     protected Label win;
@@ -53,6 +70,9 @@ public class ProjectileMotionSettings {
     protected double time;
     protected double deltaY, deltaX, finalPosition;
     protected static final DecimalFormat df = new DecimalFormat("0.00");
+    protected double windStrength;
+    protected boolean isWind;
+    protected Wind wind;
 
     public void setInitialVelocity() {
         initialVelocity = sldInitialVelocity.getValue();
