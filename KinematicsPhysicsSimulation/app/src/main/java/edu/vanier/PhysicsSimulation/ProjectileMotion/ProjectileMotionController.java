@@ -9,6 +9,8 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -24,6 +26,7 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
     @FXML
     public void initialize() {
         disableButtons(false, true);
+        wind = new Wind();
         ramp = new Ramp();
         ramp.setTranslateY(25);
         ramp.setTranslateX(100);
@@ -83,18 +86,6 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
                 new KeyFrame(Duration.seconds(100), e -> handleUpdateAnimationBall()));
         timelineBall.setRate(currentRateBall);
         timelineBall.setCycleCount(Timeline.INDEFINITE);
-        if (CBoxWind.isSelected()) {
-            isWind = true;
-            windStrength = -0.5;
-        } else {
-            isWind = false;
-        }
-        if (CBoxAir.isSelected()) {
-            isAir = true;
-        } else {
-            isAir = false;
-        }
-        
         timelineBall.play();
         lblTime.setText("" + df.format(time));
         lblPosition.setText("" + df.format(finalPosition));
@@ -112,20 +103,56 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
     }
 
     private void handleUpdateAnimation() {
+        handleWindProperties();
         moveRectangleAndBall();
         ball.setRotate(0);
     }
 
     private void handleUpdateAnimationBall() {
         ball.setRotate(ball.getRotate() - Math.PI * 3);
-        if (!isWind) {
-            windStrength = 0;
-        }
         moveBallX();
         moveBallY();
         endOfMotion();
-        windAnimation();
+        //windAnimation();
         ballInLandingArea();
+    }
+
+    public void handleWindProperties() {
+
+        if (!CBoxWind.isSelected()) {
+            isWind = false;
+            windBox.setOpacity(0);
+            wind.setIntensity(0);
+        } else if (isWind) {
+            return;
+        } else {
+            isWind = true;
+            windBox.setOpacity(100);
+            wind.setAngle(wind.randomWindAngle());
+            wind.setIntensity(wind.randomIntensity());
+            windArrow.setRotate(-wind.getAngle() * 180 / Math.PI); //conversion to degrees
+            setIntensity();
+            System.out.println(wind.getAngle());
+            System.out.println(wind.getIntensity());
+            System.out.println(wind.getForceWindX());
+            System.out.println(wind.getForceWindY());
+        }
+    }
+
+    private void setIntensity() {
+        if (wind.getIntensity() == 1) {
+            windIntensity.setProgress(0.33);
+            windIntensity.setStyle("-fx-accent: green;");
+
+        } else if (wind.getIntensity() == 2) {
+            windIntensity.setProgress(0.66);
+            windIntensity.setStyle("-fx-accent: yellow;");
+
+        } else {
+            windIntensity.setProgress(1);
+            windIntensity.setStyle("-fx-accent: red;");
+
+        }
     }
 
     private void moveRectangleAndBall() {
@@ -146,10 +173,6 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
         setDeltaX();
         ball.setDy(initVelocityY);
         ball.setDx(initVelocityX);
-        System.out.println(initVelocityY);
-        System.out.println(initVelocityX);
-        System.out.println(time);
-        System.out.println(deltaX);
     }
 
     private void resetParameters() {
@@ -161,18 +184,18 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
     }
 
     private void moveBallX() {
-        ball.setTranslateX(ball.getTranslateX() + ball.getDx() + windStrength);
+        ball.setTranslateX(ball.getTranslateX() + ball.getDx() + wind.getForceWindX());
 
     }
 
     private void moveBallY() {
-        ball.setDy(ball.getDy() - accelerationY + windStrength);
+        ball.setDy(ball.getDy() - accelerationY + wind.getForceWindY());
         ball.setTranslateY(ball.getTranslateY() - ball.getDy());
 
     }
 
     private void endOfMotion() {
-        if (ball.getTranslateY() + ball.getRadius() >= pane.getHeight()) {
+        if (ball.getTranslateY() + ball.getRadius() >= pane.getHeight() || ball.getTranslateX() > pane.getWidth() || ball.getTranslateY() < 0) {
             ball.setTranslateY(pane.getHeight() - ball.getRadius());
             timelineBall.pause();
             finalPosition = ball.getTranslateX();
@@ -188,7 +211,6 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
             } else {
                 ballLanded = false;
             }
-
             if (ballLanded) {
                 winAnnouncement();
             } else {
@@ -198,6 +220,7 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
         }
     }
 
+    //TODO - Make Wind Properites box move with the resizing of the pane. 
     private void handlePaneResizeAffects() {
         sldInitialVelocity.setMax(pane.getWidth() / 24);
         hboxBottom.setTranslateX(pane.getWidth() / 6);
@@ -221,12 +244,10 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
         pane.getChildren().remove(winAnnouncement);
     }
 
-    private void windAnimation() {
-        if(!isWind){
-            windArrow.setOpacity(0);
-        }else{
-            windArrow.setOpacity(100);
-        }
-    }
-
+    //private void windAnimation() {
+    //    ImageView iv = new ImageView(new Image("/images/red-car.png"));
+    //    iv.setTranslateX(pane.getWidth() / 2);
+    //    iv.setTranslateY(pane.getHeight() / 2);
+    //   pane.getChildren().add(iv);
+    //}
 }

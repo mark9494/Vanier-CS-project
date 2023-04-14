@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.HBox;
@@ -36,18 +37,25 @@ public class ProjectileMotionSettings {
 
     @FXML
     protected Label lblTime, lblPosition;
-    
+
     @FXML
     protected Slider sldInitialVelocity, sldRampAngle, sldAccelerationY;
-    
+
     @FXML
     protected HBox hboxBottom;
+
+    @FXML
+    protected CheckBox CBoxWind;
+
+    @FXML
+    protected VBox windBox;
+
+    @FXML
+    protected ImageView windArrow;
     
     @FXML
-    protected CheckBox CBoxWind, CBoxAir;
+    protected ProgressBar windIntensity;
     
-    @FXML
-    protected QuadCurve windArrow;
     protected VBox winAnnouncement;
     protected Label win;
     protected Ramp ramp;
@@ -63,7 +71,8 @@ public class ProjectileMotionSettings {
     protected double deltaY, deltaX, finalPosition;
     protected static final DecimalFormat df = new DecimalFormat("0.00");
     protected double windStrength;
-    protected boolean isWind, isAir;
+    protected boolean isWind;
+    protected Wind wind;
 
     public void setInitialVelocity() {
         initialVelocity = sldInitialVelocity.getValue();
