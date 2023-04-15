@@ -5,47 +5,28 @@
 package edu.vanier.PhysicsSimulation.Pendulum;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.ParallelTransition;
 import javafx.animation.PathTransition;
-import javafx.animation.SequentialTransition;
-import javafx.animation.Timeline;
-import javafx.animation.Transition;
-import javafx.animation.TranslateTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
+import javafx.scene.Cursor;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Separator;
 import javafx.scene.control.Slider;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.ArcTo;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.HLineTo;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.LineTo;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Path;
 import javafx.scene.shape.Polyline;
-import javafx.scene.shape.QuadCurveTo;
-import javafx.scene.shape.Shape;
-import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 /**
  *
@@ -61,7 +42,7 @@ public class PendulumController implements Initializable{
     private Canvas canvas;
     
     @FXML
-    private Slider massSlider, dampingSlider, gravitySlider, lengthSlider, amplitudeSlider;
+    private Slider massSlider, dampingSlider, gravitySlider;
     
     @FXML
     private Button playBtn, stopBtn, pauseBtn, graphBtn;
@@ -76,7 +57,6 @@ public class PendulumController implements Initializable{
     
     private GraphicsContext gc;
     
-    private double currentAngle;
     private double maxAngle;
     private double length;
     private double mass;
@@ -84,6 +64,41 @@ public class PendulumController implements Initializable{
     private double gravity;
     private double angularFrequency;
     private double duration;
+    
+    private final EventHandler<MouseEvent> eventMousePressed = new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent event) {
+            circle.setCursor(Cursor.CLOSED_HAND);
+        }
+    };
+    
+    private final EventHandler<MouseEvent> eventMouseDragged = new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent event) {
+            double x = (event.getSceneX() - circle.getRadius()*2) - (canvas.getWidth()/1.5-100);
+            double y = event.getSceneY() - canvas.getHeight()/2;
+            double placement = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) );
+            if(placement<=300 && placement>=100 && (event.getSceneY() - canvas.getHeight()/2) >= 0){
+            circle.setTranslateX(event.getSceneX() - circle.getRadius()*2);
+            circle.setTranslateY(event.getSceneY());
+            setLength(placement);
+            setMaxAngle(((Math.abs(Math.atan(x/y)))*180)/Math.PI);
+            }
+        }
+    };
+    
+    private final EventHandler<MouseEvent> eventMouseReleased = new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent event) {
+           circle.setCursor(Cursor.OPEN_HAND);
+        }
+    };
+    private final EventHandler<MouseEvent> eventMouseEnteredTarget = new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent event) {
+           circle.setCursor(Cursor.OPEN_HAND);
+        }
+    };
     
     /**
      * This method is to help us draw the string that holds the bob.
@@ -99,8 +114,8 @@ public class PendulumController implements Initializable{
         //double endX = canvas.getWidth()/2 ;
         //double endY = initialCircleY - length;
         //double endX = initialCircleX ;
-        double endY = initialCircleY ;
-        double endX = initialCircleX - length;
+        double endY = canvas.getHeight()/2;
+        double endX = canvas.getWidth()/1.5 -100;
         
         gc.strokeLine(startX, startY, endX, endY);
     }
@@ -108,64 +123,49 @@ public class PendulumController implements Initializable{
      * This method is used to create a path that the pendulum will follow
      * @return PolyLine 
      */
+  
     private Polyline createPath() {
-        currentAngle = 0.05 * maxAngle;
-        double thisAngle = currentAngle;
-        
+        double RADIUS = length;
+        double START_ANGLE = Math.toDegrees(Math.atan((canvas.getHeight() / 2 - circle.getTranslateY()) / ((canvas.getWidth() / 1.5 - 100) - circle.getTranslateX())));
+        double ARC_ANGLE = 90 - Math.abs(START_ANGLE);
+        System.out.println("Start angle: " + START_ANGLE);
+        System.out.println("Arc angle: " + ARC_ANGLE);
+        double startX = canvas.getWidth() / 1.5 - 100;
+        double startY = canvas.getHeight() / 2;
         Polyline polyline = new Polyline();
-        Double[] pointsList = new Double[(int)(maxAngle / currentAngle) * 2];
-        double x;
-        double y;
-        int i = 0;
-        int index = 0;
-        while(currentAngle <= maxAngle){
-            x = circle.getTranslateX() -  length * (1 - Math.cos(i*thisAngle));
-            y = circle.getTranslateY() + length * (Math.sin(i*thisAngle));
-            pointsList[index] = x;
-            pointsList[index + 1] = y;
-            i++;
-            index = index + 2;
-            currentAngle  = currentAngle + thisAngle;
+        if (START_ANGLE > 0) {
+            for (int i = 1; i < 2 * ARC_ANGLE; i++) {
+                double angle = Math.toRadians(i + START_ANGLE);
+                double x = startX + RADIUS * Math.cos(angle);
+                double y = startY + RADIUS * Math.sin(angle);
+                polyline.getPoints().addAll(x, y);
+            }
+        } else if (START_ANGLE < 0) {
+            for (int i = 1; i < 2 * ARC_ANGLE; i++) {
+                double angle = Math.toRadians(i + Math.abs(START_ANGLE));
+                double x = startX - RADIUS * Math.cos(angle);
+                double y = startY + RADIUS * Math.sin(angle);
+                polyline.getPoints().addAll(x, y);
+            }
         }
-        polyline.getPoints().addAll(pointsList);
-       
         return polyline;
     }
-    private Polyline CreateReflectedPath() {
-        currentAngle = 0.05 * maxAngle;
-        double thisAngle = currentAngle;
-        
-        Polyline polyline = new Polyline();
-        Double[] pointsList = new Double[(int)(maxAngle / currentAngle) * 2];
-        double x;
-        double y;
-        int i = 0;
-        int index = 0;
-        while(currentAngle <= maxAngle){
-            x = circle.getTranslateX() -  length * (Math.sin(i*thisAngle));
-            y = circle.getTranslateY() -  length * (1 - Math.cos(i*thisAngle));
-            pointsList[index] = x;
-            pointsList[index + 1] = y;
-            i++;
-            index = index + 2;
-            currentAngle  = currentAngle + thisAngle;
-        }
-        polyline.getPoints().addAll(pointsList);
-       
-        return polyline;
+    
+    
+    private void clickAndDrag() {
+            circle.addEventHandler(MouseEvent.MOUSE_ENTERED_TARGET, eventMouseEnteredTarget);
+            
+            //When its closed and pressed make it drags
+            //Adding 2 eventHandlers here
+            circle.addEventHandler(MouseEvent.MOUSE_PRESSED, eventMousePressed);
+            
+            circle.addEventHandler(MouseEvent.MOUSE_DRAGGED, eventMouseDragged);
+            
+            //Animate the position of the rectangle to the position of the mouse when released
+            circle.addEventHandler(MouseEvent.MOUSE_RELEASED, eventMouseReleased);       
     }
     public void setSlider(){
-        lengthSlider.valueProperty().addListener(new ChangeListener() {
-            @Override
-            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-                setLength(lengthSlider.getValue());
-                draw(gc);
-                if(damping == 0){
-                    setAngularFrequency(Math.sqrt(gravity / length));
-                }else{// TODO: Setup the Angular Frequency when there is damping}
-                } 
-            }
-        });
+        
         massSlider.valueProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue observable, Object oldValue, Object newValue) {
@@ -189,24 +189,17 @@ public class PendulumController implements Initializable{
                 setDamping((int)dampingSlider.getValue());
             }
         });
-        amplitudeSlider.valueProperty().addListener(new ChangeListener() {
-            @Override
-            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-                setMaxAngle(Math.PI * amplitudeSlider.getValue()/180);
-            }
-        });
+        
     }
     private void disableSlider(boolean b) {
-        lengthSlider.setDisable(b);
+        
         massSlider.setDisable(b);
         dampingSlider.setDisable(b);
         gravitySlider.setDisable(b);
-        amplitudeSlider.setDisable(b);
     }
     private void setValues(){
-        //maxAngle = Math.PI * amplitudeSlider.getValue()/180;
-        maxAngle = Math.PI;
-        length = lengthSlider.getValue();
+        maxAngle = 90;
+        length = 100;
         mass = massSlider.getValue();
         damping = (int) dampingSlider.getValue();
         gravity = gravitySlider.getValue();
@@ -274,20 +267,19 @@ public class PendulumController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //Adjusting the enviornment and the nodes:
+        Base.setLayoutX(0);
+        Base.setLayoutY(0);
         animationPane.setLayoutX(0);
         animationPane.setLayoutY(0);
+        
         canvas.setLayoutX(animationPane.getLayoutX());
-        canvas.setLayoutY(animationPane.getLayoutY());  
+        canvas.setLayoutY(animationPane.getLayoutY()); 
         
         
-        circle.setTranslateX(400);
-        circle.setTranslateY(300);
         
-        //circle.setTranslateX(canvas.getWidth()/2);
-        //circle.setTranslateY(canvas.getHeight()/1.5);
+        circle.setTranslateX(canvas.getWidth()/1.5);
+        circle.setTranslateY(canvas.getHeight()/2);
         
-        initialCircleX = circle.getTranslateX();
-        initialCircleY = circle.getTranslateY();
         
         gc  = canvas.getGraphicsContext2D();
         
@@ -302,8 +294,7 @@ public class PendulumController implements Initializable{
         playBtn.setDisable(false);
         pauseBtn.setDisable(true);
         stopBtn.setDisable(true);
-        System.out.println(toString());
-        
+        clickAndDrag();
         playBtn.setOnAction((e)->{
             Polyline path = createPath();
             animate(path, 2, true, duration).play(); 
@@ -315,35 +306,7 @@ public class PendulumController implements Initializable{
 
     @Override
     public String toString() {
-        return "PendulumController{" + "currentAngle=" + currentAngle + ", maxAngle=" + maxAngle + ", length=" + length + ", mass=" + mass + ", damping=" + damping + ", gravity=" + gravity + ", angularFrequency=" + angularFrequency + ", duration=" + duration + '}';
+        return "PendulumController{" + ", maxAngle=" + maxAngle + ", length=" + length + ", mass=" + mass + ", damping=" + damping + ", gravity=" + gravity + ", angularFrequency=" + angularFrequency + ", duration=" + duration + '}';
     }
     
 }
-
-
-
-/*
-private Polyline CreateReflectedPath() {
-        currentAngle = 0.05 * maxAngle;
-        double thisAngle = currentAngle;
-        
-        Polyline polyline = new Polyline();
-        Double[] pointsList = new Double[(int)(maxAngle / currentAngle) * 2];
-        double x;
-        double y;
-        int i = 0;
-        int index = 0;
-        while(currentAngle <= maxAngle){
-            x = circle.getTranslateX() -  length * (Math.sin(i*thisAngle));
-            y = circle.getTranslateY() -  length * (1 - Math.cos(i*thisAngle));
-            pointsList[index] = x;
-            pointsList[index + 1] = y;
-            i++;
-            index = index + 2;
-            currentAngle  = currentAngle + thisAngle;
-        }
-        polyline.getPoints().addAll(pointsList);
-       
-        return polyline;
-    }
-*/
