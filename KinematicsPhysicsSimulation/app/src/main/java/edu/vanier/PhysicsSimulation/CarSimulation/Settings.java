@@ -4,6 +4,7 @@
  */
 package edu.vanier.PhysicsSimulation.CarSimulation;
 
+import eu.hansolo.medusa.Gauge;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import javafx.animation.Timeline;
@@ -24,12 +25,16 @@ public class Settings {
     
     protected static final DecimalFormat df = new DecimalFormat("0.00");
     
-    
+    protected Gauge blueGauge;    
+    protected Gauge redGauge;
+
+    @FXML
+    protected Pane redGaugePane, blueGaugePane;
     @FXML
     protected Line top;
     
     @FXML
-    protected Line line1, line2, line3, line4, line5, line6, line7, line8;
+    protected Line line1, line2, line3, line4, line5, line6, line7;
     
     @FXML
      protected Slider redInitialPositionSlider, redFinalPositionSlider,blueInitialPositionSlider, blueFinalPositionSlider, blueInitialVelocitySlider, blueAccelerationSlider, redInitialVelocitySlider, redAccelerationSlider;

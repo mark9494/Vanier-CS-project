@@ -9,8 +9,9 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-
 public class PhysicsSimulation extends Application {
+
+    public static Stage primaryStage = new Stage();
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -22,16 +23,15 @@ public class PhysicsSimulation extends Application {
         stage.setScene(scene);        
         stage.setTitle("KinematicPhysicsSimulation");
         stage.sizeToScene();
-        //stage.show();
-        AnimationLoader anim = new AnimationLoader();
-        //testLoader test = new testLoader();
+        stage.show();
     }
-    
+
+
     @Override
-    public void stop(){
+    public void stop() {
         System.out.println("Closing Application.");
     }
-    
+
     public static void main(String[] args) {
         launch(args);
     }
