@@ -195,7 +195,13 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
     }
 
     private void endOfMotion() {
-        if (ball.getTranslateY() + ball.getRadius() >= pane.getHeight() || ball.getTranslateX() > pane.getWidth() || ball.getTranslateY() < 0) {
+        if (ball.getTranslateY() + ball.getRadius() >= pane.getHeight()) {
+            ball.setTranslateY(pane.getHeight() - ball.getRadius());
+            timelineBall.pause();
+            finalPosition = ball.getTranslateX();
+            return;
+        }
+        if (ball.getTranslateX() > pane.getWidth() || ball.getTranslateY() < 0) {
             ball.setTranslateY(pane.getHeight() - ball.getRadius());
             timelineBall.pause();
             finalPosition = ball.getTranslateX();
