@@ -4,7 +4,7 @@ plugins {
     // Load and apply the required JavaFX plugin.
     id 'org.openjfx.javafxplugin' version '0.0.13'
     id("io.freefair.lombok") version "6.6.3"
-
+    
 }
 
 repositories {
@@ -13,16 +13,19 @@ repositories {
     mavenLocal()
 }
 
-test {
+tasks.named('test') {
     useJUnitPlatform()
 }
 dependencies {
     // The following .jars are pulled from:
-    // https://repo.maven.apache.org/maven2/org/openjfx/    
+    // https://repo.maven.apache.org/maven2/org/openjfx/ 
     compileOnly  "org.openjfx:javafx-base:18.0.2:sources"
     compileOnly  "org.openjfx:javafx-controls:18.0.2:sources"
     compileOnly  "org.openjfx:javafx-fxml:18.0.2:sources"
     compileOnly  "org.openjfx:javafx-graphics:18.0.2:sources"
+
+implementation group: 'com.opencsv', name: 'opencsv', version: '3.7'
+
     
     // Load the Javadoc for the specified JavaFX modules.
     compileOnly  "org.openjfx:javafx-base:18.0.2:javadoc"
@@ -47,9 +50,5 @@ application {
    // mainClass = 'edu.vanier.PhysicsSimulation.ProjectileMotion.ProjectileMotion'
 
    
-}
-
-test {
-    exclude '**/*'
 }
 

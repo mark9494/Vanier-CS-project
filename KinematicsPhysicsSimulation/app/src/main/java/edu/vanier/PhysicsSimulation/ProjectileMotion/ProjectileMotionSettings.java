@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Slider;
@@ -55,6 +56,9 @@ public class ProjectileMotionSettings {
     
     @FXML
     protected ProgressBar windIntensity;
+    
+    @FXML
+    protected MenuBar menuBar;
     
     protected VBox winAnnouncement;
     protected Label win;
@@ -108,16 +112,16 @@ public class ProjectileMotionSettings {
         double underRoot = (b * b) - (4 * a * c);
         double sqrt = Math.sqrt(underRoot);
         double time1 = (-b + sqrt) / (2 * a);
-        if (time1 > 0) {
-            time = time1;
-        } else {
-            time = (-b - sqrt) / (2 * a);
-        }
+
+        // conditional operation
+        time = (time1 > 0)
+                ? time1
+                : (-b - sqrt) / (2 * a);
     }
 
     //4
     protected void setDeltaX() {
-        deltaX = (initVelocityX * time);
+        deltaX = initVelocityX * time;
         //finalPosition = ball.getTranslateX() + deltaX;
     }
 
