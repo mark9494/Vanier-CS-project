@@ -17,17 +17,20 @@ import javafx.scene.layout.Pane;
 public class ProjectileMotion {
 
     public ProjectileMotion() throws Exception {
+        IO.writeDataInFile("C:");
         start();
     }
 
     public void start() throws Exception {
         ProjectileMotionController mainController = new ProjectileMotionController();
-        FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/ProjectileMotion.fxml"));
+        FXMLLoader loader = new FXMLLoader(this.getClass().getResource(
+                "/fxml/ProjectileMotion.fxml"));
         loader.setController(mainController);
         Pane root = loader.load();
         Scene scene = new Scene(root, 1000, 800);
         PhysicsSimulationController.projectileMotion.setScene(scene);
-        PhysicsSimulationController.projectileMotion.setTitle("Projectile Motion");
+        PhysicsSimulationController.projectileMotion.setTitle(
+                "Projectile Motion");
         PhysicsSimulationController.projectileMotion.sizeToScene();
         PhysicsSimulationController.projectileMotion.show();
     }
