@@ -17,7 +17,8 @@ import javafx.scene.layout.Pane;
 public class ProjectileMotion {
 
     public ProjectileMotion() throws Exception {
-        IO.writeDataInFile("C:");
+        //IO.writeDataInFile("C:\\Users\\antho\\Desktop\\data.csv");
+        //IO.readDataInFile("C:\\Users\\antho\\Desktop\\data.csv");
         start();
     }
 

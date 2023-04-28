@@ -12,8 +12,8 @@ import java.util.Random;
  */
 public class Wind {
 
-    private int intensity;
-    private double angle;
+    static int intensity;
+    static double angle;
 
     public Wind() {
         this.intensity = 0;

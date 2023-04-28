@@ -5,8 +5,14 @@
 package edu.vanier.PhysicsSimulation.ProjectileMotion;
 
 import edu.vanier.PhysicsSimulation.PhysicsSimulationController;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
@@ -17,6 +23,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /**
@@ -24,13 +33,38 @@ import javafx.util.Duration;
  * @author antho
  */
 public class ProjectileMotionController extends ProjectileMotionSettings {
-    
+
     @FXML
     public void initialize() {
+        FileChooser fileChooser = new FileChooser();
+        DirectoryChooser directoryChooser = new DirectoryChooser();
         disableButtons(false, true);
         menuBar.getMenus().remove(2);
-        MenuItem save = new MenuItem("Save");
-        menuBar.getMenus().get(0).getItems().add(save);
+        MenuItem save = new MenuItem("Save Last Run");
+        MenuItem openSave = new MenuItem("Open Save");
+        menuBar.getMenus().get(0).getItems().addAll(save, openSave);
+
+        EventHandler<ActionEvent> savePressed = new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e) {
+                newSave = directoryChooser.showDialog(new Stage());
+                IO.writeDataInFile(newSave.getPath() + "\\ProjectileMotionData.csv");
+            }
+        };
+
+        EventHandler<ActionEvent> loadSaved = new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e) {
+                loadSave = fileChooser.showOpenDialog(new Stage());
+                try {
+                    IO.readDataInFile(loadSave.getPath());
+                    loadSlidersBack();
+                } catch (IOException ex) {
+                    System.out.println("File Not Read Properly. ");
+                }
+            }
+        };
+
+        save.setOnAction(savePressed);
+        openSave.setOnAction(loadSaved);
         wind = new Wind();
         ramp = new Ramp();
         ramp.setTranslateY(25);
@@ -45,51 +79,65 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
         landingArea.randomSpawn(pane.getWidth() - landingArea.getWidth(), (ramp.
                 getTranslateX() + ramp.getWIDTH()), pane.getHeight());
     }
-    
+
+    public void loadSlidersBack() {
+        sldInitialVelocity.setValue(initialVelocity);
+        sldAccelerationY.setValue(accelerationY);
+        sldRampAngle.setValue(rampAngle);
+        if (isWind) {
+            CBoxWind.setSelected(true);
+            windBox.setOpacity(100);
+            wind.setAngle(Wind.angle);
+            wind.setIntensity(Wind.intensity);
+            windArrow.setRotate(-Wind.angle * 180 / Math.PI);
+            setIntensity();
+        }
+    }
+
     public void setBallDefaultLocation() {
         ball.setTranslateX(ramp.setCornerX() + ball.getRadius());
         ball.setTranslateY(ramp.getCornerY() - ball.getRadius());
     }
-    
+
     public void createAnimation() {
         animationDuration = 10;
         currentRate = 5;
-        
+
         timelineRectangleAndBall = new Timeline(
                 new KeyFrame(Duration.millis(animationDuration),
                         e -> handleUpdateAnimation()));
         timelineRectangleAndBall.setRate(currentRate);
         timelineRectangleAndBall.setCycleCount(Timeline.INDEFINITE);
-        
+
         timelinePaneResize = new Timeline(
                 new KeyFrame(Duration.millis(animationDuration),
                         e -> handlePaneResizeAffects()));
         timelinePaneResize.setRate(currentRate);
         timelinePaneResize.setCycleCount(Timeline.INDEFINITE);
     }
-    
+
     private void disableButtons(boolean reset, boolean begin) {
         btnBegin.setDisable(begin);
         btnReset.setDisable(reset);
     }
-    
+
     @FXML
     public void handleHomeButton() {
         PhysicsSimulationController.projectileMotion.close();
     }
-    
+
     @FXML
     public void handleMouseHoverInfo() {
         System.out.println("info.");
     }
-    
+
     @FXML
     public void handleBegin() {
         disableButtons(true, true);
         timelineRectangleAndBall.stop();
         generateParameters();
         double currentRateBall = 5000;
-        
+
         timelineBall = new Timeline(
                 new KeyFrame(Duration.seconds(100),
                         e -> handleUpdateAnimationBall()));
@@ -99,7 +147,7 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
         lblTime.setText("" + df.format(time));
         lblPosition.setText("" + df.format(finalPosition));
     }
-    
+
     @FXML
     public void handleResetButton() {
         removeWinAnnouncement();
@@ -108,17 +156,17 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
         resetParameters();
         moveRectangleAndBall();
         timelineRectangleAndBall.play();
-        
+
         landingArea.randomSpawn(pane.getWidth() - landingArea.getWidth(),
                 ramp.getTranslateX() + ramp.getWIDTH(), pane.getHeight());
     }
-    
+
     private void handleUpdateAnimation() {
         handleWindProperties();
         moveRectangleAndBall();
         ball.setRotate(0);
     }
-    
+
     private void handleUpdateAnimationBall() {
         ball.setRotate(ball.getRotate() - Math.PI * 3);
         moveBallX();
@@ -127,9 +175,9 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
         //windAnimation();
         ballInLandingArea();
     }
-    
+
     public void handleWindProperties() {
-        
+
         if (!CBoxWind.isSelected()) {
             isWind = false;
             windBox.setOpacity(0);
@@ -149,30 +197,30 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
             System.out.println(wind.getForceWindY());
         }
     }
-    
+
     private void setIntensity() {
         if (wind.getIntensity() == 1) {
             windIntensity.setProgress(0.33);
             windIntensity.setStyle("-fx-accent: green;");
-            
+
         } else if (wind.getIntensity() == 2) {
             windIntensity.setProgress(0.66);
             windIntensity.setStyle("-fx-accent: yellow;");
-            
+
         } else {
             windIntensity.setProgress(1);
             windIntensity.setStyle("-fx-accent: red;");
-            
+
         }
     }
-    
+
     private void moveRectangleAndBall() {
         setRampAngle();
         ramp.setRotate(ramp.getAngle());
         ball.setTranslateX(ramp.getCornerX() + ball.getRadius());
         ball.setTranslateY(ramp.getCornerY() - ball.getRadius());
     }
-    
+
     private void generateParameters() {
         setDeltaY(pane.getHeight());
         setInitialVelocity();
@@ -185,7 +233,7 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
         ball.setDy(initVelocityY);
         ball.setDx(initVelocityX);
     }
-    
+
     private void resetParameters() {
         time = 0;
         finalPosition = 0;
@@ -193,19 +241,19 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
         lblTime.setText("");
         lblPosition.setText("");
     }
-    
+
     private void moveBallX() {
         ball.setTranslateX(ball.getTranslateX() + ball.getDx() + wind.
                 getForceWindX());
-        
+
     }
-    
+
     private void moveBallY() {
         ball.setDy(ball.getDy() - accelerationY + wind.getForceWindY());
         ball.setTranslateY(ball.getTranslateY() - ball.getDy());
-        
+
     }
-    
+
     private void endOfMotion() {
         if (ball.getTranslateY() + ball.getRadius() >= pane.getHeight()) {
             ball.setTranslateY(pane.getHeight() - ball.getRadius());
@@ -219,7 +267,7 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
             finalPosition = ball.getTranslateX();
         }
     }
-    
+
     private void ballInLandingArea() {
         boolean ballLanded;
         if (finalPosition != 0) {
@@ -244,12 +292,12 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
         sldInitialVelocity.setMax(pane.getWidth() / 24);
         hboxBottom.setTranslateX(pane.getWidth() / 6);
     }
-    
+
     private void winAnnouncement() {
         System.out.println("Landed");
         winAnnouncement = new VBox();
         win = new Label();
-        
+
         win.setTextFill(Color.GREEN);
         win.setFont(new Font(100));
         win.setText("You Won!");
@@ -258,7 +306,7 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
         winAnnouncement.getChildren().add(win);
         pane.getChildren().add(winAnnouncement);
     }
-    
+
     private void removeWinAnnouncement() {
         pane.getChildren().remove(winAnnouncement);
     }

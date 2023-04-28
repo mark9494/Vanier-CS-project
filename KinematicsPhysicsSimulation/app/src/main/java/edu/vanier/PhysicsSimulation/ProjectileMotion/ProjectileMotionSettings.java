@@ -4,6 +4,7 @@
  */
 package edu.vanier.PhysicsSimulation.ProjectileMotion;
 
+import java.io.File;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 import java.text.DecimalFormat;
@@ -19,7 +20,6 @@ import javafx.scene.control.Slider;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.QuadCurve;
 
 /**
  *
@@ -53,13 +53,13 @@ public class ProjectileMotionSettings {
 
     @FXML
     protected ImageView windArrow;
-    
+
     @FXML
     protected ProgressBar windIntensity;
-    
+
     @FXML
     protected MenuBar menuBar;
-    
+
     protected VBox winAnnouncement;
     protected Label win;
     protected Ramp ramp;
@@ -68,15 +68,18 @@ public class ProjectileMotionSettings {
     protected Timeline timelineRectangleAndBall, timelineBall, timelinePaneResize;
     protected int currentRate;
     protected double animationDuration;
-    protected double rampAngle, accelerationY;
-    protected double initialVelocity, initVelocityX, initVelocityY;
+    protected static double rampAngle;
+    protected static double accelerationY;
+    protected static double initialVelocity;
+    protected double initVelocityX, initVelocityY;
     protected double finalVelocityX, finalVelocityY;
     protected double time;
     protected double deltaY, deltaX, finalPosition;
     protected static final DecimalFormat df = new DecimalFormat("0.00");
     protected double windStrength;
-    protected boolean isWind;
+    protected static boolean isWind;
     protected Wind wind;
+    protected File loadSave, newSave;
 
     public void setInitialVelocity() {
         initialVelocity = sldInitialVelocity.getValue();
