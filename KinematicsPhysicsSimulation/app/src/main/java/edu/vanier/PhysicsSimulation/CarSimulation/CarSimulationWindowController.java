@@ -4,6 +4,9 @@
  */
 package edu.vanier.PhysicsSimulation.CarSimulation;
 
+import eu.hansolo.medusa.Gauge;
+import eu.hansolo.medusa.TickLabelOrientation;
+import eu.hansolo.medusa.skins.ModernSkin;
 import java.io.IOException;
 import java.util.ArrayList;
 import javafx.animation.KeyFrame;
@@ -12,6 +15,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import static javafx.scene.paint.Color.BLACK;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -26,7 +31,8 @@ public class CarSimulationWindowController extends Settings {
 
     @FXML
     public void initialize() {
-
+        setupGauges();
+        
         redCarPositionGraph = new double[10][2];
         blueCarPositionGraph = new double[10][2];
 
@@ -140,9 +146,13 @@ public class CarSimulationWindowController extends Settings {
 
     private void handleUpdateData() {
         updateSliderMax();
+        
     }
 
     private void handleUpdateAnimation() {
+        
+        endOfSimulation();
+          
         blueCar.calculateCurrentVelocity(blueCar.calculateCurrentDisplacement());
         blueCar.calculateCurrentTime(blueCar.calculateCurrentDisplacement());
 
@@ -151,15 +161,16 @@ public class CarSimulationWindowController extends Settings {
         redCar.calculateCurrentTime(redCar.calculateCurrentDisplacement());
         displayLiveStats();
         moveCar();
+        updateGaugesValues();
 
     }
 
     public void updateSliderMax() {
-        redInitialPositionSlider.setMax((middlePane.getWidth() / 10));
+        redInitialPositionSlider.setMax((middlePane.getWidth() / 10- redCar.getWidth() / 10));
         redFinalPositionSlider.setMin(redInitialPositionSlider.getValue());// this causes the final position ticks to start after the initial postion of the car
         redFinalPositionSlider.setMax(middlePane.getWidth() / 10 - redCar.getWidth() / 10);
 
-        blueInitialPositionSlider.setMax(middlePane.getWidth() / 10);
+        blueInitialPositionSlider.setMax(middlePane.getWidth() / 10- blueCar.getWidth() / 10);
         blueFinalPositionSlider.setMin(blueInitialPositionSlider.getValue());
         blueFinalPositionSlider.setMax(middlePane.getWidth() / 10 - blueCar.getWidth() / 10);
     }
@@ -205,7 +216,66 @@ public class CarSimulationWindowController extends Settings {
 //      }
 
     }
-
+    
+        
+    private void setupGauges(){
+        blueGauge = new Gauge();
+        
+        blueGauge.setSkin(new ModernSkin(blueGauge));  //ModernSkin : you guys can change the skin
+        blueGauge.setTitle("Blue Car");  //title
+        blueGauge.setUnit("m / s");  //unit
+        blueGauge.setUnitColor(Color.BLUE);
+        blueGauge.setDecimals(0); 
+        blueGauge.setValue(0); //default position of needle on gauage
+        blueGauge.setAnimated(true);
+        blueGauge.setAnimationDuration(1); 
+        blueGauge.setValueColor(Color.BLUE); 
+        blueGauge.setTitleColor(Color.BLUE); 
+        blueGauge.setSubTitleColor(Color.WHITE); 
+        blueGauge.setBarColor(Color.rgb(0, 214, 215)); 
+        blueGauge.setNeedleColor(Color.BLUE); 
+        blueGauge.setThresholdColor(Color.PURPLE);  //color will become red if it crosses threshold value
+        blueGauge.setThreshold(40);        
+        blueGauge.setThresholdVisible(true);
+        blueGauge.setTickLabelColor(Color.rgb(151, 151, 151)); 
+        blueGauge.setTickMarkColor(Color.BLUE); 
+        blueGauge.setTickLabelOrientation(TickLabelOrientation.ORTHOGONAL);
+        blueGauge.setBackgroundPaint(Color.BLACK);
+        blueGaugePane.getChildren().add(blueGauge);
+        
+        redGauge = new Gauge();
+        
+        redGauge.setSkin(new ModernSkin(redGauge));  //ModernSkin : you guys can change the skin
+        redGauge.setTitle("Red Car");  //title
+        redGauge.setUnit("m / s");  //unit
+        redGauge.setUnitColor(Color.RED);
+        redGauge.setDecimals(0); 
+        redGauge.setValue(0); //default position of needle on gauage
+        redGauge.setAnimated(true);
+        redGauge.setAnimationDuration(1); 
+        redGauge.setValueColor(Color.RED); 
+        redGauge.setTitleColor(Color.RED); 
+        redGauge.setSubTitleColor(Color.RED); 
+        redGauge.setBarColor(Color.rgb(0, 214, 215)); 
+        redGauge.setNeedleColor(Color.RED); 
+        redGauge.setThresholdColor(Color.GOLD);  
+        redGauge.setThreshold(40);         
+        redGauge.setThresholdVisible(true);
+        redGauge.setTickLabelColor(Color.rgb(151, 151, 151)); 
+        redGauge.setTickMarkColor(Color.RED); 
+        redGauge.setTickLabelOrientation(TickLabelOrientation.ORTHOGONAL);
+        redGauge.setBackgroundPaint(BLACK);
+        redGaugePane.getChildren().add(redGauge);
+    }
+    
+    private void updateGaugesValues(){
+      
+       blueGauge.setValue(blueCar.getCurrentVelocity());
+       redGauge.setValue(redCar.getCurrentVelocity());
+        
+    }
+    
+    
     private void makeGraphPoints() {
         double redFinalTime = redCar.calculateFinalTime(redCar.calculateFinalDisplacement(), redCar.calculateFinalVelocity(redCar.calculateFinalDisplacement())) / 10;
         double blueFinalTime = blueCar.calculateFinalTime(blueCar.calculateFinalDisplacement(), blueCar.calculateFinalVelocity(blueCar.calculateFinalDisplacement())) / 10;
@@ -234,7 +304,26 @@ public class CarSimulationWindowController extends Settings {
         }
 
     }
-
+    
+    private void disableSliders(boolean redInitialPosition, boolean redFinalPosition, boolean blueInitialPosition, boolean blueFinalPosition, boolean blueInitialVelocity, boolean blueAcceleration, boolean redInitialVelocity, boolean redAcceleration){
+      redInitialPositionSlider.setDisable(redInitialPosition);
+      redFinalPositionSlider.setDisable(redFinalPosition);
+      blueInitialPositionSlider.setDisable(blueInitialPosition);
+      blueFinalPositionSlider.setDisable(blueFinalPosition);
+      blueInitialVelocitySlider.setDisable(blueInitialVelocity);
+      blueAccelerationSlider.setDisable(blueAcceleration);
+      redInitialVelocitySlider.setDisable(redInitialVelocity);
+      redAccelerationSlider.setDisable(redAcceleration);
+    }
+    
+    private void endOfSimulation(){
+        System.out.println(blueCar.getCurrentPosition());
+        System.out.println(blueCar.getFinalPosition());
+      if(blueCar.getFinalPosition()/10 <= blueCar.getCurrentPosition() && redCar.getFinalPosition()/10 <= redCar.getCurrentPosition()){
+          handleReset();
+      }
+      
+    }
     @FXML
     private void handleStart() {
         makeGraphPoints();
@@ -245,21 +334,22 @@ public class CarSimulationWindowController extends Settings {
 
     @FXML
     private void handleStop() {
-
+        blueGauge.setValue(0);
+        redGauge.setValue(0);
         disableBtns(false, true, false, true);
         timeline.pause();
     }
 
     @FXML
     private void handleReset() {
-
+        disableSliders(false, false, false, false, false, false, false, false);
         disableBtns(true, true, true, false);
         timeline.stop();
     }
 
     @FXML
     private void handleSubmit() {
-
+        disableSliders(true, true, true, true, true, true, true, true);
         updateInput();
         disableBtns(false, true, true, true);
         resetLiveStats();

@@ -35,6 +35,8 @@ implementation group: 'com.opencsv', name: 'opencsv', version: '3.7'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    implementation group: 'se.europeanspallationsource', name: 'javafx.control.medusa', version: '8.3.0'// library for gauges used in car simulation
+
 }
 //-- Loads the JavaFX modules of the selected JavaFX version.
 javafx {    
