@@ -13,359 +13,159 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class CarTest {
 
-//    /**
-//     * Test of calculateCurrentVelocity method, of class Car.
-//     */
-//    @Test
-//    public void testCalculateCurrentVelocity() {
-//        System.out.println("calculateCurrentVelocity");
-//        Car car = new Car();
-//       car.setInitialVelocity(10);
-//       car.setAcceleration(10);
-//       double h = car.calculateCurrentVelocity(80);
-//       assertEquals(10, h);
-//      
-//        
-//        // TODO review the generated test code and remove the default call to fail.
-//        
-//    }
-//
-//    /**
-//     * Test of calculateCurrentTime method, of class Car.
-//     */
-//    @Test
-//    public void testCalculateCurrentTime() {
-//        System.out.println("calculateCurrentTime");
-//        double displacement = 0.0;
-//        Car instance = new Car();
-//        instance.calculateCurrentTime(displacement);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
+    /**
+     * Test of calculateCurrentVelocity method, of class Car.
+     */
+    @Test
+    public void testCalculateCurrentVelocity() {
+        System.out.println("calculateCurrentVelocity");
+        Car car = new Car();
+       car.setInitialVelocity(20);
+       car.setAcceleration(20);
+       double result = car.calculateCurrentVelocity(40);
+       double expResult = 44.721;
+       assertEquals(expResult, result,0.01);
+  
+    }
+    @Test
+    public void testCalculateCurrentVelocity2() {
+        System.out.println("calculateCurrentVelocity");
+        Car car = new Car();
+       car.setInitialVelocity(20);
+       car.setAcceleration(0);
+       double result = car.calculateCurrentVelocity(40);
+       double expResult = 20;
+       assertEquals(expResult, result,0.01);
+    }
+    
+     @Test
+    public void testCalculateCurrentVelocity3() {
+        System.out.println("calculateCurrentVelocity");
+        Car car = new Car();
+       car.setInitialVelocity(0);
+       car.setAcceleration(25);
+       double result = car.calculateCurrentVelocity(20);
+       double expResult = 31.622;
+       assertEquals(31.622, result,0.01);
+    }
+
+    /**
+     * Test of calculateCurrentTime method, of class Car.
+     */
+    @Test
+    public void testCalculateCurrentTime() {
+        System.out.println("calculateCurrentTime");
+        double displacement = 50;
+        Car car = new Car();
+        car.setInitialVelocity(0);
+        car.setAcceleration(20);
+        car.setFinalPosition(1000);
+        car.setInitialPosition(500);
+        double result = car.calculateCurrentTime(displacement);
+        double expResult = 2.23;
+        assertEquals(expResult,result ,0.01);
+    }
+    @Test
+    public void testCalculateCurrentTime2() {
+        System.out.println("calculateCurrentTime");
+        double displacement = 50;
+        Car car = new Car();
+        car.setInitialVelocity(20);
+        car.setAcceleration(20);
+        car.setFinalPosition(1000);
+        car.setInitialPosition(500); 
+        double result = car.calculateCurrentTime(displacement);
+        double expResult = 1.44;
+        assertEquals(expResult,result ,0.01);
+    }
+ 
+
     /**
      * Test of calculateFinalTime method, of class Car.
      */
-//    @Test
-//    public void testCalculateFinalTime1() {
-//        System.out.println("calculateFinalTime");
-//        double finalDisplacement = 0.0;
-//        double finalVelocity = 2.0;
-//        Car instance = new Car();
-//        double expResult = Double.POSITIVE_INFINITY;
-//        double result = instance.calculateFinalTime(finalDisplacement,
-//                finalVelocity);
-//        assertEquals(expResult, result, 0.01);
-//    }
-//    @Test
-//    public void testCalculateFinalTime2() {
-//        System.out.println("calculateFinalTime");
-//        double finalDisplacement = 0.0;
-//        double finalVelocity = 0.0;
-//        Car instance = new Car();
-//        double expResult = 0.0;
-//        double result = instance.calculateFinalTime(finalDisplacement,
-//                finalVelocity);
-//        assertEquals(expResult, result, 0);
-//    }
-//
-//    @Test
-//    public void testCalculateFinalTime3() {
-//        System.out.println("calculateFinalTime");
-//        double finalDisplacement = 0.0;
-//        double finalVelocity = 0.0;
-//        Car instance = new Car();
-//        double expResult = 0.0;
-//        double result = instance.calculateFinalTime(finalDisplacement,
-//                finalVelocity);
-//        assertEquals(expResult, result, 0);
-//    }
-//    /**
-//     * Test of calculateGraphDisplacement method, of class Car.
-//     */
-//    @Test
-//    public void testCalculateGraphDisplacement() {
-//        System.out.println("calculateGraphDisplacement");
-//        double displacement = 0.0;
-//        double time = 0.0;
-//        Car instance = new Car();
-//        double expResult = 0.0;
-//        double result = instance.calculateGraphDisplacement(displacement, time);
-//        assertEquals(expResult, result, 0);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of calculateGraphVelocity method, of class Car.
-//     */
-//    @Test
-//    public void testCalculateGraphVelocity() {
-//        System.out.println("calculateGraphVelocity");
-//        double time = 0.0;
-//        Car instance = new Car();
-//        instance.calculateGraphVelocity(time);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of calculateFinalVelocity method, of class Car.
-//     */
-//    @Test
-//    public void testCalculateFinalVelocity() {
-//        System.out.println("calculateFinalVelocity");
-//        double finalDisplacement = 0.0;
-//        Car instance = new Car();
-//        double expResult = 0.0;
-//        double result = instance.calculateFinalVelocity(finalDisplacement);
-//        assertEquals(expResult, result, 0);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of calculateCurrentDisplacement method, of class Car.
-//     */
-//    @Test
-//    public void testCalculateCurrentDisplacement() {
-//        System.out.println("calculateCurrentDisplacement");
-//        Car instance = new Car();
-//        double expResult = 0.0;
-//        double result = instance.calculateCurrentDisplacement();
-//        assertEquals(expResult, result, 0);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of calculateFinalDisplacement method, of class Car.
-//     */
-//    @Test
-//    public void testCalculateFinalDisplacement() {
-//        System.out.println("calculateFinalDisplacement");
-//        Car instance = new Car();
-//        double expResult = 0.0;
-//        double result = instance.calculateFinalDisplacement();
-//        assertEquals(expResult, result, 0);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of getInitialPosition method, of class Car.
-//     */
-//    @Test
-//    public void testGetInitialPosition() {
-//        System.out.println("getInitialPosition");
-//        Car instance = new Car();
-//        double expResult = 0.0;
-//        double result = instance.getInitialPosition();
-//        assertEquals(expResult, result, 0);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of setInitialPosition method, of class Car.
-//     */
-//    @Test
-//    public void testSetInitialPosition() {
-//        System.out.println("setInitialPosition");
-//        double initialPosition = 0.0;
-//        Car instance = new Car();
-//        instance.setInitialPosition(initialPosition);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of getCurrentPosition method, of class Car.
-//     */
-//    @Test
-//    public void testGetCurrentPosition() {
-//        System.out.println("getCurrentPosition");
-//        Car instance = new Car();
-//        double expResult = 0.0;
-//        double result = instance.getCurrentPosition();
-//        assertEquals(expResult, result, 0);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of setCurrentPosition method, of class Car.
-//     */
-//    @Test
-//    public void testSetCurrentPosition() {
-//        System.out.println("setCurrentPosition");
-//        double currentPosition = 0.0;
-//        Car instance = new Car();
-//        instance.setCurrentPosition(currentPosition);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of getFinalPosition method, of class Car.
-//     */
-//    @Test
-//    public void testGetFinalPosition() {
-//        System.out.println("getFinalPosition");
-//        Car instance = new Car();
-//        double expResult = 0.0;
-//        double result = instance.getFinalPosition();
-//        assertEquals(expResult, result, 0);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of setFinalPosition method, of class Car.
-//     */
-//    @Test
-//    public void testSetFinalPosition() {
-//        System.out.println("setFinalPosition");
-//        double finalPosition = 0.0;
-//        Car instance = new Car();
-//        instance.setFinalPosition(finalPosition);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of getInitialVelocity method, of class Car.
-//     */
-//    @Test
-//    public void testGetInitialVelocity() {
-//        System.out.println("getInitialVelocity");
-//        Car instance = new Car();
-//        double expResult = 0.0;
-//        double result = instance.getInitialVelocity();
-//        assertEquals(expResult, result, 0);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of setInitialVelocity method, of class Car.
-//     */
-//    @Test
-//    public void testSetInitialVelocity() {
-//        System.out.println("setInitialVelocity");
-//        double initialVelocity = 0.0;
-//        Car instance = new Car();
-//        instance.setInitialVelocity(initialVelocity);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of getCurrentVelocity method, of class Car.
-//     */
-//    @Test
-//    public void testGetCurrentVelocity() {
-//        System.out.println("getCurrentVelocity");
-//        Car instance = new Car();
-//        double expResult = 0.0;
-//        double result = instance.getCurrentVelocity();
-//        assertEquals(expResult, result, 0);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of setCurrentVelocity method, of class Car.
-//     */
-//    @Test
-//    public void testSetCurrentVelocity() {
-//        System.out.println("setCurrentVelocity");
-//        double currentVelocity = 0.0;
-//        Car instance = new Car();
-//        instance.setCurrentVelocity(currentVelocity);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of getFinalVelocity method, of class Car.
-//     */
-//    @Test
-//    public void testGetFinalVelocity() {
-//        System.out.println("getFinalVelocity");
-//        Car instance = new Car();
-//        double expResult = 0.0;
-//        double result = instance.getFinalVelocity();
-//        assertEquals(expResult, result, 0);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of setFinalVelocity method, of class Car.
-//     */
-//    @Test
-//    public void testSetFinalVelocity() {
-//        System.out.println("setFinalVelocity");
-//        double finalVelocity = 0.0;
-//        Car instance = new Car();
-//        instance.setFinalVelocity(finalVelocity);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of getAcceleration method, of class Car.
-//     */
-//    @Test
-//    public void testGetAcceleration() {
-//        System.out.println("getAcceleration");
-//        Car instance = new Car();
-//        double expResult = 0.0;
-//        double result = instance.getAcceleration();
-//        assertEquals(expResult, result, 0);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of setAcceleration method, of class Car.
-//     */
-//    @Test
-//    public void testSetAcceleration() {
-//        System.out.println("setAcceleration");
-//        double acceleration = 0.0;
-//        Car instance = new Car();
-//        instance.setAcceleration(acceleration);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of getTime method, of class Car.
-//     */
-//    @Test
-//    public void testGetTime() {
-//        System.out.println("getTime");
-//        Car instance = new Car();
-//        double expResult = 0.0;
-//        double result = instance.getTime();
-//        assertEquals(expResult, result, 0);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of setTime method, of class Car.
-//     */
-//    @Test
-//    public void testSetTime() {
-//        System.out.println("setTime");
-//        double time = 0.0;
-//        Car instance = new Car();
-//        instance.setTime(time);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//    
+    @Test
+    public void testCalculateFinalTime1() {
+        System.out.println("calculateFinalTime");
+        double finalDisplacement = 22;
+        double finalVelocity = 22.0;
+        Car car = new Car();
+        car.setInitialVelocity(20);
+        double expResult = 1.04;
+        double result = car.calculateFinalTime(finalDisplacement,
+                finalVelocity);
+        assertEquals(expResult, result, 0.01);
+    }
+    @Test
+    public void testCalculateFinalTime2() {
+        System.out.println("calculateFinalTime");
+        double finalDisplacement = 200;
+        double finalVelocity = 5;
+        Car car = new Car();
+        car.setInitialVelocity(0);
+        double expResult = 80;
+        double result = car.calculateFinalTime(finalDisplacement,
+                finalVelocity);
+        assertEquals(expResult, result, 0.01);
+    }
+
+    
+    @Test
+    public void testCalculateGraphDisplacement() {
+        System.out.println("calculateGraphDisplacement");
+        double displacement = 54;
+        double time = 23;
+        Car car = new Car();
+        car.setInitialVelocity(0);
+        car.setAcceleration(0);
+        double expResult = 0.0;
+        double result = car.calculateGraphDisplacement(displacement, time);
+        assertEquals(expResult, result, 0);
+        // TODO review the generated test code and remove the default call to fail.
+        
+    }
+
+    /**
+     * Test of calculateFinalVelocity method, of class Car.
+     */
+    @Test
+    public void testCalculateFinalVelocity() {
+        System.out.println("calculateFinalVelocity");
+        double finalDisplacement = 87;
+        Car car = new Car();
+        car.setInitialVelocity(11);
+        car.setAcceleration(54);
+        double expResult = 97.55;
+        double result = car.calculateFinalVelocity(finalDisplacement);
+        assertEquals(expResult, result, 0.1);
+        
+    }
+    @Test
+    public void testCalculateFinalVelocity2() {
+        System.out.println("calculateFinalVelocity");
+        double finalDisplacement = 20;
+        Car car = new Car();
+        car.setInitialVelocity(0);
+        car.setAcceleration(0);
+        double expResult = 0;
+        double result = car.calculateFinalVelocity(finalDisplacement);
+        assertEquals(expResult, result, 0.1);
+        
+    }
+
+   
+    @Test
+    public void testCalculateFinalDisplacement() {
+        System.out.println("calculateFinalDisplacement");
+        Car car = new Car();
+        car.setFinalPosition(5000);
+        car.setInitialPosition(1000);
+        double expResult = 400;
+        double result = car.calculateFinalDisplacement();
+        assertEquals(expResult, result, 0.1);    
+    }
+
+    /**
+     * Test of getInitialPosition method, of class Car.
+     */
+    
 }

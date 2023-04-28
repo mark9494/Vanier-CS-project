@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
@@ -40,7 +42,10 @@ public class Settings {
      protected Slider redInitialPositionSlider, redFinalPositionSlider,blueInitialPositionSlider, blueFinalPositionSlider, blueInitialVelocitySlider, blueAccelerationSlider, redInitialVelocitySlider, redAccelerationSlider;
     
     @FXML
-     protected Button startBtn, stopBtn, resetBtn, submitBtn, positionGraphBtn, velocityGraphButton;
+     protected Button startBtn, stopBtn, resetBtn, submitBtn, positionGraphBtn, velocityGraphButton, homeBtn;
+   
+    @FXML
+    protected MenuBar menuBar;
     
     @FXML
     protected Line bottom;
@@ -52,7 +57,11 @@ public class Settings {
     protected Pane bottomPane;
     
     @FXML
+    protected Label windowTitle;
+    
+    @FXML
     protected Text bluePositionLabel, blueVelocityLabel, blueAccelerationLabel, blueTimeLabel;
+    
     @FXML
     protected Text redPositionLabel, redVelocityLabel, redAccelerationLabel, redTimeLabel;
     

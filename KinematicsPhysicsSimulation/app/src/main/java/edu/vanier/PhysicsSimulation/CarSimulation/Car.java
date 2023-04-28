@@ -52,26 +52,28 @@ public class Car extends Rectangle {
 
     public double calculateCurrentVelocity(double displacement) {
         
-        if( initialVelocity == 0){
-          this.currentVelocity = 0;  
-        }else{
+        if(initialVelocity ==0){
+          initialVelocity = 0.1;// otherwise the car won't move  
+        }
           double velocitySquared = Math.pow(this.initialVelocity, 2) + 2 * this.acceleration * displacement;
           this.currentVelocity = Math.sqrt(velocitySquared);  
-        }
+        
 
         return this.currentVelocity;
     }
 
-    public void calculateCurrentTime(double displacement) {
+    public double calculateCurrentTime(double displacement) {
+        calculateFinalVelocity(calculateFinalDisplacement());
         // we divide by 10 because we multiplied both initial and final position by 10 before
-        this.time = (2 * displacement) / (this.initialVelocity + this.finalVelocity);
-
+        return this.time = (2 * displacement) / (this.initialVelocity + this.finalVelocity);
+        
+        
     }
 
     public double calculateFinalTime(double finalDisplacement,
             double finalVelocity) {
 
-        return this.finalTime = (2 * finalDisplacement) / (this.initialVelocity + finalVelocity); //((this.finalVelocity - this.initialVelocity) / this.acceleration); 
+        return this.finalTime = (2 * finalDisplacement) / (this.initialVelocity + finalVelocity);  
     }
 
     public double calculateGraphDisplacement(double displacement, double time) {
@@ -80,20 +82,18 @@ public class Car extends Rectangle {
                 pow(time, 2));
     }
 
-    public void calculateGraphVelocity(double time) {
-        this.graphVelocity = this.initialVelocity + (this.acceleration * time);
-    }
+    
 
     public double calculateFinalVelocity(double finalDisplacement) {
 
-        double velocitySquared = Math.pow(this.initialVelocity, 2) + 2 * this.acceleration * this.
-                calculateFinalDisplacement();
+        double velocitySquared = Math.pow(this.initialVelocity, 2) + 2 * this.acceleration * finalDisplacement;
         this.finalVelocity = Math.sqrt(velocitySquared);
 
         return this.finalVelocity;
     }
 
     public double calculateCurrentDisplacement() {
+        
         this.currentPosition = this.getTranslateX() / 10 - this.initialPosition / 10;
         return this.currentPosition;
 

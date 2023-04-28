@@ -1,7 +1,5 @@
 package edu.vanier.PhysicsSimulation;
 
-import edu.vanier.PhysicsSimulation.Pendulum.AnimationLoader;
-import edu.vanier.PhysicsSimulation.Pendulum.testLoader;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
@@ -20,10 +18,10 @@ public class PhysicsSimulation extends Application {
         loader.setController(mainController);
         Pane root = loader.load();
         Scene scene = new Scene(root,600,370);
-        stage.setScene(scene);        
-        stage.setTitle("KinematicPhysicsSimulation");
-        stage.sizeToScene();
-        stage.show();
+        primaryStage.setScene(scene);        
+        primaryStage.setTitle("KinematicPhysicsSimulation");
+        primaryStage.sizeToScene();
+        primaryStage.show();
     }
 
 
