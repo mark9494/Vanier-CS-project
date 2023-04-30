@@ -5,23 +5,22 @@
 package edu.vanier.PhysicsSimulation.ProjectileMotion;
 
 import edu.vanier.PhysicsSimulation.PhysicsSimulationController;
-import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
@@ -56,13 +55,13 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
                 loadSave = fileChooser.showOpenDialog(new Stage());
                 try {
                     IO.readDataInFile(loadSave.getPath());
-                    loadSlidersBack();
+                    loadVisualSettingsBack();
                 } catch (IOException ex) {
                     System.out.println("File Not Read Properly. ");
                 }
             }
         };
-
+        setBackGround();
         save.setOnAction(savePressed);
         openSave.setOnAction(loadSaved);
         wind = new Wind();
@@ -80,7 +79,7 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
                 getTranslateX() + ramp.getWIDTH()), pane.getHeight());
     }
 
-    public void loadSlidersBack() {
+    public void loadVisualSettingsBack() {
         sldInitialVelocity.setValue(initialVelocity);
         sldAccelerationY.setValue(accelerationY);
         sldRampAngle.setValue(rampAngle);
@@ -99,9 +98,20 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
         ball.setTranslateY(ramp.getCornerY() - ball.getRadius());
     }
 
+    public void setBackGround() {
+        Image image = new Image("/images/background2.jpg");
+        BackgroundImage backgroundImage = new BackgroundImage(
+                image,
+                BackgroundRepeat.NO_REPEAT, // repeat X
+                BackgroundRepeat.NO_REPEAT, // repeat Y
+                BackgroundPosition.CENTER, // position
+                new BackgroundSize(100, 100, true, true, true, true));
+        pane.setBackground(new Background(backgroundImage));
+    }
+
     public void createAnimation() {
-        animationDuration = 10;
-        currentRate = 5;
+        animationDuration = 15;
+        currentRate = 4;
 
         timelineRectangleAndBall = new Timeline(
                 new KeyFrame(Duration.millis(animationDuration),
@@ -150,7 +160,7 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
 
     @FXML
     public void handleResetButton() {
-        removeWinAnnouncement();
+        removeWinLoseAnnouncement();
         disableButtons(true, false);
         setBallDefaultLocation();
         resetParameters();
@@ -177,7 +187,6 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
     }
 
     public void handleWindProperties() {
-
         if (!CBoxWind.isSelected()) {
             isWind = false;
             windBox.setOpacity(0);
@@ -279,18 +288,22 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
                 ballLanded = false;
             }
             if (ballLanded) {
+                lblPosition.setText("" + df.format(ball.getTranslateX() - ramp.getCornerX()));
                 winAnnouncement();
             } else {
                 System.out.println("Ball Didnt Land D:");
+                lblPosition.setText("" + df.format(ball.getTranslateX() - ramp.getCornerX()));
+                LostAnnouncement();
                 disableButtons(false, true);
             }
         }
     }
 
-    //TODO - Make Wind Properites box move with the resizing of the pane. 
     private void handlePaneResizeAffects() {
         sldInitialVelocity.setMax(pane.getWidth() / 24);
         hboxBottom.setTranslateX(pane.getWidth() / 6);
+        windBox.setTranslateX(pane.getWidth() - 1000);
+        landingArea.setTranslateY(pane.getHeight() - landingArea.INIT_HEIGHT);
     }
 
     private void winAnnouncement() {
@@ -300,21 +313,30 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
 
         win.setTextFill(Color.GREEN);
         win.setFont(new Font(100));
-        win.setText("You Won!");
+        win.setText("Scored!");
         winAnnouncement.setTranslateX(pane.getWidth() / 3);
         winAnnouncement.setTranslateY(pane.getHeight() / 3);
         winAnnouncement.getChildren().add(win);
         pane.getChildren().add(winAnnouncement);
     }
 
-    private void removeWinAnnouncement() {
-        pane.getChildren().remove(winAnnouncement);
+    private void LostAnnouncement() {
+        System.out.println("Missed.");
+        loseAnnouncement = new VBox();
+        lose = new Label();
+
+        lose.setTextFill(Color.RED);
+        lose.setFont(new Font(100));
+        lose.setText("Missed");
+        loseAnnouncement.setTranslateX(pane.getWidth() / 3);
+        loseAnnouncement.setTranslateY(pane.getHeight() / 3);
+        loseAnnouncement.getChildren().add(lose);
+        pane.getChildren().add(loseAnnouncement);
     }
 
-    //private void windAnimation() {
-    //    ImageView iv = new ImageView(new Image("/images/red-car.png"));
-    //    iv.setTranslateX(pane.getWidth() / 2);
-    //    iv.setTranslateY(pane.getHeight() / 2);
-    //   pane.getChildren().add(iv);
-    //}
+    private void removeWinLoseAnnouncement() {
+        pane.getChildren().remove(winAnnouncement);
+        pane.getChildren().remove(loseAnnouncement);
+    }
+
 }

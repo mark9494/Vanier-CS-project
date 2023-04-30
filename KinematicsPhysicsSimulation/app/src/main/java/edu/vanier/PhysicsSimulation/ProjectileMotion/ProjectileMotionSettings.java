@@ -60,11 +60,11 @@ public class ProjectileMotionSettings {
     @FXML
     protected MenuBar menuBar;
 
-    protected VBox winAnnouncement;
-    protected Label win;
+    protected VBox winAnnouncement, loseAnnouncement;
+    protected Label win, lose;
     protected Ramp ramp;
     protected Ball ball;
-    protected LandingArea landingArea;
+    protected static LandingArea landingArea;
     protected Timeline timelineRectangleAndBall, timelineBall, timelinePaneResize;
     protected int currentRate;
     protected double animationDuration;

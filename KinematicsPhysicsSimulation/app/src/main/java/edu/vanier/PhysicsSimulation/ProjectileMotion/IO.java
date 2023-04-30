@@ -11,7 +11,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  *
@@ -37,6 +36,8 @@ public class IO extends ProjectileMotionSettings {
             writer.writeNext(angle);
             String[] acceleration = {"Acceleration", "" + accelerationY};
             writer.writeNext(acceleration);
+            String[] landingAreaData = {"LandingArea", "" + landingArea.getTranslateX()};
+            writer.writeNext(landingAreaData);
             String[] wind = {"Wind", "" + Wind.intensity, "" + Wind.angle};
             writer.writeNext(wind);
             writer.close();
@@ -46,10 +47,8 @@ public class IO extends ProjectileMotionSettings {
         }
     }
 
-    public static void readDataInFile(String filePath) throws
-            FileNotFoundException, IOException {
+    public static void readDataInFile(String filePath) throws FileNotFoundException, IOException {
         //parsing a CSV file into CSVReader class constructor
-        ArrayList<String> values = new ArrayList<String>();
         CSVReader reader = new CSVReader(new FileReader(filePath));
         String[] nextLine;
         //reads one line at a time
@@ -64,6 +63,9 @@ public class IO extends ProjectileMotionSettings {
                 }
                 if (counter == 3) {
                     accelerationY = Double.parseDouble(nextLine[1]);
+                }
+                if (counter == 4) {
+                    landingArea.setTranslateX(Double.parseDouble(nextLine[1]));
                 }
                 counter++;
             }
