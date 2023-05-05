@@ -4,6 +4,7 @@
  */
 package edu.vanier.PhysicsSimulation.ProjectileMotion;
 
+import java.io.File;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 import java.text.DecimalFormat;
@@ -19,7 +20,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.QuadCurve;
+import javafx.stage.Stage;
 
 /**
  *
@@ -53,30 +54,34 @@ public class ProjectileMotionSettings {
 
     @FXML
     protected ImageView windArrow;
-    
+
     @FXML
     protected ProgressBar windIntensity;
-    
+
     @FXML
     protected MenuBar menuBar;
     
-    protected VBox winAnnouncement;
-    protected Label win;
-    protected Ramp ramp;
+    protected static Stage editorStage;
+    protected VBox winAnnouncement, loseAnnouncement;
+    protected Label win, lose;
+    protected Cannon cannon;
     protected Ball ball;
-    protected LandingArea landingArea;
+    protected static LandingArea landingArea;
     protected Timeline timelineRectangleAndBall, timelineBall, timelinePaneResize;
     protected int currentRate;
     protected double animationDuration;
-    protected double rampAngle, accelerationY;
-    protected double initialVelocity, initVelocityX, initVelocityY;
+    protected static double rampAngle;
+    protected static double accelerationY;
+    protected static double initialVelocity;
+    protected double initVelocityX, initVelocityY;
     protected double finalVelocityX, finalVelocityY;
     protected double time;
     protected double deltaY, deltaX, finalPosition;
     protected static final DecimalFormat df = new DecimalFormat("0.00");
     protected double windStrength;
-    protected boolean isWind;
+    protected static boolean isWind;
     protected Wind wind;
+    protected File loadSave, newSave;
 
     public void setInitialVelocity() {
         initialVelocity = sldInitialVelocity.getValue();
@@ -88,19 +93,19 @@ public class ProjectileMotionSettings {
 
     public void setRampAngle() {
         rampAngle = sldRampAngle.getValue();
-        ramp.setAngle(rampAngle);
-        ramp.setAngleRadians(rampAngle);
+        cannon.setAngle(rampAngle);
+        cannon.setAngleRadians(rampAngle);
     }
 
     //1
     protected void setVelocityX() {
-        initVelocityX = initialVelocity * cos(-ramp.getAngleRadians());
+        initVelocityX = initialVelocity * cos(-cannon.getAngleRadians());
         finalVelocityX = initVelocityX;
     }
 
     //2
     protected void setVelocityY() {
-        initVelocityY = initialVelocity * sin(-ramp.getAngleRadians());
+        initVelocityY = initialVelocity * sin(-cannon.getAngleRadians());
     }
 
     //3

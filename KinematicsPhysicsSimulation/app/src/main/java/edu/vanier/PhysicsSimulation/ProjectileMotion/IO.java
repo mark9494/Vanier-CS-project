@@ -11,20 +11,17 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
  * @author 2161743
  */
-public class IO {
+public class IO extends ProjectileMotionSettings {
 
     public static void writeDataInFile(String filePath) {
         // first create file object for file placed at location
         // specified by filepath
         File file = new File(filePath);
-
         try {
             // create FileWriter object with file as parameter
             FileWriter outputfile = new FileWriter(file);
@@ -32,14 +29,17 @@ public class IO {
             // create CSVWriter object filewriter object as parameter
             CSVWriter writer = new CSVWriter(outputfile);
 
-            // create a List which contains String array
-            List<String[]> data = new ArrayList<String[]>();
-            data.add(new String[]{"Name", "Class", "Marks"});
-            data.add(new String[]{"Aman", "10", "620"});
-            data.add(new String[]{"Suraj", "10", "630"});
-            writer.writeAll(data);
-
-            // closing writer connection
+            // add data to csv
+            String[] initVelocity = {"InitialVelocity", "" + initialVelocity};
+            writer.writeNext(initVelocity);
+            String[] angle = {"Angle", "" + rampAngle};
+            writer.writeNext(angle);
+            String[] acceleration = {"Acceleration", "" + accelerationY};
+            writer.writeNext(acceleration);
+            String[] landingAreaData = {"LandingArea", "" + landingArea.getTranslateX()};
+            writer.writeNext(landingAreaData);
+            String[] wind = {"Wind", "" + Wind.intensity, "" + Wind.angle};
+            writer.writeNext(wind);
             writer.close();
         } catch (IOException e) {
             // TODO Auto-generated catch block
@@ -47,19 +47,38 @@ public class IO {
         }
     }
 
-    public static void readDataInFile(String filePath) throws
-            FileNotFoundException, IOException {
+    public static void readDataInFile(String filePath) throws FileNotFoundException, IOException {
         //parsing a CSV file into CSVReader class constructor
-        ArrayList<String> values = new ArrayList<String>();
         CSVReader reader = new CSVReader(new FileReader(filePath));
         String[] nextLine;
         //reads one line at a time
+        int counter = 1;
         while ((nextLine = reader.readNext()) != null) {
-            for (String token : nextLine) {
-                values.add(token);
-                System.out.print(token);
+            if (nextLine.length == 2) {
+                if (counter == 1) {
+                    initialVelocity = Double.parseDouble(nextLine[1]);
+                }
+                if (counter == 2) {
+                    rampAngle = Double.parseDouble(nextLine[1]);
+                }
+                if (counter == 3) {
+                    accelerationY = Double.parseDouble(nextLine[1]);
+                }
+                if (counter == 4) {
+                    landingArea.setTranslateX(Double.parseDouble(nextLine[1]));
+                }
+                counter++;
             }
-            System.out.print("\n");
+            if (nextLine.length == 3) {
+                Wind.intensity = Integer.parseInt((nextLine[1]));
+                Wind.angle = Double.parseDouble((nextLine[2]));
+                if (Wind.intensity == 0) {
+                    isWind = false;
+                } else {
+                    isWind = true;
+                }
+            }
         }
+        //System.out.println(initialVelocity + " " + rampAngle + " " + accelerationY + " " + counter + " " + Wind.intensity + " " + Wind.angle);
     }
 }

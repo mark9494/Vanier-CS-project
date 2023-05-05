@@ -18,7 +18,7 @@ import javafx.stage.Stage;
  * @author 2155725
  */
 public class FreeFallLoader extends Stage {
-
+    static Stage secondWindow;
     public FreeFallLoader() {
 
         try {
@@ -30,14 +30,14 @@ public class FreeFallLoader extends Stage {
     }
 
     private void makeComponents() throws IOException {
-        Stage secondWindow = new Stage();
+        secondWindow = new Stage();
 
         FreeFallController controller = new FreeFallController();
 
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/FreeFallSim.fxml"));
         loader.setController(controller);
         Pane root = loader.load();
-        Scene scene = new Scene(root, 1200.0, 1000.0);
+        Scene scene = new Scene(root);
         secondWindow.setScene(scene);
 
         secondWindow.setTitle("FreeFall Simulation");

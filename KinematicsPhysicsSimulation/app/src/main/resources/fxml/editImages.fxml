@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+   <bottom>
+      <Pane prefHeight="43.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="done" layoutX="255.0" layoutY="17.0" mnemonicParsing="false" onAction="#handleDone" text="Done" />
+         </children>
+      </Pane>
+   </bottom>
+   <center>
+      <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fx:id="iv1" fitHeight="105.0" fitWidth="158.0" layoutX="57.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="iv2" fitHeight="105.0" fitWidth="158.0" layoutX="357.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="iv3" fitHeight="105.0" fitWidth="158.0" layoutX="66.0" layoutY="191.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="iv4" fitHeight="105.0" fitWidth="158.0" layoutX="373.0" layoutY="179.0" pickOnBounds="true" preserveRatio="true" />
+            <RadioButton fx:id="rb1" layoutX="93.0" layoutY="153.0" mnemonicParsing="false" onAction="#handleRb1" text="1" />
+            <RadioButton fx:id="rb3" layoutX="93.0" layoutY="308.0" mnemonicParsing="false" onAction="#handleRb3" text="3" />
+            <RadioButton fx:id="rb2" layoutX="393.0" layoutY="145.0" mnemonicParsing="false" onAction="#handleRb2" text="2" />
+            <RadioButton fx:id="rb4" layoutX="409.0" layoutY="300.0" mnemonicParsing="false" onAction="#handleRb4" text="4" />
+         </children>
+      </Pane>
+   </center>
+</BorderPane>
