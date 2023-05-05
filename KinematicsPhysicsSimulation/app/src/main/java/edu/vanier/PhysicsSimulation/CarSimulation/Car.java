@@ -52,7 +52,7 @@ public class Car extends Rectangle {
 
     public double calculateCurrentVelocity(double displacement) {
         
-        if(initialVelocity ==0){
+        if(initialVelocity ==0 && acceleration!=0){
           initialVelocity = 0.1;// otherwise the car won't move  
         }
           double velocitySquared = Math.pow(this.initialVelocity, 2) + 2 * this.acceleration * displacement;
