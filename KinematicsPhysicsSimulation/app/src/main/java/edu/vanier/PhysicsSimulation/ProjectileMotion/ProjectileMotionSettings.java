@@ -20,6 +20,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 /**
  *
@@ -59,10 +60,11 @@ public class ProjectileMotionSettings {
 
     @FXML
     protected MenuBar menuBar;
-
+    
+    protected static Stage editorStage;
     protected VBox winAnnouncement, loseAnnouncement;
     protected Label win, lose;
-    protected Ramp ramp;
+    protected Cannon cannon;
     protected Ball ball;
     protected static LandingArea landingArea;
     protected Timeline timelineRectangleAndBall, timelineBall, timelinePaneResize;
@@ -91,19 +93,19 @@ public class ProjectileMotionSettings {
 
     public void setRampAngle() {
         rampAngle = sldRampAngle.getValue();
-        ramp.setAngle(rampAngle);
-        ramp.setAngleRadians(rampAngle);
+        cannon.setAngle(rampAngle);
+        cannon.setAngleRadians(rampAngle);
     }
 
     //1
     protected void setVelocityX() {
-        initVelocityX = initialVelocity * cos(-ramp.getAngleRadians());
+        initVelocityX = initialVelocity * cos(-cannon.getAngleRadians());
         finalVelocityX = initVelocityX;
     }
 
     //2
     protected void setVelocityY() {
-        initVelocityY = initialVelocity * sin(-ramp.getAngleRadians());
+        initVelocityY = initialVelocity * sin(-cannon.getAngleRadians());
     }
 
     //3

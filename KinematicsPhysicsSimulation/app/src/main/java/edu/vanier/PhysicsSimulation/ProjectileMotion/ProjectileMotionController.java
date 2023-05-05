@@ -6,11 +6,15 @@ package edu.vanier.PhysicsSimulation.ProjectileMotion;
 
 import edu.vanier.PhysicsSimulation.PhysicsSimulationController;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
@@ -19,6 +23,7 @@ import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -41,7 +46,11 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
         menuBar.getMenus().remove(2);
         MenuItem save = new MenuItem("Save Last Run");
         MenuItem openSave = new MenuItem("Open Save");
+        MenuItem changeBallPicture = new MenuItem("Change Ball");
+        MenuItem changeBackgroundPicture = new MenuItem("Change Background");
+
         menuBar.getMenus().get(0).getItems().addAll(save, openSave);
+        menuBar.getMenus().get(1).getItems().addAll(changeBallPicture, changeBackgroundPicture);
 
         EventHandler<ActionEvent> savePressed = new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
@@ -61,22 +70,45 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
                 }
             }
         };
+        EventHandler<ActionEvent> changeBallImage = new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e) {
+                EditChangesController.isBall = true;
+                try {
+                    openEditWindow();
+                } catch (IOException ex) {
+                    Logger.getLogger(ProjectileMotionController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        };
+        EventHandler<ActionEvent> changeBackgroundImage = new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e) {
+                EditChangesController.isBall = false;
+                try {
+                    openEditWindow();
+                } catch (IOException ex) {
+                    Logger.getLogger(ProjectileMotionController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        };
+
         setBackGround();
         save.setOnAction(savePressed);
         openSave.setOnAction(loadSaved);
+        changeBallPicture.setOnAction(changeBallImage);
+        changeBackgroundPicture.setOnAction(changeBackgroundImage);
         wind = new Wind();
-        ramp = new Ramp();
-        ramp.setTranslateY(25);
-        ramp.setTranslateX(100);
+        cannon = new Cannon();
+        cannon.setTranslateY(25);
+        cannon.setTranslateX(100);
         landingArea = new LandingArea();
         ball = new Ball();
         setBallDefaultLocation();
-        pane.getChildren().addAll(landingArea, ball, ramp);
+        pane.getChildren().addAll(landingArea, ball, cannon);
         createAnimation();
         timelineRectangleAndBall.play();
         timelinePaneResize.play();
-        landingArea.randomSpawn(pane.getWidth() - landingArea.getWidth(), (ramp.
-                getTranslateX() + ramp.getWIDTH()), pane.getHeight());
+        landingArea.randomSpawn(pane.getWidth() - landingArea.getWidth(), (cannon.
+                getTranslateX() + cannon.getWIDTH()), pane.getHeight());
     }
 
     public void loadVisualSettingsBack() {
@@ -94,8 +126,8 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
     }
 
     public void setBallDefaultLocation() {
-        ball.setTranslateX(ramp.setCornerX() + ball.getRadius());
-        ball.setTranslateY(ramp.getCornerY() - ball.getRadius());
+        ball.setTranslateX(cannon.setCornerX() + ball.getRadius());
+        ball.setTranslateY(cannon.getCornerY() - ball.getRadius() - 20);
     }
 
     public void setBackGround() {
@@ -168,7 +200,7 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
         timelineRectangleAndBall.play();
 
         landingArea.randomSpawn(pane.getWidth() - landingArea.getWidth(),
-                ramp.getTranslateX() + ramp.getWIDTH(), pane.getHeight());
+                cannon.getTranslateX() + cannon.getWIDTH(), pane.getHeight());
     }
 
     private void handleUpdateAnimation() {
@@ -225,9 +257,9 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
 
     private void moveRectangleAndBall() {
         setRampAngle();
-        ramp.setRotate(ramp.getAngle());
-        ball.setTranslateX(ramp.getCornerX() + ball.getRadius());
-        ball.setTranslateY(ramp.getCornerY() - ball.getRadius());
+        cannon.setRotate(cannon.getAngle());
+        ball.setTranslateX(cannon.getCornerX() + ball.getRadius() + 20);
+        ball.setTranslateY(cannon.getCornerY() - ball.getRadius() + 40);
     }
 
     private void generateParameters() {
@@ -288,11 +320,11 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
                 ballLanded = false;
             }
             if (ballLanded) {
-                lblPosition.setText("" + df.format(ball.getTranslateX() - ramp.getCornerX()));
+                lblPosition.setText("" + df.format(ball.getTranslateX() - cannon.getCornerX()));
                 winAnnouncement();
             } else {
                 System.out.println("Ball Didnt Land D:");
-                lblPosition.setText("" + df.format(ball.getTranslateX() - ramp.getCornerX()));
+                lblPosition.setText("" + df.format(ball.getTranslateX() - cannon.getCornerX()));
                 LostAnnouncement();
                 disableButtons(false, true);
             }
@@ -339,4 +371,18 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
         pane.getChildren().remove(loseAnnouncement);
     }
 
+    private void openEditWindow() throws IOException {
+        System.out.println("hiIIII");
+        editorStage = new Stage();
+        EditChangesController mainController = new EditChangesController();
+        FXMLLoader loader = new FXMLLoader(this.getClass().getResource(
+                "/fxml/editImages.fxml"));
+        loader.setController(mainController);
+        Pane root = loader.load();
+        Scene scene = new Scene(root);
+        editorStage.setScene(scene);
+        editorStage.setTitle("Editor");
+        editorStage.sizeToScene();
+        editorStage.show();
+    }
 }
