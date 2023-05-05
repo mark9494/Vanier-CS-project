@@ -13,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.Slider;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
@@ -29,9 +30,12 @@ public class Settings {
     
     protected Gauge blueGauge;    
     protected Gauge redGauge;
+    
+    @FXML
+     protected BorderPane borderPane;
 
     @FXML
-    protected Pane redGaugePane, blueGaugePane;
+    protected Pane redGaugePane, blueGaugePane, roadPane;
     @FXML
     protected Line top;
     
