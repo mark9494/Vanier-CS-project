@@ -5,6 +5,7 @@
 package edu.vanier.PhysicsSimulation.CarSimulation;
 
 import eu.hansolo.medusa.Gauge;
+import java.io.File;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import javafx.animation.Timeline;
@@ -92,5 +93,7 @@ public class Settings {
   
     protected Timeline graphTimeline;
     
-    
+   protected File loadSave, newSave;
+   
+   CarsIO fileHandler;
 }

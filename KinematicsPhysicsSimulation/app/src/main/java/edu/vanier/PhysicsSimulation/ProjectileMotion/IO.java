@@ -48,7 +48,7 @@ public class IO extends ProjectileMotionSettings {
     }
 
     public static void readDataInFile(String filePath) throws FileNotFoundException, IOException {
-        //parsing a CSV file into CSVReader class constructor
+        //parsing a CSV file into CSVReader class const ructor
         CSVReader reader = new CSVReader(new FileReader(filePath));
         String[] nextLine;
         //reads one line at a time

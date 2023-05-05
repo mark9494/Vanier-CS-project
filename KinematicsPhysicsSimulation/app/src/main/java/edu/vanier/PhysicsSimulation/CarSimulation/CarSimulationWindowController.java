@@ -5,6 +5,8 @@
 package edu.vanier.PhysicsSimulation.CarSimulation;
 
 import edu.vanier.PhysicsSimulation.PhysicsSimulationController;
+import edu.vanier.PhysicsSimulation.ProjectileMotion.IO;
+import edu.vanier.PhysicsSimulation.ProjectileMotion.Wind;
 import eu.hansolo.medusa.Gauge;
 import eu.hansolo.medusa.TickLabelOrientation;
 import eu.hansolo.medusa.skins.ModernSkin;
@@ -12,9 +14,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
@@ -26,7 +31,8 @@ import javafx.scene.paint.Color;
 import static javafx.scene.paint.Color.BLACK;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 /**
  *
  * @author antho
@@ -40,7 +46,9 @@ public class CarSimulationWindowController extends Settings {
     
     @FXML
     public void initialize() {
+         
         setupGauges();
+        setupMenuBar();
         
         redCarPositionGraph = new double[10][2];
         blueCarPositionGraph = new double[10][2];
@@ -54,7 +62,7 @@ public class CarSimulationWindowController extends Settings {
 
         blueCar = new Car(5, 82, "blue");
         redCar = new Car(5, 122);
-      
+        fileHandler = new CarsIO(redCar, blueCar);
         middlePane.getChildren().addAll(blueCar, redCar);
 
         createAnimation();
@@ -85,15 +93,60 @@ public class CarSimulationWindowController extends Settings {
         });
         middlePane.heightProperty().addListener((obs, oldVal, newVal) -> {
             resizeLineVertical();
-            setBackGround();
+         
         });
     }
+    private void setupMenuBar(){
+     FileChooser fileChooser = new FileChooser();
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        menuBar.getMenus().remove(2);
+        MenuItem save = new MenuItem("Save Last Run");
+        MenuItem openSave = new MenuItem("Open Save");
+        menuBar.getMenus().get(0).getItems().addAll(save, openSave);
+        menuBar.getMenus().get(0).getItems().remove(0);
+        
+        
+         EventHandler<ActionEvent> savePressed = new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                newSave = directoryChooser.showDialog(new Stage());
+                fileHandler.writeDataInFile(newSave.getPath() + "\\CarSimulation.csv");
+            }
+        };
 
+        EventHandler<ActionEvent> loadSaved = new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                loadSave = fileChooser.showOpenDialog(new Stage());
+                try {
+                    fileHandler.readDataInFile(loadSave.getPath());
+                    loadVisualSettingsBack();
+                } catch (IOException ex) {
+                    System.out.println("File Not Read Properly. ");
+                }
+            }
+        };
+        save.setOnAction(savePressed);
+        openSave.setOnAction(loadSaved);
+    }
+    
+    private void loadVisualSettingsBack() {
+        redInitialPositionSlider.setValue(redCar.getInitialPosition());
+        redFinalPositionSlider.setValue(redCar.getFinalPosition());
+        redAccelerationSlider.setValue(redCar.getAcceleration());
+        redInitialVelocitySlider.setValue(redCar.getInitialVelocity());
+        blueInitialPositionSlider.setValue(blueCar.getInitialPosition());
+        blueFinalPositionSlider.setValue(blueCar.getFinalPosition());
+        blueAccelerationSlider.setValue(blueCar.getAcceleration());
+        blueInitialVelocitySlider.setValue(blueCar.getInitialVelocity());
+       
+       
+    }
     public void resizeLineHorizontal() {
         
         blueGauge.setPrefWidth(middlePane.getWidth()/3.9);
         redGauge.setPrefWidth(middlePane.getWidth()/3.9);  
-        redGauge.setLayoutX(middlePane.getWidth()*0.33);
+        blueGauge.setLayoutX(middlePane.getWidth()*0.33);
         
         top.setEndX(middlePane.getWidth());
         bottom.setEndX(middlePane.getWidth());
