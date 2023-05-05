@@ -5,8 +5,6 @@
 package edu.vanier.PhysicsSimulation.CarSimulation;
 
 import edu.vanier.PhysicsSimulation.PhysicsSimulationController;
-import edu.vanier.PhysicsSimulation.ProjectileMotion.IO;
-import edu.vanier.PhysicsSimulation.ProjectileMotion.Wind;
 import eu.hansolo.medusa.Gauge;
 import eu.hansolo.medusa.TickLabelOrientation;
 import eu.hansolo.medusa.skins.ModernSkin;
@@ -19,6 +17,8 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
@@ -29,6 +29,8 @@ import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import static javafx.scene.paint.Color.BLACK;
+import static javafx.scene.paint.Color.YELLOW;
+import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.stage.DirectoryChooser;
@@ -46,7 +48,7 @@ public class CarSimulationWindowController extends Settings {
     
     @FXML
     public void initialize() {
-         
+         meetLine = new Line();
         setupGauges();
         setupMenuBar();
         
@@ -201,7 +203,7 @@ public class CarSimulationWindowController extends Settings {
     private void handleUpdateAnimation() {
         
         endOfSimulation();
-          
+        carsMeet();
         blueCar.calculateCurrentVelocity(blueCar.calculateCurrentDisplacement());
         blueCar.calculateCurrentTime(blueCar.calculateCurrentDisplacement());
 
@@ -213,7 +215,30 @@ public class CarSimulationWindowController extends Settings {
         updateGaugesValues();
 
     }
-
+    private boolean carsMeet(){
+        if(!carsMeet && blueCar.getTranslateX()>50){
+      if(df2.format(blueCar.getTranslateX()).equalsIgnoreCase(df2.format(redCar.getTranslateX()))
+         || df2.format(blueCar.getTranslateX()+1).equalsIgnoreCase(df2.format(redCar.getTranslateX())) 
+         || df2.format(blueCar.getTranslateX()-1).equalsIgnoreCase(df2.format(redCar.getTranslateX()))){
+          
+          meetLine.setTranslateX(blueCar.getTranslateX());
+          meetLine.setStartY(blueCar.getLayoutY());
+          meetLine.setEndY(redCar.getLayoutY()+25);
+          meetLine.setStroke(Color.CHARTREUSE);
+          meetLine.setStrokeWidth(2);
+          if(meetLine.getTranslateX() >= middlePane.getWidth()-100){ 
+             return false; 
+          }
+          middlePane.getChildren().add(meetLine);
+          carsMeet =true;
+          meetingDistance = blueCar.getTranslateX()/10;
+          return true;
+          
+        }
+        }
+      return false;
+        
+    }
     public void updateSliderMax() {
         redInitialPositionSlider.setMax((middlePane.getWidth() / 10- redCar.getWidth() / 10));
         redFinalPositionSlider.setMin(redInitialPositionSlider.getValue());// this causes the final position ticks to start after the initial postion of the car
@@ -360,8 +385,19 @@ public class CarSimulationWindowController extends Settings {
     
     private void endOfSimulation(){
         
-      if(blueCar.getFinalPosition()/10 <= blueCar.getCurrentPosition() && redCar.getFinalPosition()/10 <= redCar.getCurrentPosition()){
+      if(blueCar.getFinalPosition() <= blueCar.getTranslateX() && redCar.getFinalPosition() <= redCar.getTranslateX()){
           handleReset();
+          if(carsMeet){
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("Cars meet");
+            alert.setContentText("Please not that the two cars meet at " +df.format(meetingDistance) + "m");
+            alert.show();
+          }else{
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("Cars do not meet");
+            alert.setContentText("Please not that the two cars meet never meet ");   
+            alert.show();
+          }  
       }
       
     }
@@ -385,7 +421,7 @@ public class CarSimulationWindowController extends Settings {
     private void handleReset() {
         disableSliders(false, false, false, false, false, false, false, false);
         disableBtns(true, true, true, false);
-        timeline.stop();
+        timeline.stop(); 
     }
 
     @FXML
@@ -394,6 +430,8 @@ public class CarSimulationWindowController extends Settings {
         updateInput();
         disableBtns(false, true, true, true);
         resetLiveStats();
+        carsMeet = false;
+        middlePane.getChildren().remove(meetLine);
     }
 
     private void resetLiveStats() {

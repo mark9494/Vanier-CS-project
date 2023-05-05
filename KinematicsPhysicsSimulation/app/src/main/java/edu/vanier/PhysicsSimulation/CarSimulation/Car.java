@@ -65,7 +65,8 @@ public class Car extends Rectangle {
     public double calculateCurrentTime(double displacement) {
         calculateFinalVelocity(calculateFinalDisplacement());
         // we divide by 10 because we multiplied both initial and final position by 10 before
-        return this.time = (2 * displacement) / (this.initialVelocity + this.finalVelocity);
+        this.time = (2 * displacement) / (this.initialVelocity + this.finalVelocity);
+        return this.time;
         
         
     }
