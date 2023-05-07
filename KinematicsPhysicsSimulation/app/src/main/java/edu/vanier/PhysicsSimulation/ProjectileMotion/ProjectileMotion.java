@@ -35,7 +35,7 @@ public class ProjectileMotion {
         PhysicsSimulationController.projectileMotion.sizeToScene();
         PhysicsSimulationController.projectileMotion.show();
     }
-
+   
     public static void main(String[] args) {
         launch(args);
     }

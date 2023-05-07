@@ -17,12 +17,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
-import javafx.scene.image.Image;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -90,8 +84,8 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
                 }
             }
         };
-
-        setBackGround();
+        setDefaultBackGround();
+        updateBackground();
         save.setOnAction(savePressed);
         openSave.setOnAction(loadSaved);
         changeBallPicture.setOnAction(changeBallImage);
@@ -103,12 +97,12 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
         landingArea = new LandingArea();
         ball = new Ball();
         setBallDefaultLocation();
-        pane.getChildren().addAll(landingArea, ball, cannon);
+        motionPane.getChildren().addAll(landingArea, ball, cannon);
         createAnimation();
         timelineRectangleAndBall.play();
         timelinePaneResize.play();
-        landingArea.randomSpawn(pane.getWidth() - landingArea.getWidth(), (cannon.
-                getTranslateX() + cannon.getWIDTH()), pane.getHeight());
+        landingArea.randomSpawn(motionPane.getWidth() - landingArea.getWidth(), (cannon.
+                getTranslateX() + cannon.getWIDTH()), motionPane.getHeight());
     }
 
     public void loadVisualSettingsBack() {
@@ -128,17 +122,6 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
     public void setBallDefaultLocation() {
         ball.setTranslateX(cannon.setCornerX() + ball.getRadius());
         ball.setTranslateY(cannon.getCornerY() - ball.getRadius() - 20);
-    }
-
-    public void setBackGround() {
-        Image image = new Image("/images/background2.jpg");
-        BackgroundImage backgroundImage = new BackgroundImage(
-                image,
-                BackgroundRepeat.NO_REPEAT, // repeat X
-                BackgroundRepeat.NO_REPEAT, // repeat Y
-                BackgroundPosition.CENTER, // position
-                new BackgroundSize(100, 100, true, true, true, true));
-        pane.setBackground(new Background(backgroundImage));
     }
 
     public void createAnimation() {
@@ -199,8 +182,8 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
         moveRectangleAndBall();
         timelineRectangleAndBall.play();
 
-        landingArea.randomSpawn(pane.getWidth() - landingArea.getWidth(),
-                cannon.getTranslateX() + cannon.getWIDTH(), pane.getHeight());
+        landingArea.randomSpawn(motionPane.getWidth() - landingArea.getWidth(),
+                cannon.getTranslateX() + cannon.getWIDTH() + 25, motionPane.getHeight());
     }
 
     private void handleUpdateAnimation() {
@@ -263,7 +246,7 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
     }
 
     private void generateParameters() {
-        setDeltaY(pane.getHeight());
+        setDeltaY(motionPane.getHeight());
         setInitialVelocity();
         setAccelerationY();
         setRampAngle();
@@ -296,14 +279,14 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
     }
 
     private void endOfMotion() {
-        if (ball.getTranslateY() + ball.getRadius() >= pane.getHeight()) {
-            ball.setTranslateY(pane.getHeight() - ball.getRadius());
+        if (ball.getTranslateY() + ball.getRadius() >= motionPane.getHeight()) {
+            ball.setTranslateY(motionPane.getHeight() - ball.getRadius());
             timelineBall.pause();
             finalPosition = ball.getTranslateX();
             return;
         }
-        if (ball.getTranslateX() > pane.getWidth() || ball.getTranslateY() < 0) {
-            ball.setTranslateY(pane.getHeight() - ball.getRadius());
+        if (ball.getTranslateX() > motionPane.getWidth() || ball.getTranslateY() < 0) {
+            ball.setTranslateY(motionPane.getHeight() - ball.getRadius());
             timelineBall.pause();
             finalPosition = ball.getTranslateX();
         }
@@ -332,10 +315,10 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
     }
 
     private void handlePaneResizeAffects() {
-        sldInitialVelocity.setMax(pane.getWidth() / 24);
-        hboxBottom.setTranslateX(pane.getWidth() / 6);
-        windBox.setTranslateX(pane.getWidth() - 1000);
-        landingArea.setTranslateY(pane.getHeight() - landingArea.INIT_HEIGHT);
+        sldInitialVelocity.setMax(motionPane.getWidth() / 24);
+        hboxBottom.setTranslateX(motionPane.getWidth() / 6);
+        windBox.setTranslateX(motionPane.getWidth() - 1000);
+        landingArea.setTranslateY(motionPane.getHeight() - landingArea.INIT_HEIGHT);
     }
 
     private void winAnnouncement() {
@@ -346,10 +329,10 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
         win.setTextFill(Color.GREEN);
         win.setFont(new Font(100));
         win.setText("Scored!");
-        winAnnouncement.setTranslateX(pane.getWidth() / 3);
-        winAnnouncement.setTranslateY(pane.getHeight() / 3);
+        winAnnouncement.setTranslateX(motionPane.getWidth() / 3);
+        winAnnouncement.setTranslateY(motionPane.getHeight() / 3);
         winAnnouncement.getChildren().add(win);
-        pane.getChildren().add(winAnnouncement);
+        motionPane.getChildren().add(winAnnouncement);
     }
 
     private void LostAnnouncement() {
@@ -360,15 +343,15 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
         lose.setTextFill(Color.RED);
         lose.setFont(new Font(100));
         lose.setText("Missed");
-        loseAnnouncement.setTranslateX(pane.getWidth() / 3);
-        loseAnnouncement.setTranslateY(pane.getHeight() / 3);
+        loseAnnouncement.setTranslateX(motionPane.getWidth() / 3);
+        loseAnnouncement.setTranslateY(motionPane.getHeight() / 3);
         loseAnnouncement.getChildren().add(lose);
-        pane.getChildren().add(loseAnnouncement);
+        motionPane.getChildren().add(loseAnnouncement);
     }
 
     private void removeWinLoseAnnouncement() {
-        pane.getChildren().remove(winAnnouncement);
-        pane.getChildren().remove(loseAnnouncement);
+        motionPane.getChildren().remove(winAnnouncement);
+        motionPane.getChildren().remove(loseAnnouncement);
     }
 
     private void openEditWindow() throws IOException {
