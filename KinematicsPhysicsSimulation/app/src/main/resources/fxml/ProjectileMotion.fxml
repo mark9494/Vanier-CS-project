@@ -181,7 +181,7 @@
                       </ImageView>
                </graphic>
                <tooltip>
-                  <Tooltip text="HiIIIIII" />
+                  <Tooltip text="Change the simluation settings at the bottom, and then hit begin." />
                </tooltip>
                <padding>
                   <Insets left="5.0" top="5.0" />
