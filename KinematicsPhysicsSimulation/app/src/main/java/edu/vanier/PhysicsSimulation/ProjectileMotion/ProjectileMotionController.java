@@ -17,12 +17,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
-import javafx.scene.image.Image;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -32,18 +26,15 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-/**
- *
- * @author antho
- */
 public class ProjectileMotionController extends ProjectileMotionSettings {
 
     @FXML
     public void initialize() {
         FileChooser fileChooser = new FileChooser();
         DirectoryChooser directoryChooser = new DirectoryChooser();
-        disableButtons(false, true);
+        disableButtons(true, false);
         menuBar.getMenus().remove(2);
+
         MenuItem save = new MenuItem("Save Last Run");
         MenuItem openSave = new MenuItem("Open Save");
         MenuItem changeBallPicture = new MenuItem("Change Ball");
@@ -58,7 +49,6 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
                 IO.writeDataInFile(newSave.getPath() + "\\ProjectileMotionData.csv");
             }
         };
-
         EventHandler<ActionEvent> loadSaved = new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 loadSave = fileChooser.showOpenDialog(new Stage());
@@ -90,8 +80,8 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
                 }
             }
         };
-
-        setBackGround();
+        setDefaultBackGround();
+        updateBackground();
         save.setOnAction(savePressed);
         openSave.setOnAction(loadSaved);
         changeBallPicture.setOnAction(changeBallImage);
@@ -103,12 +93,15 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
         landingArea = new LandingArea();
         ball = new Ball();
         setBallDefaultLocation();
-        pane.getChildren().addAll(landingArea, ball, cannon);
+        motionPane.getChildren().addAll(landingArea, ball, cannon);
         createAnimation();
         timelineRectangleAndBall.play();
         timelinePaneResize.play();
-        landingArea.randomSpawn(pane.getWidth() - landingArea.getWidth(), (cannon.
-                getTranslateX() + cannon.getWIDTH()), pane.getHeight());
+
+        int defaultPaneWidth = 980;
+        int defaultPaneHeight = 200;
+        landingArea.randomSpawn(defaultPaneWidth - landingArea.getWidth(),
+                cannon.getTranslateX() + cannon.getWIDTH() + 25, defaultPaneHeight);
     }
 
     public void loadVisualSettingsBack() {
@@ -128,17 +121,6 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
     public void setBallDefaultLocation() {
         ball.setTranslateX(cannon.setCornerX() + ball.getRadius());
         ball.setTranslateY(cannon.getCornerY() - ball.getRadius() - 20);
-    }
-
-    public void setBackGround() {
-        Image image = new Image("/images/background2.jpg");
-        BackgroundImage backgroundImage = new BackgroundImage(
-                image,
-                BackgroundRepeat.NO_REPEAT, // repeat X
-                BackgroundRepeat.NO_REPEAT, // repeat Y
-                BackgroundPosition.CENTER, // position
-                new BackgroundSize(100, 100, true, true, true, true));
-        pane.setBackground(new Background(backgroundImage));
     }
 
     public void createAnimation() {
@@ -166,19 +148,20 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
     @FXML
     public void handleHomeButton() {
         PhysicsSimulationController.projectileMotion.close();
-    }
-
-    @FXML
-    public void handleMouseHoverInfo() {
-        System.out.println("info.");
+        wind.setIntensity(0);
+        resetParameters();
+        timelineRectangleAndBall.stop();
+        timelinePaneResize.stop();
+        timer.cancel();
     }
 
     @FXML
     public void handleBegin() {
+        double currentRateBall = 5000;
+
         disableButtons(true, true);
         timelineRectangleAndBall.stop();
         generateParameters();
-        double currentRateBall = 5000;
 
         timelineBall = new Timeline(
                 new KeyFrame(Duration.seconds(100),
@@ -198,9 +181,8 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
         resetParameters();
         moveRectangleAndBall();
         timelineRectangleAndBall.play();
-
-        landingArea.randomSpawn(pane.getWidth() - landingArea.getWidth(),
-                cannon.getTranslateX() + cannon.getWIDTH(), pane.getHeight());
+        landingArea.randomSpawn(motionPane.getWidth() - landingArea.getWidth(),
+                cannon.getTranslateX() + cannon.getWIDTH() + 25, motionPane.getHeight());
     }
 
     private void handleUpdateAnimation() {
@@ -214,7 +196,6 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
         moveBallX();
         moveBallY();
         endOfMotion();
-        //windAnimation();
         ballInLandingArea();
     }
 
@@ -232,10 +213,6 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
             wind.setIntensity(wind.randomIntensity());
             windArrow.setRotate(-wind.getAngle() * 180 / Math.PI); //conversion to degrees
             setIntensity();
-            System.out.println(wind.getAngle());
-            System.out.println(wind.getIntensity());
-            System.out.println(wind.getForceWindX());
-            System.out.println(wind.getForceWindY());
         }
     }
 
@@ -251,7 +228,6 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
         } else {
             windIntensity.setProgress(1);
             windIntensity.setStyle("-fx-accent: red;");
-
         }
     }
 
@@ -263,7 +239,7 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
     }
 
     private void generateParameters() {
-        setDeltaY(pane.getHeight());
+        setDeltaY(motionPane.getHeight());
         setInitialVelocity();
         setAccelerationY();
         setRampAngle();
@@ -284,26 +260,23 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
     }
 
     private void moveBallX() {
-        ball.setTranslateX(ball.getTranslateX() + ball.getDx() + wind.
-                getForceWindX());
-
+        ball.setTranslateX(ball.getTranslateX() + ball.getDx() + wind.getForceWindX());
     }
 
     private void moveBallY() {
         ball.setDy(ball.getDy() - accelerationY + wind.getForceWindY());
         ball.setTranslateY(ball.getTranslateY() - ball.getDy());
-
     }
 
     private void endOfMotion() {
-        if (ball.getTranslateY() + ball.getRadius() >= pane.getHeight()) {
-            ball.setTranslateY(pane.getHeight() - ball.getRadius());
+        if (ball.getTranslateY() + ball.getRadius() >= motionPane.getHeight()) {
+            ball.setTranslateY(motionPane.getHeight() - ball.getRadius());
             timelineBall.pause();
             finalPosition = ball.getTranslateX();
             return;
         }
-        if (ball.getTranslateX() > pane.getWidth() || ball.getTranslateY() < 0) {
-            ball.setTranslateY(pane.getHeight() - ball.getRadius());
+        if (ball.getTranslateX() > motionPane.getWidth() || ball.getTranslateY() < 0) {
+            ball.setTranslateY(motionPane.getHeight() - ball.getRadius());
             timelineBall.pause();
             finalPosition = ball.getTranslateX();
         }
@@ -323,7 +296,6 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
                 lblPosition.setText("" + df.format(ball.getTranslateX() - cannon.getCornerX()));
                 winAnnouncement();
             } else {
-                System.out.println("Ball Didnt Land D:");
                 lblPosition.setText("" + df.format(ball.getTranslateX() - cannon.getCornerX()));
                 LostAnnouncement();
                 disableButtons(false, true);
@@ -332,54 +304,51 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
     }
 
     private void handlePaneResizeAffects() {
-        sldInitialVelocity.setMax(pane.getWidth() / 24);
-        hboxBottom.setTranslateX(pane.getWidth() / 6);
-        windBox.setTranslateX(pane.getWidth() - 1000);
-        landingArea.setTranslateY(pane.getHeight() - landingArea.INIT_HEIGHT);
+        sldInitialVelocity.setMax(motionPane.getWidth() / 20);
+        hboxBottom.setTranslateX(motionPane.getWidth() / 6);
+        windBox.setTranslateX(motionPane.getWidth() - 1000);
+        landingArea.setTranslateY(motionPane.getHeight() - landingArea.INIT_HEIGHT);
     }
 
     private void winAnnouncement() {
-        System.out.println("Landed");
         winAnnouncement = new VBox();
         win = new Label();
 
         win.setTextFill(Color.GREEN);
         win.setFont(new Font(100));
         win.setText("Scored!");
-        winAnnouncement.setTranslateX(pane.getWidth() / 3);
-        winAnnouncement.setTranslateY(pane.getHeight() / 3);
+        winAnnouncement.setTranslateX(motionPane.getWidth() / 3);
+        winAnnouncement.setTranslateY(motionPane.getHeight() / 3);
         winAnnouncement.getChildren().add(win);
-        pane.getChildren().add(winAnnouncement);
+        motionPane.getChildren().add(winAnnouncement);
     }
 
     private void LostAnnouncement() {
-        System.out.println("Missed.");
         loseAnnouncement = new VBox();
         lose = new Label();
 
         lose.setTextFill(Color.RED);
         lose.setFont(new Font(100));
         lose.setText("Missed");
-        loseAnnouncement.setTranslateX(pane.getWidth() / 3);
-        loseAnnouncement.setTranslateY(pane.getHeight() / 3);
+        loseAnnouncement.setTranslateX(motionPane.getWidth() / 3);
+        loseAnnouncement.setTranslateY(motionPane.getHeight() / 3);
         loseAnnouncement.getChildren().add(lose);
-        pane.getChildren().add(loseAnnouncement);
+        motionPane.getChildren().add(loseAnnouncement);
     }
 
     private void removeWinLoseAnnouncement() {
-        pane.getChildren().remove(winAnnouncement);
-        pane.getChildren().remove(loseAnnouncement);
+        motionPane.getChildren().remove(winAnnouncement);
+        motionPane.getChildren().remove(loseAnnouncement);
     }
 
     private void openEditWindow() throws IOException {
-        System.out.println("hiIIII");
         editorStage = new Stage();
         EditChangesController mainController = new EditChangesController();
-        FXMLLoader loader = new FXMLLoader(this.getClass().getResource(
-                "/fxml/editImages.fxml"));
+        FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/editImages.fxml"));
         loader.setController(mainController);
         Pane root = loader.load();
         Scene scene = new Scene(root);
+        editorStage.initOwner(PhysicsSimulationController.projectileMotion);
         editorStage.setScene(scene);
         editorStage.setTitle("Editor");
         editorStage.sizeToScene();

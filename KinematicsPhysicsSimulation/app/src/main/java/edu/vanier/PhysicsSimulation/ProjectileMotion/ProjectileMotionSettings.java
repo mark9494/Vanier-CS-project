@@ -8,6 +8,8 @@ import java.io.File;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 import java.text.DecimalFormat;
+import java.util.Timer;
+import java.util.TimerTask;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -15,21 +17,23 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.image.ImageView;
 import javafx.scene.control.Slider;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-/**
- *
- * @author antho
- */
 public class ProjectileMotionSettings {
 
     @FXML
-    protected Pane pane;
+    protected Pane motionPane;
 
     @FXML
     protected Button btnHome, btnReset, btnBegin;
@@ -60,14 +64,16 @@ public class ProjectileMotionSettings {
 
     @FXML
     protected MenuBar menuBar;
-    
+
     protected static Stage editorStage;
     protected VBox winAnnouncement, loseAnnouncement;
     protected Label win, lose;
     protected Cannon cannon;
-    protected Ball ball;
+    protected static Ball ball;
     protected static LandingArea landingArea;
-    protected Timeline timelineRectangleAndBall, timelineBall, timelinePaneResize;
+    public static Timeline timelineRectangleAndBall;
+    public static Timeline timelineBall;
+    public static Timeline timelinePaneResize;
     protected int currentRate;
     protected double animationDuration;
     protected static double rampAngle;
@@ -82,6 +88,20 @@ public class ProjectileMotionSettings {
     protected static boolean isWind;
     protected Wind wind;
     protected File loadSave, newSave;
+    protected static String defaultBackgroundFilePath = "/images/background2.jpg";
+    protected static boolean changeBackground = false;
+    public static Timer timer;
+
+    public void setDefaultBackGround() {
+        Image image = new Image("/images/background2.jpg");
+        BackgroundImage backgroundImage = new BackgroundImage(
+                image,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.CENTER,
+                new BackgroundSize(100, 100, true, true, true, true));
+        motionPane.setBackground(new Background(backgroundImage));
+    }
 
     public void setInitialVelocity() {
         initialVelocity = sldInitialVelocity.getValue();
@@ -97,20 +117,37 @@ public class ProjectileMotionSettings {
         cannon.setAngleRadians(rampAngle);
     }
 
-    //1
+    public void updateBackground() {
+        timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                if (!changeBackground) {
+                    changeBackground = false;
+                    return;
+                }
+                Image image = new Image(defaultBackgroundFilePath);
+                BackgroundImage backgroundImage = new BackgroundImage(
+                        image,
+                        BackgroundRepeat.NO_REPEAT, // repeat X
+                        BackgroundRepeat.NO_REPEAT, // repeat Y
+                        BackgroundPosition.CENTER, // position
+                        new BackgroundSize(100, 100, true, true, true, true));
+                motionPane.setBackground(new Background(backgroundImage));
+            }
+        }, 0, 200);
+    }
+
     protected void setVelocityX() {
         initVelocityX = initialVelocity * cos(-cannon.getAngleRadians());
         finalVelocityX = initVelocityX;
     }
 
-    //2
     protected void setVelocityY() {
         initVelocityY = initialVelocity * sin(-cannon.getAngleRadians());
     }
 
-    //3
     protected void setTime() {
-        // 0 =   1/2 (accelerationY)(time^2) + (initVelocityY)(time) - deltaY
         double a = 0.5 * (accelerationY);
         double b = initVelocityY;
         double c = -deltaY;
@@ -124,10 +161,8 @@ public class ProjectileMotionSettings {
                 : (-b - sqrt) / (2 * a);
     }
 
-    //4
     protected void setDeltaX() {
         deltaX = initVelocityX * time;
-        //finalPosition = ball.getTranslateX() + deltaX;
     }
 
     protected void setDeltaY(double deltaYt) {

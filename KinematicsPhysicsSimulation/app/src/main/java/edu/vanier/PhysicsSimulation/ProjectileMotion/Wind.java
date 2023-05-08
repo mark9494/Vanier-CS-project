@@ -6,10 +6,6 @@ package edu.vanier.PhysicsSimulation.ProjectileMotion;
 
 import java.util.Random;
 
-/**
- *
- * @author 2161743
- */
 public class Wind {
 
     static int intensity;

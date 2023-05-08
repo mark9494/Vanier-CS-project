@@ -20,9 +20,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
     <center>
-        <Pane fx:id="pane" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: black; -fx-border-width: 1.5;" BorderPane.alignment="CENTER">
+        <Pane fx:id="motionPane" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: black; -fx-border-width: 1.5;" BorderPane.alignment="CENTER">
             <padding>
                 <Insets bottom="100.0" left="100.0" right="100.0" />
             </padding>
@@ -71,7 +71,7 @@
                 </VBox>
                 <VBox prefHeight="200.0" prefWidth="100.0">
                     <children>
-                        <Label fx:id="angleRamp" text="Angle of Ramp" />
+                        <Label fx:id="angleRamp" text="Angle" />
                         <Slider fx:id="sldRampAngle" max="55.0" min="20.0" minorTickCount="5" showTickLabels="true" showTickMarks="true" />
                     </children>
                 </VBox>
@@ -174,7 +174,7 @@
                 </Label>
             <Label>
                <graphic>
-                      <ImageView fx:id="infoCircle" fitHeight="33.0" fitWidth="28.0" onMouseEntered="#handleMouseHoverInfo" pickOnBounds="true" preserveRatio="true">
+                      <ImageView fx:id="infoCircle" fitHeight="33.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/info.png" />
                      </image>
@@ -183,6 +183,9 @@
                <tooltip>
                   <Tooltip text="HiIIIIII" />
                </tooltip>
+               <padding>
+                  <Insets left="5.0" top="5.0" />
+               </padding>
             </Label>
             </children>
             <BorderPane.margin>

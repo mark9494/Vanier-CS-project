@@ -1,5 +1,7 @@
 package edu.vanier.PhysicsSimulation;
 
+
+import edu.vanier.PhysicsSimulation.ProjectileMotion.ProjectileMotionSettings;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
@@ -17,17 +19,21 @@ public class PhysicsSimulation extends Application {
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/WelcomeWindow.fxml"));
         loader.setController(mainController);
         Pane root = loader.load();
-        Scene scene = new Scene(root,600,370);
-        primaryStage.setScene(scene);        
-        primaryStage.setTitle("KinematicPhysicsSimulation");
-        primaryStage.sizeToScene();
-        primaryStage.show();
+        Scene scene = new Scene(root, 600, 370);
+        stage.setScene(scene);
+        stage.setTitle("KinematicPhysicsSimulation");
+        stage.sizeToScene();
+        stage.show();
     }
 
-
+//TODO: Close all timelines here.
     @Override
     public void stop() {
         System.out.println("Closing Application.");
+        ProjectileMotionSettings.timelineRectangleAndBall.stop();
+        ProjectileMotionSettings.timelinePaneResize.stop();
+        ProjectileMotionSettings.timer.cancel();
+        
     }
 
     public static void main(String[] args) {
