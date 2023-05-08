@@ -4,6 +4,7 @@
  */
 package edu.vanier.PhysicsSimulation.CarSimulation;
 
+import edu.vanier.PhysicsSimulation.PhysicsSimulationController;
 import eu.hansolo.medusa.Gauge;
 import eu.hansolo.medusa.TickLabelOrientation;
 import eu.hansolo.medusa.skins.ModernSkin;
@@ -14,6 +15,12 @@ import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import static javafx.scene.paint.Color.BLACK;
@@ -28,7 +35,9 @@ public class CarSimulationWindowController extends Settings {
 
     public double oldPaneHeight;
     public double initialPaneHeight;
-
+    Gauge blueGauge;
+    Gauge redGauge;
+    
     @FXML
     public void initialize() {
         setupGauges();
@@ -45,7 +54,7 @@ public class CarSimulationWindowController extends Settings {
 
         blueCar = new Car(5, 82, "blue");
         redCar = new Car(5, 122);
-
+      
         middlePane.getChildren().addAll(blueCar, redCar);
 
         createAnimation();
@@ -71,16 +80,21 @@ public class CarSimulationWindowController extends Settings {
         
         middlePane.widthProperty().addListener((obs, oldVal, newVal) -> {
             resizeLineHorizontal();
+            
 
         });
         middlePane.heightProperty().addListener((obs, oldVal, newVal) -> {
-            resizeLineVertical(oldPaneHeight);
-            oldPaneHeight = middlePane.getHeight();
+            resizeLineVertical();
+            setBackGround();
         });
     }
 
     public void resizeLineHorizontal() {
-
+        
+        blueGauge.setPrefWidth(middlePane.getWidth()/3.9);
+        redGauge.setPrefWidth(middlePane.getWidth()/3.9);  
+        redGauge.setLayoutX(middlePane.getWidth()*0.33);
+        
         top.setEndX(middlePane.getWidth());
         bottom.setEndX(middlePane.getWidth());
        
@@ -101,31 +115,12 @@ public class CarSimulationWindowController extends Settings {
         }
     }
 
-    public void resizeLineVertical(double oldHeight) {
-//        if (middlePane.getHeight() > initialPaneHeight) {
-//
-//            if (oldHeight > middlePane.getHeight()) {
-
-//                for (int i = 0; i < cars.size(); i++) {
-//
-//                    cars.get(i).setLayoutY(cars.get(i).getLayoutY() - middlePane.getHeight() / 100);
-//                }
-//                for (int i = 0; i < allLines.size(); i++) {
-//
-//                    allLines.get(i).setLayoutY(allLines.get(i).getLayoutY() - middlePane.getHeight() / 100);
-//                }
-//            } else {
-//                //TODO need to find a way to know if I should add or substract the panes height depending on the pane getting bigger or smaller
-//                for (int i = 0; i < cars.size(); i++) {
-//
-//                    cars.get(i).setLayoutY(cars.get(i).getLayoutY() + middlePane.getHeight() / 100);
-//                }
-//                for (int i = 0; i < allLines.size(); i++) {
-//
-//                    allLines.get(i).setLayoutY(allLines.get(i).getLayoutY() + middlePane.getHeight() / 100);
-             //   }
-           // }
-       // }
+    public void resizeLineVertical() {
+        
+       
+        blueGauge.setPrefHeight(middlePane.getHeight()/1.76);
+        redGauge.setPrefHeight(middlePane.getHeight()/1.76);
+       
     }
 
     private void createAnimation() {
@@ -134,6 +129,7 @@ public class CarSimulationWindowController extends Settings {
                 new KeyFrame(Duration.millis(animationDuration), e -> handleUpdateAnimation()));
         timeline.setRate(currentRate);
         timeline.setCycleCount(Timeline.INDEFINITE);
+       
     }
 
     private void createAnimationToUpdateData() {
@@ -156,7 +152,7 @@ public class CarSimulationWindowController extends Settings {
         blueCar.calculateCurrentVelocity(blueCar.calculateCurrentDisplacement());
         blueCar.calculateCurrentTime(blueCar.calculateCurrentDisplacement());
 
-        //System.out.println(blueCar.getCurrentVelocity());
+        
         redCar.calculateCurrentVelocity(redCar.calculateCurrentDisplacement());
         redCar.calculateCurrentTime(redCar.calculateCurrentDisplacement());
         displayLiveStats();
@@ -175,7 +171,7 @@ public class CarSimulationWindowController extends Settings {
         blueFinalPositionSlider.setMax(middlePane.getWidth() / 10 - blueCar.getWidth() / 10);
     }
 
-    public void updateInput() {
+    private void updateInput() {
         if (blueInitialPositionSlider.getValue() > blueInitialPositionSlider.getMax() - blueCar.getWidth()) {
             blueCar.setInitialPosition((blueInitialPositionSlider.getValue() * 10)); // this prevents the car from going outside the pane
         } else {
@@ -206,39 +202,34 @@ public class CarSimulationWindowController extends Settings {
             blueCar.setTranslateX(blueCar.getTranslateX() + blueCar.getCurrentVelocity() / 10);
 
         }
-        if (redCar.getTranslateX() < redCar.getFinalPosition()) {// if I make a for loop, i wont have access to getFinalPosition (Ask teacher why)
+        if (redCar.getTranslateX() < redCar.getFinalPosition()) {
             redCar.setTranslateX(redCar.getTranslateX() + redCar.getCurrentVelocity() / 10);// divide by 10 because otherwise the accelerartion will be too fast 
         }
-//      if(blueCar.getTranslateX() < blueCar.getFinalPosition() && redCar.getTranslateX() < redCar.getFinalPosition()){
-//         return true; 
-//      }else{
-//      return false;    
-//      }
-
     }
     
         
     private void setupGauges(){
+         
         blueGauge = new Gauge();
         
         blueGauge.setSkin(new ModernSkin(blueGauge));  //ModernSkin : you guys can change the skin
         blueGauge.setTitle("Blue Car");  //title
         blueGauge.setUnit("m / s");  //unit
-        blueGauge.setUnitColor(Color.BLUE);
+        blueGauge.setUnitColor(Color.CYAN);
         blueGauge.setDecimals(0); 
         blueGauge.setValue(0); //default position of needle on gauage
         blueGauge.setAnimated(true);
         blueGauge.setAnimationDuration(1); 
-        blueGauge.setValueColor(Color.BLUE); 
-        blueGauge.setTitleColor(Color.BLUE); 
+        blueGauge.setValueColor(Color.CYAN); 
+        blueGauge.setTitleColor(Color.CYAN); 
         blueGauge.setSubTitleColor(Color.WHITE); 
         blueGauge.setBarColor(Color.rgb(0, 214, 215)); 
-        blueGauge.setNeedleColor(Color.BLUE); 
+        blueGauge.setNeedleColor(Color.CYAN); 
         blueGauge.setThresholdColor(Color.PURPLE);  //color will become red if it crosses threshold value
         blueGauge.setThreshold(40);        
         blueGauge.setThresholdVisible(true);
         blueGauge.setTickLabelColor(Color.rgb(151, 151, 151)); 
-        blueGauge.setTickMarkColor(Color.BLUE); 
+        blueGauge.setTickMarkColor(Color.CYAN); 
         blueGauge.setTickLabelOrientation(TickLabelOrientation.ORTHOGONAL);
         blueGauge.setBackgroundPaint(Color.BLACK);
         blueGaugePane.getChildren().add(blueGauge);
@@ -287,9 +278,7 @@ public class CarSimulationWindowController extends Settings {
 
                 redCarVelocityGraph[i][j] = (redCar.calculateCurrentVelocity(redCar.calculateGraphDisplacement(redCar.calculateCurrentDisplacement(), redFinalTime)));
                 redCarVelocityGraph[i][j + 1] = redFinalTime;
-                // redCarVelocityGraph[i][j] = (redCar.calculateCurrentVelocity(redCar.calculateGraphDisplacement(redFinalTime)));
-                //System.out.println(redCarPositionGraph[i][j]);
-                //System.out.println(redCarPositionGraph[i][j+1]);
+                
 
                 blueCarPositionGraph[i][j] = (blueCar.calculateGraphDisplacement(blueCar.calculateCurrentDisplacement(), blueFinalTime));//the time going in the method is correct
                 blueCarPositionGraph[i][j + 1] = blueFinalTime;
@@ -317,8 +306,7 @@ public class CarSimulationWindowController extends Settings {
     }
     
     private void endOfSimulation(){
-        System.out.println(blueCar.getCurrentPosition());
-        System.out.println(blueCar.getFinalPosition());
+        
       if(blueCar.getFinalPosition()/10 <= blueCar.getCurrentPosition() && redCar.getFinalPosition()/10 <= redCar.getCurrentPosition()){
           handleReset();
       }
@@ -393,7 +381,7 @@ public class CarSimulationWindowController extends Settings {
     private void handlePositionGraphBtn() throws IOException {
 
         Stage secondWindow = new Stage();
-
+        secondWindow.initOwner(PhysicsSimulationController.carSimulation);
         PositionGraphWindowController positionGraphWindow = new PositionGraphWindowController(blueCarPositionGraph, redCarPositionGraph);
 
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/PositionGraphCarSimulation.fxml"));
@@ -410,7 +398,7 @@ public class CarSimulationWindowController extends Settings {
     @FXML
     private void handleVelocityGraphBtn() throws IOException {
         Stage secondWindow = new Stage();
-
+        secondWindow.initOwner(PhysicsSimulationController.carSimulation);
         VelocityGraphWindowController velocityGraphWindow = new VelocityGraphWindowController(blueCarVelocityGraph, redCarVelocityGraph);
 
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/VelocityGraphCarSimulation.fxml"));
@@ -423,6 +411,24 @@ public class CarSimulationWindowController extends Settings {
         secondWindow.sizeToScene();
         secondWindow.show();
 
+    }
+    
+    
+    @FXML
+    private void handleHomeButton(){
+      PhysicsSimulationController.carSimulation.close();   
+    }
+    
+    //TODO make it functional
+     public void setBackGround() {
+        Image image = new Image("/images/space.jpg");
+        BackgroundImage backgroundImage = new BackgroundImage(
+                image,
+                BackgroundRepeat.NO_REPEAT, // repeat X
+                BackgroundRepeat.NO_REPEAT, // repeat Y
+                BackgroundPosition.CENTER, // position
+                new BackgroundSize(100, 100, true, true, true, true));
+       middlePane.setBackground(new Background(backgroundImage));
     }
 
 }

@@ -36,7 +36,7 @@ public class CarAnimationLoader extends Stage{
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/CarSimulation.fxml"));
         loader.setController(carWindow);
         Pane root = loader.load();
-        Scene scene = new Scene(root, 900, 600);
+        Scene scene = new Scene(root, 894, 600);
         PhysicsSimulationController.carSimulation.setScene(scene);
                 
         PhysicsSimulationController.carSimulation.setTitle("Car simulation");
