@@ -304,7 +304,7 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
     }
 
     private void handlePaneResizeAffects() {
-        sldInitialVelocity.setMax(motionPane.getWidth() / 24);
+        sldInitialVelocity.setMax(motionPane.getWidth() / 20);
         hboxBottom.setTranslateX(motionPane.getWidth() / 6);
         windBox.setTranslateX(motionPane.getWidth() - 1000);
         landingArea.setTranslateY(motionPane.getHeight() - landingArea.INIT_HEIGHT);
