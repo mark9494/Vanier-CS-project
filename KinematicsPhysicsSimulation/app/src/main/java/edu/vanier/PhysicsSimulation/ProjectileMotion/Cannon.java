@@ -7,14 +7,9 @@ package edu.vanier.PhysicsSimulation.ProjectileMotion;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
-/**
- *
- * @author antho
- */
 public class Cannon extends Rectangle {
 
     private final int WIDTH = 100;
@@ -28,13 +23,12 @@ public class Cannon extends Rectangle {
         this.setWidth(WIDTH);
         this.setHeight(HEIGHT);
         this.setRotate(angle);
-        this.setFill(Color.DARKSLATEGREY);
         Image basketball = new Image("/images/Cannon.png");
         this.setFill(new ImagePattern(basketball));
     }
 
     public double setCornerX() {
-        cornerX = this.getTranslateX() + cos(this.getAngleRadians()*2/3) * this.HEIGHT ;
+        cornerX = this.getTranslateX() + cos(this.getAngleRadians() * 2 / 3) * this.HEIGHT;
         return cornerX;
     }
 

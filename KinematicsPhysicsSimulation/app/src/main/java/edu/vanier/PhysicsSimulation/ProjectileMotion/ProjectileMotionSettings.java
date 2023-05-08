@@ -30,10 +30,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-/**
- *
- * @author antho
- */
 public class ProjectileMotionSettings {
 
     @FXML
@@ -92,17 +88,17 @@ public class ProjectileMotionSettings {
     protected static boolean isWind;
     protected Wind wind;
     protected File loadSave, newSave;
-    protected static String backgroundFilePath = "/images/background2.jpg";
+    protected static String defaultBackgroundFilePath = "/images/background2.jpg";
     protected static boolean changeBackground = false;
     public static Timer timer;
-    
+
     public void setDefaultBackGround() {
         Image image = new Image("/images/background2.jpg");
         BackgroundImage backgroundImage = new BackgroundImage(
                 image,
-                BackgroundRepeat.NO_REPEAT, // repeat X
-                BackgroundRepeat.NO_REPEAT, // repeat Y
-                BackgroundPosition.CENTER, // position
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.CENTER,
                 new BackgroundSize(100, 100, true, true, true, true));
         motionPane.setBackground(new Background(backgroundImage));
     }
@@ -130,7 +126,7 @@ public class ProjectileMotionSettings {
                     changeBackground = false;
                     return;
                 }
-                Image image = new Image(backgroundFilePath);
+                Image image = new Image(defaultBackgroundFilePath);
                 BackgroundImage backgroundImage = new BackgroundImage(
                         image,
                         BackgroundRepeat.NO_REPEAT, // repeat X
@@ -142,20 +138,16 @@ public class ProjectileMotionSettings {
         }, 0, 200);
     }
 
-    //1
     protected void setVelocityX() {
         initVelocityX = initialVelocity * cos(-cannon.getAngleRadians());
         finalVelocityX = initVelocityX;
     }
 
-    //2
     protected void setVelocityY() {
         initVelocityY = initialVelocity * sin(-cannon.getAngleRadians());
     }
 
-    //3
     protected void setTime() {
-        // 0 =   1/2 (accelerationY)(time^2) + (initVelocityY)(time) - deltaY
         double a = 0.5 * (accelerationY);
         double b = initVelocityY;
         double c = -deltaY;
@@ -169,10 +161,8 @@ public class ProjectileMotionSettings {
                 : (-b - sqrt) / (2 * a);
     }
 
-    //4
     protected void setDeltaX() {
         deltaX = initVelocityX * time;
-        //finalPosition = ball.getTranslateX() + deltaX;
     }
 
     protected void setDeltaY(double deltaYt) {

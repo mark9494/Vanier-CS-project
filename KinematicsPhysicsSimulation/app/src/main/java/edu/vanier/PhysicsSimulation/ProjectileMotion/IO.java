@@ -12,21 +12,12 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-/**
- *
- * @author 2161743
- */
 public class IO extends ProjectileMotionSettings {
 
     public static void writeDataInFile(String filePath) {
-        // first create file object for file placed at location
-        // specified by filepath
         File file = new File(filePath);
         try {
-            // create FileWriter object with file as parameter
             FileWriter outputfile = new FileWriter(file);
-
-            // create CSVWriter object filewriter object as parameter
             CSVWriter writer = new CSVWriter(outputfile);
 
             // add data to csv
@@ -42,16 +33,14 @@ public class IO extends ProjectileMotionSettings {
             writer.writeNext(wind);
             writer.close();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
 
     public static void readDataInFile(String filePath) throws FileNotFoundException, IOException {
-        //parsing a CSV file into CSVReader class constructor
         CSVReader reader = new CSVReader(new FileReader(filePath));
         String[] nextLine;
-        //reads one line at a time
+
         int counter = 1;
         while ((nextLine = reader.readNext()) != null) {
             if (nextLine.length == 2) {
@@ -69,6 +58,7 @@ public class IO extends ProjectileMotionSettings {
                 }
                 counter++;
             }
+
             if (nextLine.length == 3) {
                 Wind.intensity = Integer.parseInt((nextLine[1]));
                 Wind.angle = Double.parseDouble((nextLine[2]));
@@ -78,7 +68,8 @@ public class IO extends ProjectileMotionSettings {
                     isWind = true;
                 }
             }
+
         }
-        //System.out.println(initialVelocity + " " + rampAngle + " " + accelerationY + " " + counter + " " + Wind.intensity + " " + Wind.angle);
     }
+
 }

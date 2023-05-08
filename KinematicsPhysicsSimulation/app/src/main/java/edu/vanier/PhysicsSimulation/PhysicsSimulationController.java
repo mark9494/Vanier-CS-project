@@ -4,24 +4,17 @@
  */
 package edu.vanier.PhysicsSimulation;
 
-import com.sun.media.jfxmedia.events.MarkerEvent;
 import edu.vanier.PhysicsSimulation.CarSimulation.CarAnimationLoader;
-import edu.vanier.PhysicsSimulation.CarSimulation.CarSimulationWindowController;
-import edu.vanier.PhysicsSimulation.FreeFallSimulation.FreeFallController;
 import edu.vanier.PhysicsSimulation.FreeFallSimulation.FreeFallLoader;
 import edu.vanier.PhysicsSimulation.Pendulum.AnimationLoader;
 import edu.vanier.PhysicsSimulation.ProjectileMotion.ProjectileMotion;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**

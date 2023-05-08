@@ -11,28 +11,32 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.ImagePattern;
 
-/**
- *
- * @author 2161743
- */
 public class EditChangesController {
 
     @FXML
     Button btnDone;
+
     @FXML
     RadioButton rb1;
+
     @FXML
     RadioButton rb2;
+
     @FXML
     RadioButton rb3;
+
     @FXML
     RadioButton rb4;
+
     @FXML
     ImageView iv1;
+
     @FXML
     ImageView iv2;
+
     @FXML
     ImageView iv3;
+
     @FXML
     ImageView iv4;
 
@@ -86,16 +90,16 @@ public class EditChangesController {
         } else {
             ProjectileMotionSettings.changeBackground = true;
             if (rb1.isSelected()) {
-                ProjectileMotionSettings.backgroundFilePath = i1.getUrl();
+                ProjectileMotionSettings.defaultBackgroundFilePath = i1.getUrl();
             }
             if (rb2.isSelected()) {
-                ProjectileMotionSettings.backgroundFilePath = i2.getUrl();
+                ProjectileMotionSettings.defaultBackgroundFilePath = i2.getUrl();
             }
             if (rb3.isSelected()) {
-                ProjectileMotionSettings.backgroundFilePath = i3.getUrl();
+                ProjectileMotionSettings.defaultBackgroundFilePath = i3.getUrl();
             }
             if (rb4.isSelected()) {
-                ProjectileMotionSettings.backgroundFilePath = i4.getUrl();
+                ProjectileMotionSettings.defaultBackgroundFilePath = i4.getUrl();
             }
         }
         ProjectileMotionSettings.editorStage.close();
@@ -131,6 +135,13 @@ public class EditChangesController {
 
     @FXML
     public void handleClickIv1() {
+        if (rb1.isSelected()) {
+            rb1.setSelected(false);
+            rb2.setSelected(false);
+            rb3.setSelected(false);
+            rb4.setSelected(false);
+            return;
+        }
         rb1.setSelected(true);
         rb2.setSelected(false);
         rb3.setSelected(false);
@@ -139,6 +150,13 @@ public class EditChangesController {
 
     @FXML
     public void handleClickIv2() {
+        if (rb2.isSelected()) {
+            rb2.setSelected(false);
+            rb1.setSelected(false);
+            rb3.setSelected(false);
+            rb4.setSelected(false);
+            return;
+        }
         rb2.setSelected(true);
         rb1.setSelected(false);
         rb3.setSelected(false);
@@ -147,6 +165,13 @@ public class EditChangesController {
 
     @FXML
     public void handleClickIv3() {
+        if (rb3.isSelected()) {
+            rb3.setSelected(false);
+            rb2.setSelected(false);
+            rb1.setSelected(false);
+            rb4.setSelected(false);
+            return;
+        }
         rb3.setSelected(true);
         rb2.setSelected(false);
         rb1.setSelected(false);
@@ -155,6 +180,13 @@ public class EditChangesController {
 
     @FXML
     public void handleClickIv4() {
+        if (rb4.isSelected()) {
+            rb4.setSelected(false);
+            rb2.setSelected(false);
+            rb3.setSelected(false);
+            rb1.setSelected(false);
+            return;
+        }
         rb4.setSelected(true);
         rb2.setSelected(false);
         rb3.setSelected(false);
