@@ -12,7 +12,7 @@
           <CategoryAxis fx:id="blueX" label="Time" prefHeight="47.0" prefWidth="216.0" side="BOTTOM" />
         </xAxis>
         <yAxis>
-          <NumberAxis fx:id="blueY" label="Position" side="LEFT" tickLabelFill="#f20303" />
+          <NumberAxis fx:id="blueY" label="Displacement" side="LEFT" tickLabelFill="#f20303" />
         </yAxis>
       </LineChart>
       <LineChart fx:id="redLineChart" layoutX="288.0" legendSide="TOP" legendVisible="false" prefHeight="400.0" prefWidth="312.0" style="-fx-background-color: white;" title="Red car">
@@ -20,7 +20,7 @@
             <CategoryAxis fx:id="redX" label="Time" prefHeight="47.0" prefWidth="234.0" side="BOTTOM" />
          </xAxis>
          <yAxis>
-            <NumberAxis fx:id="redY" label="Position" side="LEFT" tickLabelFill="#f20303" />
+            <NumberAxis fx:id="redY" label="Displacement" side="LEFT" tickLabelFill="#f20303" />
          </yAxis>
       </LineChart>
    </children>

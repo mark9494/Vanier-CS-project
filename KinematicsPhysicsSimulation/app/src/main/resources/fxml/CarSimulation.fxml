@@ -18,7 +18,7 @@
 
 <BorderPane fx:id="borderPane" prefHeight="600.0" prefWidth="894.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <top>
-      <Pane prefHeight="28.0" prefWidth="894.0" BorderPane.alignment="CENTER">
+      <Pane fx:id="topPane" prefHeight="28.0" prefWidth="894.0" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="homeBtn" mnemonicParsing="false" onAction="#handleHomeButton" prefHeight="37.0" prefWidth="41.0">
                <font>
@@ -67,24 +67,24 @@
    <bottom>
       <Pane fx:id="bottomPane" prefHeight="166.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
-            <Text layoutX="10.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Red car" wrappingWidth="50.13671875" />
+            <Text fx:id="txt9" layoutX="10.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Red car" wrappingWidth="50.13671875" />
             <Slider fx:id="redInitialPositionSlider" layoutX="73.0" layoutY="34.0" majorTickUnit="10.0" max="50.0" minorTickCount="5" prefHeight="15.0" prefWidth="123.0" showTickLabels="true" showTickMarks="true" />
-            <Text layoutX="83.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Initial Position" wrappingWidth="84.13671875" />
+            <Text fx:id="txt11" layoutX="83.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Initial Position" wrappingWidth="84.13671875" />
             <Slider fx:id="redFinalPositionSlider" layoutX="73.0" layoutY="89.0" majorTickUnit="10.0" max="50.0" minorTickCount="5" prefHeight="15.0" prefWidth="123.0" showTickLabels="true" showTickMarks="true" />
-            <Text layoutX="83.0" layoutY="89.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Final Position" wrappingWidth="99.13671875" />
+            <Text fx:id="txt13" layoutX="83.0" layoutY="89.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Final Position" wrappingWidth="99.13671875" />
             <Slider fx:id="redInitialVelocitySlider" blockIncrement="1.0" layoutX="263.0" layoutY="34.0" majorTickUnit="10.0" max="40.0" minorTickCount="5" prefHeight="15.0" prefWidth="123.0" showTickLabels="true" showTickMarks="true" />
-            <Text layoutX="277.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Initial Velocity" wrappingWidth="81.13671875" />
+            <Text fx:id="txt12" layoutX="277.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Initial Velocity" wrappingWidth="81.13671875" />
             <Slider fx:id="redAccelerationSlider" blockIncrement="1.0" layoutX="263.0" layoutY="90.0" majorTickUnit="5.0" max="20.0" minorTickCount="5" prefHeight="15.0" prefWidth="123.0" showTickLabels="true" showTickMarks="true" />
-            <Text layoutX="278.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Acceleration" wrappingWidth="92.13671875" />
-            <Text layoutX="509.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Initial Position" wrappingWidth="84.13671875" />
+            <Text fx:id="txt14" layoutX="278.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Acceleration" wrappingWidth="92.13671875" />
+            <Text fx:id="txt15" layoutX="509.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Initial Position" wrappingWidth="84.13671875" />
             <Line endX="11.0" endY="115.0" layoutX="397.0" layoutY="8.0" startX="11.0" startY="6.5" stroke="#615a5a" />
-            <Text layoutX="425.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Blue Car" wrappingWidth="50.13671875" />
+            <Text fx:id="txt10" layoutX="425.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Blue Car" wrappingWidth="50.13671875" />
             <Slider fx:id="blueInitialPositionSlider" layoutX="501.0" layoutY="26.0" majorTickUnit="10.0" max="50.0" minorTickCount="5" prefHeight="15.0" prefWidth="123.0" showTickLabels="true" showTickMarks="true" />
-            <Text layoutX="513.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Final Position" wrappingWidth="99.13671875" />
+            <Text fx:id="txt16" layoutX="513.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Final Position" wrappingWidth="99.13671875" />
             <Slider fx:id="blueFinalPositionSlider" layoutX="501.0" layoutY="89.0" majorTickUnit="10.0" max="50.0" minorTickCount="5" prefHeight="15.0" prefWidth="123.0" showTickLabels="true" showTickMarks="true" />
-            <Text layoutX="667.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Initial Velocity" wrappingWidth="81.13671875" />
+            <Text fx:id="txt17" layoutX="667.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Initial Velocity" wrappingWidth="81.13671875" />
             <Slider fx:id="blueInitialVelocitySlider" blockIncrement="1.0" layoutX="647.0" layoutY="28.0" majorTickUnit="10.0" max="40.0" minorTickCount="5" prefHeight="15.0" prefWidth="123.0" showTickLabels="true" showTickMarks="true" />
-            <Text layoutX="662.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Acceleration" wrappingWidth="92.13671875" />
+            <Text fx:id="txt18" layoutX="662.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Acceleration" wrappingWidth="92.13671875" />
             <Slider fx:id="blueAccelerationSlider" blockIncrement="1.0" layoutX="647.0" layoutY="89.0" majorTickUnit="5.0" max="20.0" minorTickCount="5" prefHeight="15.0" prefWidth="123.0" showTickLabels="true" showTickMarks="true" />
             <Button fx:id="startBtn" layoutX="9.0" layoutY="134.0" mnemonicParsing="false" onAction="#handleStart" prefHeight="27.0" prefWidth="64.0" text="Start" />
             <Button fx:id="stopBtn" layoutX="101.0" layoutY="134.0" mnemonicParsing="false" onAction="#handleStop" prefHeight="27.0" prefWidth="64.0" text="Stop" />
@@ -120,14 +120,14 @@
             <Line fx:id="line5" endX="-50.0" layoutX="448.0" layoutY="112.0" startX="-100.0" strokeWidth="3.0" />
             <Line fx:id="line6" endX="-50.0" layoutX="527.0" layoutY="112.0" startX="-100.0" strokeWidth="3.0" />
             <Line fx:id="line7" endX="-57.0" layoutX="624.0" layoutY="112.0" startX="-108.0" strokeWidth="3.0" />
-            <Text layoutX="29.0" layoutY="165.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Position:" wrappingWidth="47.13671875" />
-            <Text layoutX="30.0" layoutY="182.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Velocity:" wrappingWidth="52.13671875" />
-            <Text layoutX="7.0" layoutY="199.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Acceleration:" wrappingWidth="70.13671875" />
-            <Text layoutX="47.0" layoutY="212.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Time:" wrappingWidth="31.13671875" />
-            <Text layoutX="24.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Position:" wrappingWidth="47.13671875" />
-            <Text layoutX="24.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Velocity:" wrappingWidth="52.13671875" />
-            <Text layoutX="1.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Acceleration:" wrappingWidth="70.13671875" />
-            <Text layoutX="40.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Time:" wrappingWidth="31.13671875" />
+            <Text fx:id="txt5" layoutX="29.0" layoutY="165.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Position:" wrappingWidth="47.13671875" />
+            <Text fx:id="txt6" layoutX="30.0" layoutY="182.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Velocity:" wrappingWidth="52.13671875" />
+            <Text fx:id="txt7" layoutX="7.0" layoutY="199.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Acceleration:" wrappingWidth="70.13671875" />
+            <Text fx:id="txt8" layoutX="47.0" layoutY="212.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Time:" wrappingWidth="31.13671875" />
+            <Text fx:id="txt1" layoutX="24.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Position:" wrappingWidth="47.13671875" />
+            <Text fx:id="txt2" layoutX="24.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Velocity:" wrappingWidth="52.13671875" />
+            <Text fx:id="txt3" layoutX="1.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Acceleration:" wrappingWidth="70.13671875" />
+            <Text fx:id="txt4" layoutX="40.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Time:" wrappingWidth="31.13671875" />
             <Text fx:id="bluePositionLabel" layoutX="78.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" wrappingWidth="36.13671875" />
             <Text fx:id="blueVelocityLabel" layoutX="78.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" wrappingWidth="36.13671875" />
             <Text fx:id="blueAccelerationLabel" layoutX="78.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" wrappingWidth="36.13671875" />

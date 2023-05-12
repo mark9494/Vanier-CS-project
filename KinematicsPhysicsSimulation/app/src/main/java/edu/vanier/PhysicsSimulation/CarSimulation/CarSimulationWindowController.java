@@ -20,16 +20,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.MenuItem;
-import javafx.scene.image.Image;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import static javafx.scene.paint.Color.BLACK;
-import static javafx.scene.paint.Color.YELLOW;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -41,14 +34,48 @@ import javafx.stage.FileChooser;
  */
 public class CarSimulationWindowController extends Settings {
 
-    public double oldPaneHeight;
-    public double initialPaneHeight;
-    Gauge blueGauge;
-    Gauge redGauge;
+    
+    
     
     @FXML
     public void initialize() {
-         meetLine = new Line();
+        text = new ArrayList<>();
+        pane = new ArrayList<>();
+        button = new ArrayList<>();
+        
+        button.add(startBtn);
+        button.add(stopBtn);
+        button.add(resetBtn);
+        button.add(submitBtn);
+        button.add(positionGraphBtn);
+        button.add(velocityGraphBtn);
+        button.add(homeBtn);
+        
+        text.add(txt1);
+        text.add(txt2);
+        text.add(txt3);
+        text.add(txt4);
+        text.add(txt5);
+        text.add(txt6);
+        text.add(txt7);
+        text.add(txt8);
+        text.add(txt9);
+        text.add(txt10);
+        text.add(txt11);
+        text.add(txt12);
+        text.add(txt13);
+        text.add(txt14);
+        text.add(txt15);
+        text.add(txt16);
+        text.add(txt17);
+        text.add(txt18);
+        
+        pane.add(topPane);
+        pane.add(middlePane);
+        pane.add(bottomPane);
+        pane.add(borderPane);
+        
+        meetLine = new Line();
         setupGauges();
         setupMenuBar();
         
@@ -107,7 +134,11 @@ public class CarSimulationWindowController extends Settings {
         menuBar.getMenus().get(0).getItems().addAll(save, openSave);
         menuBar.getMenus().get(0).getItems().remove(0);
         
-        
+        MenuItem darkMode = new MenuItem("Dark mode");
+        MenuItem lightMode = new MenuItem("light mode");
+        menuBar.getMenus().get(1).getItems().remove(0);
+        menuBar.getMenus().get(1).getItems().addAll(darkMode, lightMode);
+
          EventHandler<ActionEvent> savePressed = new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -128,8 +159,24 @@ public class CarSimulationWindowController extends Settings {
                 }
             }
         };
+        EventHandler<ActionEvent> handleDark = new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                darkMode();
+            }
+        };
+        
+        EventHandler<ActionEvent> handleLight = new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                lightMode();
+            }
+        };
+        
         save.setOnAction(savePressed);
         openSave.setOnAction(loadSaved);
+        darkMode.setOnAction(handleDark);
+        lightMode.setOnAction(handleLight);
     }
     
     private void loadVisualSettingsBack() {
@@ -475,7 +522,46 @@ public class CarSimulationWindowController extends Settings {
         redAccelerationLabel.setText(df.format(redCar.getAcceleration()) + "");
         redTimeLabel.setText(df.format(redCar.getTime()) + "");
     }
+    
+    
+    private void darkMode(){
+       for(int i = 0; i < text.size(); i++){
+          text.get(i).setFill(Color.BROWN);
+       } 
+       
+       for(int i = 0; i<pane.size(); i++){
+         pane.get(i).setStyle("-fx-background-color: grey");
+         middlePane.setStyle("-fx-border-color: black");
+         
+       }
+       
+       for(int i = 0; i<button.size(); i++){
+         button.get(i).setStyle("-fx-background-color: blue");
+         button.get(i).setTextFill(Color.AQUA);
+       }
+      
+    }
 
+    
+    private void lightMode(){
+      for(int i = 0; i < text.size(); i++){
+          text.get(i).setFill(Color.BLACK);
+       } 
+       
+       for(int i = 0; i<pane.size(); i++){
+         pane.get(i).setStyle("-fx-background-color: white");
+         
+         middlePane.setStyle("-fx-border-color: black");
+         
+       }
+       
+       for(int i = 0; i<button.size(); i++){
+         button.get(i).setStyle("-fx-background-color: white");
+         button.get(i).setTextFill(Color.BLACK);
+       }  
+        
+    }
+    
     @FXML
     private void handlePositionGraphBtn() throws IOException {
 
