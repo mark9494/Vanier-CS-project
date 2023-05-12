@@ -58,24 +58,20 @@ public class CarTest {
         double displacement = 50;
         Car car = new Car();
         car.setInitialVelocity(0);
-        car.setAcceleration(20);
-        car.setFinalPosition(1000);
-        car.setInitialPosition(500);
+        car.setCurrentVelocity(20);
         double result = car.calculateCurrentTime(displacement);
-        double expResult = 2.23;
+        double expResult = 5;
         assertEquals(expResult,result ,0.01);
     }
     @Test
     public void testCalculateCurrentTime2() {
         System.out.println("calculateCurrentTime");
-        double displacement = 50;
+        double displacement = 200;
         Car car = new Car();
         car.setInitialVelocity(20);
-        car.setAcceleration(20);
-        car.setFinalPosition(1000);
-        car.setInitialPosition(500); 
+         car.setCurrentVelocity(55);
         double result = car.calculateCurrentTime(displacement);
-        double expResult = 1.44;
+        double expResult = 5.33;
         assertEquals(expResult,result ,0.01);
     }
  
