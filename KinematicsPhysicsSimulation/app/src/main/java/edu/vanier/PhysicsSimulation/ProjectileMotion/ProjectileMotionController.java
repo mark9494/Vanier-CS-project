@@ -43,6 +43,9 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
         menuBar.getMenus().get(0).getItems().addAll(save, openSave);
         menuBar.getMenus().get(1).getItems().addAll(changeBallPicture, changeBackgroundPicture);
 
+        btnBegin.setStyle("-fx-background-color: #66FF00; -fx-border-color: black");
+        btnReset.setStyle("-fx-background-color: #f7435d; -fx-border-color: black");
+
         EventHandler<ActionEvent> savePressed = new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 newSave = directoryChooser.showDialog(new Stage());

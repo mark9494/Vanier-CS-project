@@ -6,6 +6,19 @@ plugins {
     id("io.freefair.lombok") version "6.6.3"
     
 }
+ 
+jar {
+    // from earlier
+    manifest {
+        attributes 'Main-Class': 'edu.vanier.PhysicsSimulation.PhysicsSimulation'
+    }
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
 
 repositories {
     // Use Maven Central for resolving dependencies.
@@ -49,7 +62,6 @@ application {
    //       that contains the main method your would like to run.
    mainClass = 'edu.vanier.PhysicsSimulation.PhysicsSimulation'
 
-   // mainClass = 'edu.vanier.PhysicsSimulation.ProjectileMotion.ProjectileMotion'
 
    
 }

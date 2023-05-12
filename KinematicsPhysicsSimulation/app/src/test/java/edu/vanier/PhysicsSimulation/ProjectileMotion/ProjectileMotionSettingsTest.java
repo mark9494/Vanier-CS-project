@@ -16,60 +16,39 @@ public class ProjectileMotionSettingsTest {
     public ProjectileMotionSettingsTest() {
     }
 
-    /**
-     * Test of setInitialVelocity method, of class ProjectileMotionSettings.
-     */
-    @Test
-    public void testSetInitialVelocity() {
-    }
-
-    /**
-     * Test of setAccelerationY method, of class ProjectileMotionSettings.
-     */
-    @Test
-    public void testSetAccelerationY() {
-    }
-
-    /**
-     * Test of setRampAngle method, of class ProjectileMotionSettings.
-     */
-    @Test
-    public void testSetRampAngle() {
-    }
-
-    /**
-     * Test of setVelocityX method, of class ProjectileMotionSettings.
-     */
-    @Test
-    public void testSetVelocityX() {
-    }
-
-    /**
-     * Test of setVelocityY method, of class ProjectileMotionSettings.
-     */
-    @Test
-    public void testSetVelocityY() {
-    }
-
-    /**
-     * Test of setTime method, of class ProjectileMotionSettings.
-     */
     @Test
     public void testSetTime() {
-    }
+        ProjectileMotionSettings pms = new ProjectileMotionSettings();
+        pms.accelerationY = 3;
+        pms.initVelocityY = 10;
+        pms.setDeltaY(30);
 
-    /**
-     * Test of setDeltaX method, of class ProjectileMotionSettings.
-     */
-    @Test
-    public void testSetDeltaX() {
+        double expResult = 1.6560973568579596;
+        pms.setTime();
+        double result = pms.time;
+        assertEquals(expResult, result, 0.6);
     }
+    public void testSetTime2() {
+        ProjectileMotionSettings pms = new ProjectileMotionSettings();
+        pms.accelerationY = 10;
+        pms.initVelocityY = 3;
+        pms.setDeltaY(80);
 
-    /**
-     * Test of setDeltaY method, of class ProjectileMotionSettings.
-     */
-    @Test
-    public void testSetDeltaY() {
+        double expResult = 3.7112342240263154;
+        pms.setTime();
+        double result = pms.time;
+        assertEquals(expResult, result, 0.6);
+    }
+    public void testSetTime3() {
+        ProjectileMotionSettings pms = new ProjectileMotionSettings();
+        pms.accelerationY = 40;
+        pms.initVelocityY = 80;
+        pms.setDeltaY(900);
+
+        double expResult = 5;
+        pms.setTime();
+        double result = pms.time;
+        assertEquals(expResult, result, 0.5);
     }
 
 }

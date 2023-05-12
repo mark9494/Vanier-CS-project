@@ -29,8 +29,8 @@ public class CarTest {
     }
     @Test
     public void testCalculateCurrentVelocity2() {
-        System.out.println("calculateCurrentVelocity");
-        Car car = new Car();
+       System.out.println("calculateCurrentVelocity");
+       Car car = new Car();
        car.setInitialVelocity(20);
        car.setAcceleration(0);
        double result = car.calculateCurrentVelocity(40);
