@@ -105,7 +105,7 @@ public class Settings {
     protected double currentRate = 10;
     
     protected double animationDuration2 = 100;
-    protected double currentRate2 = 1;      // the second animation uses these two variables because it showcases the livestats slower whcih makes them readable to the user
+    protected double currentRate2 = 1;     
   
     protected Timeline graphTimeline;
     

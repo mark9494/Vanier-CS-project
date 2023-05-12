@@ -1,22 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
    <center>
-      <Pane prefHeight="200.0" prefWidth="200.0" stylesheets="@../css/MainWindow.css" BorderPane.alignment="CENTER">
+      <Pane fx:id="pane" prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/MainWindow.css" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="Anthony" layoutX="364.0" layoutY="308.0" mnemonicParsing="false" text="Projectile Motion" />
+            <Button fx:id="Anthony" layoutX="362.0" layoutY="308.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="193.0" text="Projectile Motion" />
             <Button fx:id="Mark" layoutX="81.0" layoutY="308.0" mnemonicParsing="false" text="Translational Kinematics" />
-            <Button fx:id="Ammar" layoutX="138.0" layoutY="131.0" mnemonicParsing="false" text="Free Fall" />
-            <Button fx:id="Youssif" layoutX="373.0" layoutY="131.0" mnemonicParsing="false" text="Pendulum" />
-            <ImageView fitHeight="115.0" fitWidth="165.0" layoutX="76.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true" />
-            <ImageView fitHeight="115.0" fitWidth="165.0" layoutX="354.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true" />
-            <ImageView fitHeight="115.0" fitWidth="165.0" layoutX="76.0" layoutY="209.0" pickOnBounds="true" preserveRatio="true" />
-            <ImageView fitHeight="115.0" fitWidth="165.0" layoutX="347.0" layoutY="200.0" pickOnBounds="true" preserveRatio="true" />
+            <Button fx:id="Ammar" layoutX="85.0" layoutY="131.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="183.0" text="Free Fall" />
+            <Button fx:id="Youssif" layoutX="373.0" layoutY="131.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="185.0" text="Pendulum" />
          </children>
       </Pane>
    </center>

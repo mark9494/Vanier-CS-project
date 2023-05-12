@@ -69,6 +69,15 @@ public class CarSimulationWindowController extends Settings {
         text.add(txt16);
         text.add(txt17);
         text.add(txt18);
+        text.add(bluePositionLabel);
+        text.add(blueVelocityLabel);
+        text.add(blueAccelerationLabel);
+        text.add(blueTimeLabel);
+        text.add(redPositionLabel);
+        text.add(redVelocityLabel);
+        text.add(redAccelerationLabel);
+        text.add(redTimeLabel);
+        
         
         pane.add(topPane);
         pane.add(middlePane);
@@ -530,8 +539,8 @@ public class CarSimulationWindowController extends Settings {
        } 
        
        for(int i = 0; i<pane.size(); i++){
-         pane.get(i).setStyle("-fx-background-color: grey");
-         middlePane.setStyle("-fx-border-color: black");
+         pane.get(i).setStyle("-fx-background-color: #202020");
+         middlePane.setStyle("-fx-border-color: blue");
          
        }
        
@@ -539,7 +548,14 @@ public class CarSimulationWindowController extends Settings {
          button.get(i).setStyle("-fx-background-color: blue");
          button.get(i).setTextFill(Color.AQUA);
        }
-      
+       
+       for(int i = 0; i<dottedLines.size(); i++){
+         dottedLines.get(i).setStroke(Color.PURPLE);
+         
+       }
+       top.setStroke(Color.GREENYELLOW);
+       bottom.setStroke(Color.GREENYELLOW);
+      windowTitle.setTextFill(Color.GREENYELLOW);
     }
 
     
@@ -558,8 +574,15 @@ public class CarSimulationWindowController extends Settings {
        for(int i = 0; i<button.size(); i++){
          button.get(i).setStyle("-fx-background-color: white");
          button.get(i).setTextFill(Color.BLACK);
-       }  
-        
+       }
+       
+       for(int i = 0; i<dottedLines.size(); i++){
+         dottedLines.get(i).setStroke(Color.BLACK);
+         
+       }
+       top.setStroke(Color.BLACK);
+       bottom.setStroke(Color.BLACK);
+       windowTitle.setTextFill(Color.BLACK); 
     }
     
     @FXML

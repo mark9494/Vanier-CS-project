@@ -15,6 +15,13 @@ import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
@@ -30,14 +37,29 @@ public class PhysicsSimulationController implements Initializable {
     public static Stage carSimulation = new Stage();
     public static Stage pendulum = new Stage();
     public static Stage freeFall = new Stage();
-
+    
+    @FXML
+    private Pane pane; 
+    
+    
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         projectileMotion.initOwner(PhysicsSimulation.primaryStage);
         carSimulation.initOwner(PhysicsSimulation.primaryStage);
+        setDefaultBackGround();
+        pane.widthProperty().addListener((obs, oldVal, newVal) -> {
+            resizeBtnsHorizontal();
+            
+
+        });
         
-        //TODO Add the logic to eahc button in the main window
+        pane.heightProperty().addListener((obs, oldVal, newVal) -> {
+            resizeBtnsVertical();
+         
+        });
+        
+        
 
         Mark.setOnAction((e)->{
 
@@ -65,4 +87,31 @@ public class PhysicsSimulationController implements Initializable {
         });
     }
 
+    
+    private void resizeBtnsHorizontal(){
+        
+        Ammar.setLayoutX((pane.getWidth()/7.40));
+        Youssif.setLayoutX(pane.getWidth()/1.65);
+        Mark.setLayoutX(pane.getWidth()/7.40);
+        Anthony.setLayoutX(pane.getWidth()/1.65);  
+    }
+    
+    
+    private void resizeBtnsVertical(){
+        Ammar.setLayoutY((pane.getHeight()/3));
+        Youssif.setLayoutY(pane.getHeight()/3);
+        Mark.setLayoutY(pane.getHeight()/1.3);
+        Anthony.setLayoutY(pane.getHeight()/1.3);  
+    }
+    public void setDefaultBackGround() {
+        Image image = new Image("/images/background.jpg");
+        BackgroundImage backgroundImage = new BackgroundImage(
+                image,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.CENTER,
+                new BackgroundSize(100, 100, true, true, true, true));
+        pane.setBackground(new Background(backgroundImage));
+    }
+    
 }

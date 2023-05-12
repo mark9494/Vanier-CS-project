@@ -5,14 +5,19 @@ import edu.vanier.PhysicsSimulation.CarSimulation.Settings;
 import edu.vanier.PhysicsSimulation.ProjectileMotion.ProjectileMotionSettings;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class PhysicsSimulation extends Application {
-
+    
+    
+            
     public static Stage primaryStage = new Stage();
+   
+    
 
     @Override
     public void start(Stage stage) throws Exception {
