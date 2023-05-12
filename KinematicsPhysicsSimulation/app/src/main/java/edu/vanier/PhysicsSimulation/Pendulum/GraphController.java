@@ -41,10 +41,12 @@ public class GraphController implements Initializable{
     
     XYChart.Series seriesX = new XYChart.Series();
     XYChart.Series seriesY = new XYChart.Series();
+    
+    Timeline timeline = new Timeline(new KeyFrame(Duration.millis(200), event -> generateData()));
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         
-        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(200), event -> generateData()));
+        
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
         
@@ -83,5 +85,8 @@ public class GraphController implements Initializable{
     }
     public void setCurrentYPosition(int currentposition){
         this.currentyposition = currentposition;
+    }
+    public void stopAnimations(){
+        timeline.stop();
     }
 }
