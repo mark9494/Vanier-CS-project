@@ -21,7 +21,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 }
 #pauseBtn
 {
-    -fx-text-fill: yellow;
+    -fx-text-fill: orange;
     -fx-background-color: white;
     -fx-border-color: black;
     -fx-border-radius:30;
@@ -89,17 +89,3 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     -fx-padding: 10 10 10 10;
     
 }
-
-
-/*
-#graphBtn
-{
-    -fx-padding: 8 15 15 15;
-    -fx-background-insets: 0,0 0 5 0,0 0 6 0,0 0 7 0;
-    -fx-background-radius: 8;
-    -fx-background-color:
-        linear-gardient(from 0% 93% to 0% 100%,#a34313 0%, #903b12 100%), 
-         #9d4024,
-         #d86e3a,
-        radial-gradient(center 50% 50%, radius 100%,#d96e3a,#c54e2c);
-}*/

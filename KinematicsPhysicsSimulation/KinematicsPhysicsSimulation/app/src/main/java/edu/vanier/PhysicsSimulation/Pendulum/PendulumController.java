@@ -156,8 +156,6 @@ public class PendulumController implements Initializable{
         double startAngle = Math.toDegrees(Math.atan(opposite / adjacent));
         double ARC_ANGLE = 90 - Math.abs(startAngle);
         maxAngle = ARC_ANGLE;
-        System.out.println("Start angle: " + startAngle);
-        System.out.println("Arc angle: " + ARC_ANGLE);
         double startX = canvas.getWidth() / 1.5 - 100;
         double startY = canvas.getHeight() / 2;
         Polyline polyline = new Polyline();
@@ -197,6 +195,12 @@ public class PendulumController implements Initializable{
         
             circle.removeEventHandler(MouseEvent.MOUSE_RELEASED, eventMouseReleased);
     }
+    private AnimationTimer timer = new AnimationTimer() {
+                @Override
+                public void handle(long l) {
+                    onUpdate();
+                }
+            };
     
     public void setSlider(){
         
@@ -217,12 +221,7 @@ public class PendulumController implements Initializable{
             }
         });
         DampingCheckBox.setOnAction((e) -> {
-            AnimationTimer timer = new AnimationTimer() {
-                @Override
-                public void handle(long l) {
-                    onUpdate();
-                }
-            };
+           
             if (DampingCheckBox.isSelected() == true) {
                 for (int y = 0; y < canvas.getHeight() / 10; y++) {
                     for (int x = 0; x < canvas.getWidth() / 10; x++) {
@@ -361,10 +360,11 @@ public class PendulumController implements Initializable{
      * @param duration
      * @return Animation animation
      */
+    private PathTransition animation = new PathTransition();
     public Animation animate(Polyline path, int numbCycles, boolean isAutoReverse,
             double duration){
         
-        PathTransition animation = new PathTransition();
+        
         animation.setCycleCount(Animation.INDEFINITE);
         animation.setAutoReverse(isAutoReverse);
         animation.setDuration(Duration.seconds(duration));
@@ -421,11 +421,16 @@ public class PendulumController implements Initializable{
     
     public static double getCurrentXPosition(){
         
-        return circleX;
+        return circleX - 325;
     }
     public static double getCurrentYPosition(){
         
-        return circleY;
+        return Math.abs(350 - circleY);
+    }
+    
+    public void stopAnimations(){
+        animation.stop();
+        timer.stop();
     }
 
     @Override

@@ -4,10 +4,12 @@
  */
 package edu.vanier.PhysicsSimulation.Pendulum;
 
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 /**
  *
@@ -22,11 +24,11 @@ public class AnimationLoader extends Stage{
             e.printStackTrace();
         }
     }
-    
+    PendulumController controller = new PendulumController();
     private void MakeComponents() throws Exception{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/PendulumTab.fxml"));
         
-        loader.setController(new PendulumController());
+        loader.setController(controller);
         
         Pane pane = loader.load();
         
@@ -34,6 +36,19 @@ public class AnimationLoader extends Stage{
         
         this.setScene(sc);
         
+        this.setOnCloseRequest(handle());
+        
         this.show();
     } 
+
+    private EventHandler<WindowEvent> handle() {
+
+        return new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                controller.stopAnimations();
+            }
+        };
+    }
+    
 }
