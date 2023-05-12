@@ -51,7 +51,7 @@ public class Settings {
      protected Slider redInitialPositionSlider, redFinalPositionSlider,blueInitialPositionSlider, blueFinalPositionSlider, blueInitialVelocitySlider, blueAccelerationSlider, redInitialVelocitySlider, redAccelerationSlider;
     
     @FXML
-     protected Button startBtn, stopBtn, resetBtn, submitBtn, positionGraphBtn, velocityGraphButton, homeBtn;
+     protected Button startBtn, stopBtn, resetBtn, submitBtn, positionGraphBtn, velocityGraphBtn, homeBtn;
    
     @FXML
     protected MenuBar menuBar;
@@ -66,6 +66,9 @@ public class Settings {
     protected Pane bottomPane;
     
     @FXML
+    protected Pane topPane;
+    
+    @FXML
     protected Label windowTitle;
     
     @FXML
@@ -74,9 +77,18 @@ public class Settings {
     @FXML
     protected Text redPositionLabel, redVelocityLabel, redAccelerationLabel, redTimeLabel;
     
+    @FXML
+    protected Text txt1, txt2, txt3, txt4, txt5, txt6, txt7, txt8;
+    
+    @FXML
+    protected Text txt9, txt10, txt11, txt12, txt13, txt14, txt15, txt16, txt17, txt18;
+    
     protected ArrayList<Line> dottedLines;
     protected ArrayList<Line> allLines;
     protected ArrayList<Rectangle> cars;
+    protected ArrayList<Text> text;
+    protected ArrayList<Pane> pane;
+    protected ArrayList<Button> button;
     
     protected double[][] redCarPositionGraph;
     protected double[][] blueCarPositionGraph;
@@ -97,7 +109,7 @@ public class Settings {
   
     protected Timeline graphTimeline;
     
-   protected File loadSave, newSave;
+    protected File loadSave, newSave;
    
-   CarsIO fileHandler;
+    protected CarsIO fileHandler;
 }
