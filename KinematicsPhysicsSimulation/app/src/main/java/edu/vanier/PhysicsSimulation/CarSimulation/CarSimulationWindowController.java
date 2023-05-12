@@ -141,11 +141,10 @@ public class CarSimulationWindowController extends Settings {
         blueFinalPositionSlider.setValue(blueCar.getFinalPosition());
         blueAccelerationSlider.setValue(blueCar.getAcceleration());
         blueInitialVelocitySlider.setValue(blueCar.getInitialVelocity());
-       
+      
        
     }
-    public void resizeLineHorizontal() {
-        
+    private void resizeLineHorizontal() {
         blueGauge.setPrefWidth(middlePane.getWidth()/3.9);
         redGauge.setPrefWidth(middlePane.getWidth()/3.9);  
         blueGauge.setLayoutX(middlePane.getWidth()*0.33);
@@ -153,7 +152,6 @@ public class CarSimulationWindowController extends Settings {
         top.setEndX(middlePane.getWidth());
         bottom.setEndX(middlePane.getWidth());
        
-        
        bottomPane.setTranslateX(bottomPane.getWidth()/10); // centers bottom pane sliders and buttons
         
         double lengthOfLine = middlePane.getWidth() / 20;
@@ -170,7 +168,7 @@ public class CarSimulationWindowController extends Settings {
         }
     }
 
-    public void resizeLineVertical() {
+    private void resizeLineVertical() {
         
        
         blueGauge.setPrefHeight(middlePane.getHeight()/1.76);
@@ -226,9 +224,17 @@ public class CarSimulationWindowController extends Settings {
           meetLine.setEndY(redCar.getLayoutY()+25);
           meetLine.setStroke(Color.CHARTREUSE);
           meetLine.setStrokeWidth(2);
+          
           if(meetLine.getTranslateX() >= middlePane.getWidth()-100){ 
              return false; 
+              
+          }else if(Double.parseDouble(df2.format(meetLine.getTranslateX())) <= Double.parseDouble(df2.format(blueCar.getInitialPosition()+10))) {
+              
+              return false;
+              
           }
+          System.out.println("meet " +Double.parseDouble(df2.format(meetLine.getTranslateX())));
+          System.out.println("initial " + Double.parseDouble(df2.format(blueCar.getInitialPosition()+20)));
           middlePane.getChildren().add(meetLine);
           carsMeet =true;
           meetingDistance = blueCar.getTranslateX()/10;
@@ -239,7 +245,7 @@ public class CarSimulationWindowController extends Settings {
       return false;
         
     }
-    public void updateSliderMax() {
+    private void updateSliderMax() {
         redInitialPositionSlider.setMax((middlePane.getWidth() / 10- redCar.getWidth() / 10));
         redFinalPositionSlider.setMin(redInitialPositionSlider.getValue());// this causes the final position ticks to start after the initial postion of the car
         redFinalPositionSlider.setMax(middlePane.getWidth() / 10 - redCar.getWidth() / 10);
@@ -426,6 +432,8 @@ public class CarSimulationWindowController extends Settings {
 
     @FXML
     private void handleSubmit() {
+        redGauge.setValue(0);
+        blueGauge.setValue(0);
         disableSliders(true, true, true, true, true, true, true, true);
         updateInput();
         disableBtns(false, true, true, true);
@@ -507,19 +515,11 @@ public class CarSimulationWindowController extends Settings {
     
     @FXML
     private void handleHomeButton(){
-      PhysicsSimulationController.carSimulation.close();   
+      PhysicsSimulationController.carSimulation.close();  
+      timeline.stop();
+      timelineToUpdateSliders.stop();
     }
     
-    //TODO make it functional
-     public void setBackGround() {
-        Image image = new Image("/images/space.jpg");
-        BackgroundImage backgroundImage = new BackgroundImage(
-                image,
-                BackgroundRepeat.NO_REPEAT, // repeat X
-                BackgroundRepeat.NO_REPEAT, // repeat Y
-                BackgroundPosition.CENTER, // position
-                new BackgroundSize(100, 100, true, true, true, true));
-       middlePane.setBackground(new Background(backgroundImage));
-    }
+    
 
 }

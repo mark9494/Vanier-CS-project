@@ -69,6 +69,7 @@ public class CarsIO extends CarSimulationWindowController{
         //reads one line at a time
         int counter = 1;
         while ((nextLine = reader.readNext()) != null) {
+                  
             if (nextLine.length == 2) {
                 if (counter == 1) {
                  blueCar.setInitialPosition(Double.parseDouble(nextLine[1])); 
@@ -92,6 +93,6 @@ public class CarsIO extends CarSimulationWindowController{
             
             }
         }
-        //System.out.println(initialVelocity + " " + rampAngle + " " + accelerationY + " " + counter + " " + Wind.intensity + " " + Wind.angle);
+        
     }
 

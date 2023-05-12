@@ -86,8 +86,8 @@ public class Settings {
     
     protected Car blueCar;
     protected Car redCar;
-    protected Timeline timeline; 
-    protected Timeline timelineToUpdateSliders; 
+    public static Timeline timeline; 
+    public static Timeline timelineToUpdateSliders; 
   
     protected double animationDuration = 50;
     protected double currentRate = 10;
