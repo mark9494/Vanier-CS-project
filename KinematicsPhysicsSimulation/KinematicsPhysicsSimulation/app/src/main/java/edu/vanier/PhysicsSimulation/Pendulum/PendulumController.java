@@ -5,23 +5,32 @@
 package edu.vanier.PhysicsSimulation.Pendulum;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Scanner;
+import java.util.Timer;
 import javafx.animation.Animation;
+import javafx.animation.AnimationTimer;
 import javafx.animation.Interpolator;
 import javafx.animation.PathTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Point2D;
 import javafx.scene.Cursor;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Separator;
 import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polyline;
 import javafx.util.Duration;
@@ -36,13 +45,16 @@ import lombok.Setter;
 @Setter
 public class PendulumController implements Initializable{
     @FXML
+    CheckBox DampingCheckBox;
+    
+    @FXML
     private Pane Base, animationPane;
     
     @FXML
     private Canvas canvas;
     
     @FXML
-    private Slider massSlider, dampingSlider, gravitySlider;
+    private Slider massSlider, gravitySlider;
     
     @FXML
     private Button playBtn, stopBtn, pauseBtn, graphBtn;
@@ -52,8 +64,6 @@ public class PendulumController implements Initializable{
 
     @FXML
     private Circle circle;
-    private double initialCircleX;
-    private double initialCircleY;
     
     private GraphicsContext gc;
     
@@ -65,6 +75,25 @@ public class PendulumController implements Initializable{
     private double angularFrequency;
     private double duration;
     
+    private int currentNumCyc;
+    
+    private double mouseX;
+    private double mouseY;
+    
+    private static double circleX;
+    private static double circleY;
+    
+  private List<Particle> particles = new ArrayList<>();
+
+    
+    private final EventHandler<MouseEvent> MouseMoved = new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent event) {
+            mouseX = event.getX();
+            mouseY = event.getY();
+        }
+    };
+  
     private final EventHandler<MouseEvent> eventMousePressed = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent event) {
@@ -110,10 +139,6 @@ public class PendulumController implements Initializable{
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         double startY = circle.getTranslateY();
         double startX = circle.getTranslateX();
-        //double endY = canvas.getHeight()/1.5 - length;
-        //double endX = canvas.getWidth()/2 ;
-        //double endY = initialCircleY - length;
-        //double endX = initialCircleX ;
         double endY = canvas.getHeight()/2;
         double endX = canvas.getWidth()/1.5 -100;
         
@@ -126,23 +151,26 @@ public class PendulumController implements Initializable{
   
     private Polyline createPath() {
         double RADIUS = length;
-        double START_ANGLE = Math.toDegrees(Math.atan((canvas.getHeight() / 2 - circle.getTranslateY()) / ((canvas.getWidth() / 1.5 - 100) - circle.getTranslateX())));
-        double ARC_ANGLE = 90 - Math.abs(START_ANGLE);
-        System.out.println("Start angle: " + START_ANGLE);
+        double opposite  = (canvas.getHeight() / 2 - circle.getTranslateY());
+        double adjacent = ((canvas.getWidth() / 1.5 - 100) - circle.getTranslateX());
+        double startAngle = Math.toDegrees(Math.atan(opposite / adjacent));
+        double ARC_ANGLE = 90 - Math.abs(startAngle);
+        maxAngle = ARC_ANGLE;
+        System.out.println("Start angle: " + startAngle);
         System.out.println("Arc angle: " + ARC_ANGLE);
         double startX = canvas.getWidth() / 1.5 - 100;
         double startY = canvas.getHeight() / 2;
         Polyline polyline = new Polyline();
-        if (START_ANGLE > 0) {
+        if (startAngle >= 0) {
             for (int i = 1; i < 2 * ARC_ANGLE; i++) {
-                double angle = Math.toRadians(i + START_ANGLE);
+                double angle = Math.toRadians(i + startAngle);
                 double x = startX + RADIUS * Math.cos(angle);
                 double y = startY + RADIUS * Math.sin(angle);
                 polyline.getPoints().addAll(x, y);
             }
-        } else if (START_ANGLE < 0) {
+        } else if (startAngle < 0) {
             for (int i = 1; i < 2 * ARC_ANGLE; i++) {
-                double angle = Math.toRadians(i + Math.abs(START_ANGLE));
+                double angle = Math.toRadians(i + Math.abs(startAngle));
                 double x = startX - RADIUS * Math.cos(angle);
                 double y = startY + RADIUS * Math.sin(angle);
                 polyline.getPoints().addAll(x, y);
@@ -150,20 +178,26 @@ public class PendulumController implements Initializable{
         }
         return polyline;
     }
-    
-    
     private void clickAndDrag() {
             circle.addEventHandler(MouseEvent.MOUSE_ENTERED_TARGET, eventMouseEnteredTarget);
-            
-            //When its closed and pressed make it drags
-            //Adding 2 eventHandlers here
+              
             circle.addEventHandler(MouseEvent.MOUSE_PRESSED, eventMousePressed);
             
             circle.addEventHandler(MouseEvent.MOUSE_DRAGGED, eventMouseDragged);
-            
-            //Animate the position of the rectangle to the position of the mouse when released
+         
             circle.addEventHandler(MouseEvent.MOUSE_RELEASED, eventMouseReleased);       
     }
+    
+    private void removeClickAndDrag(){
+            circle.removeEventHandler(MouseEvent.MOUSE_ENTERED_TARGET, eventMouseEnteredTarget);
+        
+            circle.removeEventHandler(MouseEvent.MOUSE_PRESSED, eventMousePressed);
+        
+            circle.removeEventHandler(MouseEvent.MOUSE_DRAGGED, eventMouseDragged);
+        
+            circle.removeEventHandler(MouseEvent.MOUSE_RELEASED, eventMouseReleased);
+    }
+    
     public void setSlider(){
         
         massSlider.valueProperty().addListener(new ChangeListener() {
@@ -182,62 +216,139 @@ public class PendulumController implements Initializable{
                 } 
             }
         });
-        dampingSlider.valueProperty().addListener(new ChangeListener() {
-            @Override
-            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-                // TODO: Setup the Angular Frequency when there is damping
-                setDamping((int)dampingSlider.getValue());
-            }
+        DampingCheckBox.setOnAction((e) -> {
+            AnimationTimer timer = new AnimationTimer() {
+                @Override
+                public void handle(long l) {
+                    onUpdate();
+                }
+            };
+            if (DampingCheckBox.isSelected() == true) {
+                for (int y = 0; y < canvas.getHeight() / 10; y++) {
+                    for (int x = 0; x < canvas.getWidth() / 10; x++) {
+                        particles.add(new Particle(x * 10, y * 10, Color.BLUE));
+                    }
+                }
+                timer.start();
+            } 
         });
-        
+
+    }
+    boolean firstTime = true;
+    private void onUpdate() {
+        if (firstTime){
+            circle.setTranslateX(circle.getTranslateX() + 1);
+            circle.setTranslateY(circle.getTranslateY() + 1);
+            System.out.println("Postion changed");
+            firstTime = false;
+        }
+        if (DampingCheckBox.isSelected() == true) {
+            gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
+            Point2D circlePosition = new Point2D(circleX, circleY);
+
+            particles.forEach(p -> {
+                p.update(circlePosition);
+
+                gc.setFill(p.color);
+
+                gc.fillOval(p.x - 1, p.y - 1, 2, 2);
+                
+            });
+            double startY = circle.getTranslateY();
+            double startX = circle.getTranslateX();
+            double endY = canvas.getHeight() / 2;
+            double endX = canvas.getWidth() / 1.5 - 100;
+
+            gc.strokeLine(startX, startY, endX, endY);
+        } else if(DampingCheckBox.isSelected() == false){
+            gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+            draw(gc);
+        }
+
     }
     private void disableSlider(boolean b) {
         
         massSlider.setDisable(b);
-        dampingSlider.setDisable(b);
+        DampingCheckBox.setDisable(b);
         gravitySlider.setDisable(b);
     }
+    
     private void setValues(){
         maxAngle = 90;
         length = 100;
         mass = massSlider.getValue();
-        damping = (int) dampingSlider.getValue();
         gravity = gravitySlider.getValue();
         angularFrequency = Math.sqrt(gravity / length);
         duration = 2;
     }
-    public void setBtns(Animation animation){
-        playBtn.setOnAction((e) -> {
-            if (pauseBtn.isDisable() == true) {
-                animation.playFrom(Duration.ONE);
-                pauseBtn.setDisable(false);
-            } else {
-                animation.play();
-                
-            }
+    
+    private void setPlayBtn() {
+        playBtn.setOnAction((e)->{
+            Polyline path = createPath();
+            Animation anim = animate(path, 1, true, duration);
+            anim.play();
+            setBtns(anim);
+            playBtn.setDisable(true);
             pauseBtn.setDisable(false);
             stopBtn.setDisable(false);
+            disableSlider(true);
+            removeClickAndDrag();
+        });
+    }
+    public void setBtns(Animation animation){
+        playBtn.setOnAction((e) -> {
+            if (pauseBtn.isDisable() == false) {
+                animation.play();
+            }else{
+            animation.play();
+            pauseBtn.setDisable(false);
+            stopBtn.setDisable(false);
+            }
             disableSlider(true);
         });
 
         pauseBtn.setOnAction((e) -> {
             animation.pause();
+            playBtn.setDisable(false);
+            pauseBtn.setDisable(true);
         });
 
         stopBtn.setOnAction((e) -> {
             animation.stop();
             pauseBtn.setDisable(true);
+            playBtn.setDisable(false);
+            stopBtn.setDisable(true);
             disableSlider(false);
+            setPlayBtn();
+            clickAndDrag();
         });
+        
+        graphBtn.setOnAction((e) ->{
+            new GraphLoader();
+        });
+        
     }
     
     public void circleProperties(){
         
         circle.translateXProperty().addListener(new ChangeListener<Number>(){
             @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+            public void changed(ObservableValue<? extends Number> observable,
+                    Number oldValue, Number newValue) {
                 draw(gc);
-                
+                circleX = circle.getTranslateX();
+                firstTime = false;
+            }
+            
+        });
+        circle.translateYProperty().addListener(new ChangeListener<Number>(){
+            @Override
+            public void changed(ObservableValue<? extends Number> observable,
+                    Number oldValue, Number newValue) {
+                draw(gc);
+                circleY = circle.getTranslateY();
+                firstTime = false;
             }
             
         });
@@ -250,16 +361,25 @@ public class PendulumController implements Initializable{
      * @param duration
      * @return Animation animation
      */
-    public Animation animate(Polyline path, int numbCycles, boolean isAutoReverse, double duration){
+    public Animation animate(Polyline path, int numbCycles, boolean isAutoReverse,
+            double duration){
+        
         PathTransition animation = new PathTransition();
-        animation.setCycleCount(/*numbCycles*/Animation.INDEFINITE);
+       /* if(getDamping() > 0){
+            animation.setCycleCount(numbCycles);
+        }else{*/
+            animation.setCycleCount(Animation.INDEFINITE);
+       // }
         animation.setAutoReverse(isAutoReverse);
         animation.setDuration(Duration.seconds(duration));
         animation.setPath(path);
         animation.setNode(circle);
         animation.setInterpolator(Interpolator.EASE_BOTH);
+        animation.setRate(3*this.getAngularFrequency());
         animation.setOnFinished((event) -> {
-            System.out.println("Animation finished");
+            /*animate(reCreatePath(maxAngle*(Math.pow(Math.E, -currentNumCyc))),
+                    numbCycles, isAutoReverse, duration).play();
+            currentNumCyc ++;*/
         });
         return animation;
     }
@@ -271,7 +391,8 @@ public class PendulumController implements Initializable{
         Base.setLayoutY(0);
         animationPane.setLayoutX(0);
         animationPane.setLayoutY(0);
-        
+        circleX = circle.getTranslateX();
+        circleY = circle.getTranslateY();
         canvas.setLayoutX(animationPane.getLayoutX());
         canvas.setLayoutY(animationPane.getLayoutY()); 
         
@@ -295,18 +416,24 @@ public class PendulumController implements Initializable{
         pauseBtn.setDisable(true);
         stopBtn.setDisable(true);
         clickAndDrag();
-        playBtn.setOnAction((e)->{
-            Polyline path = createPath();
-            animate(path, 2, true, duration).play(); 
-            animationPane.getChildren().add(path);
-        });
+        setPlayBtn();
+        
         
         circleProperties();
+        graphBtn.setOnAction((e) ->{
+            GraphController g = new GraphController();
+        });
+    }
+    
+    public static double getCurrentPosition(){
+        return circleX;
     }
 
     @Override
     public String toString() {
-        return "PendulumController{" + ", maxAngle=" + maxAngle + ", length=" + length + ", mass=" + mass + ", damping=" + damping + ", gravity=" + gravity + ", angularFrequency=" + angularFrequency + ", duration=" + duration + '}';
+        return "PendulumController{" + ", maxAngle=" + maxAngle + 
+                ", length=" + length + ", mass=" + mass + ", damping=" +
+                damping + ", gravity=" + gravity + ", angularFrequency=" +
+                angularFrequency + ", duration=" + duration + '}';
     }
-    
 }

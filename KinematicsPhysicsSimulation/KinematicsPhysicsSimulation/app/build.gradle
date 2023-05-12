@@ -45,7 +45,7 @@ application {
    // TODO: specify the fully qualified name of the class 
    //       that contains the main method your would like to run.
    mainClass = 'edu.vanier.PhysicsSimulation.PhysicsSimulation'
-
+   // mainClass = 'edu.vanier.PhysicsSimulation.Pendulum.CanvasApp'
    // mainClass = 'edu.vanier.PhysicsSimulation.ProjectileMotion.ProjectileMotion'
 
    

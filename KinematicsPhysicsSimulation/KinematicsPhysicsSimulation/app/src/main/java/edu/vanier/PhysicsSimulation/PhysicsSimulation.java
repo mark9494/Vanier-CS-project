@@ -22,8 +22,10 @@ public class PhysicsSimulation extends Application {
         Scene scene = new Scene(root,600,370);
         stage.setScene(scene);        
         stage.setTitle("KinematicPhysicsSimulation");
+        
         stage.sizeToScene();
         stage.show();
+        //testLoader load = new testLoader();
     }
 
 

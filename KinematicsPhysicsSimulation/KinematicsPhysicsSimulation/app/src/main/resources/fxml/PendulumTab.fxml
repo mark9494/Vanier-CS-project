@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.Tab?>
@@ -25,12 +26,12 @@
                             <right>
                                 <Pane prefHeight="400.0" prefWidth="175.0" BorderPane.alignment="CENTER">
                                     <children>
-                                        <Slider fx:id="dampingSlider" blockIncrement="1.0" layoutX="71.0" layoutY="40.0" majorTickUnit="1.0" max="10.0" minorTickCount="0" prefHeight="37.0" prefWidth="100.0" showTickLabels="true" showTickMarks="true" />
                                         <Slider fx:id="massSlider" layoutX="71.0" layoutY="100.0" majorTickUnit="10.0" max="50.0" min="10.0" minorTickCount="0" prefHeight="37.0" prefWidth="100.0" showTickLabels="true" showTickMarks="true" value="10.0" />
                               <Slider fx:id="gravitySlider" blockIncrement="1.0" layoutX="71.0" layoutY="160.0" majorTickUnit="3.0" max="15.0" min="5.0" prefHeight="14.0" prefWidth="100.0" showTickLabels="true" showTickMarks="true" value="9.8" />
                                         <Text layoutX="14.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Damping" />
                                         <Text layoutX="24.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mass" />
                               <Text layoutX="19.0" layoutY="170.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gravity" />
+                              <CheckBox fx:id="DampingCheckBox" layoutX="71.0" layoutY="37.0" mnemonicParsing="false" />
                                     </children>
                                 </Pane>
                             </right>
