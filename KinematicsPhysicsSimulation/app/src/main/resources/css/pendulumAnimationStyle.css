@@ -21,7 +21,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 }
 #pauseBtn
 {
-    -fx-text-fill: yellow;
+    -fx-text-fill: orange;
     -fx-background-color: white;
     -fx-border-color: black;
     -fx-border-radius:30;
