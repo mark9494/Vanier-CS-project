@@ -18,7 +18,7 @@ import javafx.util.Duration;
 
 /**
  *
- * @author antho
+ * @author Youssif
  */
 public class GraphController implements Initializable{
     
