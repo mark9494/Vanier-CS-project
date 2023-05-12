@@ -24,7 +24,9 @@ public class GraphController implements Initializable{
     
     public static final int MAXIMUM_NUMBER_OF_POINTS = 20;
 
-    int currentposition;
+    int currentxposition;
+    
+    int currentyposition;
     
     int timeInSec;
     
@@ -37,7 +39,8 @@ public class GraphController implements Initializable{
     @FXML
     private NumberAxis positionAxis;
     
-    XYChart.Series series = new XYChart.Series();
+    XYChart.Series seriesX = new XYChart.Series();
+    XYChart.Series seriesY = new XYChart.Series();
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         
@@ -45,28 +48,40 @@ public class GraphController implements Initializable{
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
         
-        series.setName("Data");
+        seriesX.setName("X Postion");
+        
+        seriesY.setName("Y Position");
+        
         positionAxis.setLabel("Time");
+        
         timeAxis.setLabel("Position");
-        positionGraph.getData().add(series);
+        
+        positionGraph.getData().addAll(seriesX, seriesY);
         
     }
 
     private void generateData() {
-        setCurrentPosition((int) PendulumController.getCurrentPosition());
-        series.getData().add(new XYChart.Data(String.valueOf(timeInSec),getCurrentPosition()));
-        if(series.getData().size() > MAXIMUM_NUMBER_OF_POINTS){
-            series.getData().remove(0);
+        setCurrentXPosition((int) PendulumController.getCurrentXPosition());
+        setCurrentYPosition((int) PendulumController.getCurrentYPosition());
+        seriesX.getData().add(new XYChart.Data(String.valueOf(timeInSec),getCurrentXPosition()));
+        seriesY.getData().add(new XYChart.Data(String.valueOf(timeInSec),getCurrentYPosition()));
+        if(seriesX.getData().size() > MAXIMUM_NUMBER_OF_POINTS){
+            seriesX.getData().remove(0);
+            seriesY.getData().remove(0);
         }
         timeInSec++;
     }
 
-    public Integer getCurrentPosition() {
-        return currentposition;
+    public Integer getCurrentXPosition() {
+        return currentxposition;
     }
-    
-    public void setCurrentPosition(int currentposition){
-        this.currentposition = currentposition;
+    public Integer getCurrentYPosition() {
+        return currentyposition;
     }
-    
+    public void setCurrentXPosition(int currentposition){
+        this.currentxposition = currentposition;
+    }
+    public void setCurrentYPosition(int currentposition){
+        this.currentyposition = currentposition;
+    }
 }

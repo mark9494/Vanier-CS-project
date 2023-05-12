@@ -8,8 +8,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.Scanner;
-import java.util.Timer;
 import javafx.animation.Animation;
 import javafx.animation.AnimationTimer;
 import javafx.animation.Interpolator;
@@ -17,7 +15,6 @@ import javafx.animation.PathTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Point2D;
@@ -83,6 +80,8 @@ public class PendulumController implements Initializable{
     private static double circleX;
     private static double circleY;
     
+    
+    
   private List<Particle> particles = new ArrayList<>();
 
     
@@ -144,6 +143,7 @@ public class PendulumController implements Initializable{
         
         gc.strokeLine(startX, startY, endX, endY);
     }
+    
     /**
      * This method is used to create a path that the pendulum will follow
      * @return PolyLine 
@@ -365,11 +365,7 @@ public class PendulumController implements Initializable{
             double duration){
         
         PathTransition animation = new PathTransition();
-       /* if(getDamping() > 0){
-            animation.setCycleCount(numbCycles);
-        }else{*/
-            animation.setCycleCount(Animation.INDEFINITE);
-       // }
+        animation.setCycleCount(Animation.INDEFINITE);
         animation.setAutoReverse(isAutoReverse);
         animation.setDuration(Duration.seconds(duration));
         animation.setPath(path);
@@ -377,9 +373,7 @@ public class PendulumController implements Initializable{
         animation.setInterpolator(Interpolator.EASE_BOTH);
         animation.setRate(3*this.getAngularFrequency());
         animation.setOnFinished((event) -> {
-            /*animate(reCreatePath(maxAngle*(Math.pow(Math.E, -currentNumCyc))),
-                    numbCycles, isAutoReverse, duration).play();
-            currentNumCyc ++;*/
+            
         });
         return animation;
     }
@@ -401,7 +395,7 @@ public class PendulumController implements Initializable{
         circle.setTranslateX(canvas.getWidth()/1.5);
         circle.setTranslateY(canvas.getHeight()/2);
         
-        
+        System.out.println(canvas.getWidth() + " " +  canvas.getHeight());
         gc  = canvas.getGraphicsContext2D();
         
         
@@ -425,8 +419,13 @@ public class PendulumController implements Initializable{
         });
     }
     
-    public static double getCurrentPosition(){
+    public static double getCurrentXPosition(){
+        
         return circleX;
+    }
+    public static double getCurrentYPosition(){
+        
+        return circleY;
     }
 
     @Override
