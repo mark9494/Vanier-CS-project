@@ -4,14 +4,16 @@
  */
 package edu.vanier.PhysicsSimulation.Pendulum;
 
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 /**
  *
- * @author antho
+ * @author Youssif
  */
 public class GraphLoader extends Stage {
     public GraphLoader(){
@@ -22,11 +24,11 @@ public class GraphLoader extends Stage {
             e.printStackTrace();
         }
     }
-    
+    GraphController controller = new GraphController();
     private void MakeComponents() throws Exception{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Graph.fxml"));
         
-        loader.setController(new GraphController());
+        loader.setController(controller);
         
         Pane pane = loader.load();
         
@@ -34,6 +36,17 @@ public class GraphLoader extends Stage {
         
         this.setScene(sc);
         
+        this.setOnCloseRequest(handle());
+        
         this.show();
     } 
+
+    private EventHandler<WindowEvent> handle() {
+        return new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                controller.stopAnimations();
+            }
+        };
+    }
 }
