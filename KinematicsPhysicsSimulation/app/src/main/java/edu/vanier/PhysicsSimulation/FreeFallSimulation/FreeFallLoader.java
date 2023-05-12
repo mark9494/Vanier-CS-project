@@ -18,7 +18,9 @@ import javafx.stage.Stage;
  * @author 2155725
  */
 public class FreeFallLoader extends Stage {
+
     static Stage secondWindow;
+
     public FreeFallLoader() {
 
         try {
@@ -37,7 +39,7 @@ public class FreeFallLoader extends Stage {
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/FreeFallSim.fxml"));
         loader.setController(controller);
         Pane root = loader.load();
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(root, 800, 600);
         secondWindow.setScene(scene);
 
         secondWindow.setTitle("FreeFall Simulation");

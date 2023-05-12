@@ -148,18 +148,13 @@ public class ProjectileMotionSettings {
     }
 
     protected void setTime() {
-        double a = 0.5 * (accelerationY);
-        double b = initVelocityY;
-        double c = -deltaY;
-        double underRoot = (b * b) - (4 * a * c);
-        double sqrt = Math.sqrt(underRoot);
-        double time1 = (-b + sqrt) / (2 * a);
-
-        // conditional operation
-        time = (time1 > 0)
-                ? time1
-                : (-b - sqrt) / (2 * a);
+        System.out.println(initVelocityY);
+        finalVelocityY = Math.pow(initVelocityY, 2) + 2 * accelerationY * deltaY;
+        finalVelocityY = - Math.sqrt(finalVelocityY);
+        System.out.println(finalVelocityY);
+        time = - (finalVelocityY - initVelocityY) / accelerationY;
     }
+
 
     protected void setDeltaX() {
         deltaX = initVelocityX * time;

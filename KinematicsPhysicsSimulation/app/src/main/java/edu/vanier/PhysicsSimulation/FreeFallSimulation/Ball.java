@@ -15,12 +15,14 @@ import javafx.scene.shape.Circle;
  */
 public class Ball extends Circle {
 
-    private static final int RADIUS = 15;
+    public static final int RADIUS = 20;
     private double dy;
 
     public Ball() {
         this.setRadius(RADIUS);
         this.setFill(Color.RED);
+        Image ball = new Image("/images/tennisBall.png");
+        this.setFill(new ImagePattern(ball));
     }
 
     public double getDy() {

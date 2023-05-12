@@ -4,8 +4,8 @@
  */
 package edu.vanier.PhysicsSimulation.ProjectileMotion;
 
-import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 /**
  *
@@ -19,36 +19,40 @@ public class ProjectileMotionSettingsTest {
     @Test
     public void testSetTime() {
         ProjectileMotionSettings pms = new ProjectileMotionSettings();
-        pms.accelerationY = 3;
-        pms.initVelocityY = 10;
-        pms.setDeltaY(30);
+        pms.accelerationY = 1;
+        pms.initVelocityY = -3.42;
+        pms.setDeltaY(670);
 
-        double expResult = 1.6560973568579596;
+        double expResult = 33.36;
         pms.setTime();
         double result = pms.time;
-        assertEquals(expResult, result, 0.6);
+        assertEquals(expResult, result, 0.1);
     }
+
+    @Test
     public void testSetTime2() {
         ProjectileMotionSettings pms = new ProjectileMotionSettings();
-        pms.accelerationY = 10;
-        pms.initVelocityY = 3;
-        pms.setDeltaY(80);
+        pms.accelerationY = 5;
+        pms.initVelocityY = -100;
+        pms.setDeltaY(300);
 
-        double expResult = 3.7112342240263154;
+        double expResult = 2.8;
         pms.setTime();
         double result = pms.time;
-        assertEquals(expResult, result, 0.6);
+        assertEquals(expResult, result, 0.1);
     }
+
+    @Test
     public void testSetTime3() {
         ProjectileMotionSettings pms = new ProjectileMotionSettings();
-        pms.accelerationY = 40;
-        pms.initVelocityY = 80;
-        pms.setDeltaY(900);
+        pms.accelerationY = 3;
+        pms.initVelocityY = -10;
+        pms.setDeltaY(200);
 
-        double expResult = 5;
+        double expResult = 8.685;
         pms.setTime();
         double result = pms.time;
-        assertEquals(expResult, result, 0.5);
+        assertEquals(expResult, result, 0.1);
     }
 
 }
