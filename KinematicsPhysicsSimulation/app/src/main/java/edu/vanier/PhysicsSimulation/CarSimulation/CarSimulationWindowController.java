@@ -12,9 +12,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
@@ -24,9 +29,12 @@ import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import static javafx.scene.paint.Color.BLACK;
+import static javafx.scene.paint.Color.YELLOW;
+import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 /**
  *
  * @author antho
@@ -40,7 +48,9 @@ public class CarSimulationWindowController extends Settings {
     
     @FXML
     public void initialize() {
+         meetLine = new Line();
         setupGauges();
+        setupMenuBar();
         
         redCarPositionGraph = new double[10][2];
         blueCarPositionGraph = new double[10][2];
@@ -54,7 +64,7 @@ public class CarSimulationWindowController extends Settings {
 
         blueCar = new Car(5, 82, "blue");
         redCar = new Car(5, 122);
-      
+        fileHandler = new CarsIO(redCar, blueCar);
         middlePane.getChildren().addAll(blueCar, redCar);
 
         createAnimation();
@@ -85,15 +95,60 @@ public class CarSimulationWindowController extends Settings {
         });
         middlePane.heightProperty().addListener((obs, oldVal, newVal) -> {
             resizeLineVertical();
-            setBackGround();
+         
         });
     }
+    private void setupMenuBar(){
+     FileChooser fileChooser = new FileChooser();
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        menuBar.getMenus().remove(2);
+        MenuItem save = new MenuItem("Save Last Run");
+        MenuItem openSave = new MenuItem("Open Save");
+        menuBar.getMenus().get(0).getItems().addAll(save, openSave);
+        menuBar.getMenus().get(0).getItems().remove(0);
+        
+        
+         EventHandler<ActionEvent> savePressed = new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                newSave = directoryChooser.showDialog(new Stage());
+                fileHandler.writeDataInFile(newSave.getPath() + "\\CarSimulation.csv");
+            }
+        };
 
+        EventHandler<ActionEvent> loadSaved = new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                loadSave = fileChooser.showOpenDialog(new Stage());
+                try {
+                    fileHandler.readDataInFile(loadSave.getPath());
+                    loadVisualSettingsBack();
+                } catch (IOException ex) {
+                    System.out.println("File Not Read Properly. ");
+                }
+            }
+        };
+        save.setOnAction(savePressed);
+        openSave.setOnAction(loadSaved);
+    }
+    
+    private void loadVisualSettingsBack() {
+        redInitialPositionSlider.setValue(redCar.getInitialPosition());
+        redFinalPositionSlider.setValue(redCar.getFinalPosition());
+        redAccelerationSlider.setValue(redCar.getAcceleration());
+        redInitialVelocitySlider.setValue(redCar.getInitialVelocity());
+        blueInitialPositionSlider.setValue(blueCar.getInitialPosition());
+        blueFinalPositionSlider.setValue(blueCar.getFinalPosition());
+        blueAccelerationSlider.setValue(blueCar.getAcceleration());
+        blueInitialVelocitySlider.setValue(blueCar.getInitialVelocity());
+       
+       
+    }
     public void resizeLineHorizontal() {
         
         blueGauge.setPrefWidth(middlePane.getWidth()/3.9);
         redGauge.setPrefWidth(middlePane.getWidth()/3.9);  
-        redGauge.setLayoutX(middlePane.getWidth()*0.33);
+        blueGauge.setLayoutX(middlePane.getWidth()*0.33);
         
         top.setEndX(middlePane.getWidth());
         bottom.setEndX(middlePane.getWidth());
@@ -148,7 +203,7 @@ public class CarSimulationWindowController extends Settings {
     private void handleUpdateAnimation() {
         
         endOfSimulation();
-          
+        carsMeet();
         blueCar.calculateCurrentVelocity(blueCar.calculateCurrentDisplacement());
         blueCar.calculateCurrentTime(blueCar.calculateCurrentDisplacement());
 
@@ -160,7 +215,30 @@ public class CarSimulationWindowController extends Settings {
         updateGaugesValues();
 
     }
-
+    private boolean carsMeet(){
+        if(!carsMeet && blueCar.getTranslateX()>50){
+      if(df2.format(blueCar.getTranslateX()).equalsIgnoreCase(df2.format(redCar.getTranslateX()))
+         || df2.format(blueCar.getTranslateX()+1).equalsIgnoreCase(df2.format(redCar.getTranslateX())) 
+         || df2.format(blueCar.getTranslateX()-1).equalsIgnoreCase(df2.format(redCar.getTranslateX()))){
+          
+          meetLine.setTranslateX(blueCar.getTranslateX());
+          meetLine.setStartY(blueCar.getLayoutY());
+          meetLine.setEndY(redCar.getLayoutY()+25);
+          meetLine.setStroke(Color.CHARTREUSE);
+          meetLine.setStrokeWidth(2);
+          if(meetLine.getTranslateX() >= middlePane.getWidth()-100){ 
+             return false; 
+          }
+          middlePane.getChildren().add(meetLine);
+          carsMeet =true;
+          meetingDistance = blueCar.getTranslateX()/10;
+          return true;
+          
+        }
+        }
+      return false;
+        
+    }
     public void updateSliderMax() {
         redInitialPositionSlider.setMax((middlePane.getWidth() / 10- redCar.getWidth() / 10));
         redFinalPositionSlider.setMin(redInitialPositionSlider.getValue());// this causes the final position ticks to start after the initial postion of the car
@@ -307,8 +385,19 @@ public class CarSimulationWindowController extends Settings {
     
     private void endOfSimulation(){
         
-      if(blueCar.getFinalPosition()/10 <= blueCar.getCurrentPosition() && redCar.getFinalPosition()/10 <= redCar.getCurrentPosition()){
+      if(blueCar.getFinalPosition() <= blueCar.getTranslateX() && redCar.getFinalPosition() <= redCar.getTranslateX()){
           handleReset();
+          if(carsMeet){
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("Cars meet");
+            alert.setContentText("Please not that the two cars meet at " +df.format(meetingDistance) + "m");
+            alert.show();
+          }else{
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("Cars do not meet");
+            alert.setContentText("Please not that the two cars meet never meet ");   
+            alert.show();
+          }  
       }
       
     }
@@ -332,7 +421,7 @@ public class CarSimulationWindowController extends Settings {
     private void handleReset() {
         disableSliders(false, false, false, false, false, false, false, false);
         disableBtns(true, true, true, false);
-        timeline.stop();
+        timeline.stop(); 
     }
 
     @FXML
@@ -341,6 +430,8 @@ public class CarSimulationWindowController extends Settings {
         updateInput();
         disableBtns(false, true, true, true);
         resetLiveStats();
+        carsMeet = false;
+        middlePane.getChildren().remove(meetLine);
     }
 
     private void resetLiveStats() {
