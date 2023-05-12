@@ -38,6 +38,7 @@ public class IO extends ProjectileMotionSettings {
     }
 
     public static void readDataInFile(String filePath) throws FileNotFoundException, IOException {
+
         CSVReader reader = new CSVReader(new FileReader(filePath));
         String[] nextLine;
 

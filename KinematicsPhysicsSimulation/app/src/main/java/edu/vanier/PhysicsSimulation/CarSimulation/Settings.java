@@ -5,6 +5,7 @@
 package edu.vanier.PhysicsSimulation.CarSimulation;
 
 import eu.hansolo.medusa.Gauge;
+import java.io.File;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import javafx.animation.Timeline;
@@ -27,7 +28,11 @@ public class Settings {
     
     
     protected static final DecimalFormat df = new DecimalFormat("0.00");
+    protected static final DecimalFormat df2 = new DecimalFormat("0");
+    protected double meetingDistance;
+    protected Line meetLine;
     
+    protected boolean carsMeet;
     protected Gauge blueGauge;    
     protected Gauge redGauge;
     
@@ -92,5 +97,7 @@ public class Settings {
   
     protected Timeline graphTimeline;
     
-    
+   protected File loadSave, newSave;
+   
+   CarsIO fileHandler;
 }
