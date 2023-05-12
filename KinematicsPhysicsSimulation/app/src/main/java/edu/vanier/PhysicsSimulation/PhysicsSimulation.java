@@ -1,6 +1,7 @@
 package edu.vanier.PhysicsSimulation;
 
 
+import edu.vanier.PhysicsSimulation.CarSimulation.Settings;
 import edu.vanier.PhysicsSimulation.ProjectileMotion.ProjectileMotionSettings;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
@@ -28,12 +29,18 @@ public class PhysicsSimulation extends Application {
 
 //TODO: Close all timelines here.
     @Override
-    public void stop() {
+    public void stop() {       
+        try{      
         System.out.println("Closing Application.");
         ProjectileMotionSettings.timelineRectangleAndBall.stop();
         ProjectileMotionSettings.timelinePaneResize.stop();
         ProjectileMotionSettings.timer.cancel();
+        Settings.timeline.stop();
+        Settings.timelineToUpdateSliders.stop();
         
+        }catch(Exception e){
+            
+        }
     }
 
     public static void main(String[] args) {
