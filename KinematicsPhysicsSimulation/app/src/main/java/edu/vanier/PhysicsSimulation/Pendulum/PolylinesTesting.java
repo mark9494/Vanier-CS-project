@@ -4,35 +4,85 @@
  */
 package edu.vanier.PhysicsSimulation.Pendulum;
 
-import com.sun.javafx.sg.prism.NGCanvas;
-import com.sun.prism.impl.ps.BaseShaderContext;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.animation.Animation;
-import javafx.animation.Interpolator;
-import javafx.animation.PathTransition;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.EventHandler;
+import javafx.animation.RotateTransition;
+import javafx.animation.Timeline;
+import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Cursor;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.Group;
+import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Polyline;
+import javafx.scene.shape.Line;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javafx.util.Duration;
-
 /**
  *
  * @author Youssif
  */
 public class PolylinesTesting implements Initializable {
+
+    @FXML
+    Pane animationPane;
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+// Parameters for the pendulum animation
+     final double LENGTH = 200; // Length of the pendulum arm
+     final double MASS = 20; // Mass of the pendulum bob
+     final double GRAVITY = 9.81; // Acceleration due to gravity
+     final double DAMPING = 0.1; // Damping factor for the pendulum
     
+        
+        // Create the pendulum components
+        Circle bob = new Circle(LENGTH, 0, MASS, Color.BLACK);
+        Line arm = new Line(0, 0, LENGTH, 0);
+        arm.setStrokeWidth(3);
+        arm.setStroke(Color.BLACK);
+        Text massText = new Text(LENGTH - MASS, MASS + 20, "m = " + MASS);
+        Text dampingText = new Text(LENGTH - MASS, MASS + 40, "b = " + DAMPING);
+        Text gravityText = new Text(LENGTH - MASS, MASS + 60, "g = " + GRAVITY);
+        
+        // Add the pendulum components to a group
+        Group group = new Group(bob, arm, massText, dampingText, gravityText);
+        
+        // Create a rotate transition for the pendulum bob
+        RotateTransition rotateTransition = new RotateTransition(Duration.seconds(2), bob);
+        rotateTransition.setByAngle(360);
+        rotateTransition.setCycleCount(Timeline.INDEFINITE);
+        rotateTransition.setAutoReverse(false);
+        
+        // Set up the animation timeline
+        Timeline timeline = new Timeline();
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        
+        // Add a keyframe to the timeline
+        timeline.getKeyFrames().add(
+                new javafx.animation.KeyFrame(Duration.millis(20), event -> {
+                    double theta = Math.toRadians(bob.getRotate());
+                    double angularVelocity = rotateTransition.getCurrentRate();
+                    double acceleration = -GRAVITY / LENGTH * Math.sin(theta) - DAMPING / MASS * angularVelocity;
+                    double deltaTheta = angularVelocity * 0.02;
+                    rotateTransition.setRate(rotateTransition.getRate() + acceleration * 0.02);
+                    bob.setRotate(bob.getRotate() + deltaTheta);
+                })
+        );
+        
+        // Start the animation
+        timeline.play();
+        rotateTransition.play();
+        animationPane.getChildren().add(group);
+        
+        // Set up the scene
+       // Scene scene = new Scene(group, 2 * LENGTH, 2 * LENGTH + 80);
+        
+    }
+}
+/*    
     @FXML
     Pane pane, animationPane;
 
@@ -71,7 +121,7 @@ public class PolylinesTesting implements Initializable {
             SimulationSHM shm = new SimulationSHM();
             Animation shmHandled = shm.bringToCenter(rect, amplitude, mass, damping, springStiffness, centralLine.getLayoutX());
             animate(shmHandled);*/
-        }
+  /*      }
     };
     
     private final EventHandler<MouseEvent> eventMouseReleased = new EventHandler<MouseEvent>() {
@@ -208,24 +258,4 @@ public class PolylinesTesting implements Initializable {
         });
         
                         
-    }
-}
-
-/*final double CENTER_X = canvas.getWidth()/1.5-100;
-        final double CENTER_Y = canvas.getHeight()/2;
-        final double RADIUS = 100;
-        final double ANGLE = 90; // in degrees
-
-        Polyline arcPolyline = new Polyline();
-
-        for (int i = 0; i <= ANGLE; i++) {
-            double radians = Math.toRadians(i);
-            double x = CENTER_X + RADIUS * Math.cos(radians);
-            double y = CENTER_Y + RADIUS * Math.sin(radians);
-            arcPolyline.getPoints().addAll(x, y);
-        }
-
-        arcPolyline.setStroke(Color.BLACK);
-        arcPolyline.setStrokeWidth(3);
-        
-        animationPane.getChildren().add(arcPolyline);*/
+    }*/
