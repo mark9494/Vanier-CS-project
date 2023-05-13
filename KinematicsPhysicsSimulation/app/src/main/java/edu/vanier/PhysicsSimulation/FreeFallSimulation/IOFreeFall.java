@@ -1,10 +1,5 @@
 package edu.vanier.PhysicsSimulation.FreeFallSimulation;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import java.io.File;
@@ -12,16 +7,17 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import javafx.scene.shape.Rectangle;
 
 public class IOFreeFall extends FreeFallController {
 
-    public IOFreeFall(Rectangle building, double acceleration) {
-        this.building = building;
-        this.accelerationY = acceleration;
+    public IOFreeFall() {
     }
-    
-    
+
+    /**
+     * Creates and writes into a csv file to store data of the simulation.
+     *
+     * @param filePath : file path to store the csv file
+     */
     public void writeDataInFile(String filePath) {
         File file = new File(filePath);
         try {
@@ -39,6 +35,13 @@ public class IOFreeFall extends FreeFallController {
         }
     }
 
+    /**
+     * Reads the data from the csv file and sets the variables.
+     *
+     * @param filePath : file path to retrieve csv file
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
     public void readDataInFile(String filePath) throws FileNotFoundException, IOException {
         CSVReader reader = new CSVReader(new FileReader(filePath));
         String[] nextLine;
@@ -54,11 +57,8 @@ public class IOFreeFall extends FreeFallController {
                     FreeFallSettings.accelerationY = Double.parseDouble(nextLine[1]);
                     System.out.println(accelerationY);
                 }
-
                 counter++;
             }
-
         }
     }
-
 }

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package edu.vanier.PhysicsSimulation.FreeFallSimulation;
 
 import java.io.IOException;
@@ -21,10 +17,14 @@ import javafx.util.Duration;
 
 public class FreeFallController extends FreeFallSettings {
 
+    /**
+     * Initializes the simulation by creating all the needed objects and setting
+     * all the default values.Setup for the scene.
+     */
     @FXML
     public void initialize() {
         lblBuildingHeight.setTextFill(Color.WHITESMOKE);
-        fileHandler = new IOFreeFall(building, accelerationY);
+        fileHandler = new IOFreeFall();
         building.setTranslateY(30);
         ball = new Ball();
         motionPane.getChildren().add(ball);
@@ -36,13 +36,17 @@ public class FreeFallController extends FreeFallSettings {
         setupMenuBar();
     }
 
+    /**
+     * Closes the stage, returning to the main menu.
+     */
     @FXML
     public void handleHomeButton() {
-        System.out.println("home button");
         FreeFallLoader.secondWindow.close();
-
     }
 
+    /**
+     * Creates the animation timeline.
+     */
     public void createAnimation() {
         int animationDuration = 15;
         int currentRate = 4;
@@ -60,6 +64,9 @@ public class FreeFallController extends FreeFallSettings {
         timelineInitializeBall.setCycleCount(Timeline.INDEFINITE);
     }
 
+    /**
+     * Timelines KeyFrame loop which makes the ball move.
+     */
     public void handleUpdateAnimation() {
         ball.setRotate(ball.getRotate() - Math.PI);
         ball.setTranslateY(ball.getTranslateY() + ball.getDy());
@@ -68,18 +75,24 @@ public class FreeFallController extends FreeFallSettings {
         setTimeAndFinalVelocity();
     }
 
+    /**
+     * Second Timeline KeyFrame loop which allows the building to move with the
+     * slider adjustment.
+     */
     public void handleInitializeAnimation() {
         lblBuildingHeight.setText("" + df.format(building.getHeight()) + " m");
-        lblBuildingHeight.setTranslateY(building.getTranslateY()-10);
+        lblBuildingHeight.setTranslateY(building.getTranslateY() - 10);
         building.setWidth(motionPane.getWidth() / 4);
         sldHeight.setMax(motionPane.getHeight() - 50);
         ball.setTranslateX(building.getWidth() - Ball.RADIUS);
         ball.setTranslateY(building.getTranslateY() - Ball.RADIUS);
         building.setTranslateY(sldHeight.getValue());
         building.setHeight(motionPane.getHeight() - building.getTranslateY());
-
     }
 
+    /**
+     * Handles the play button, starting the animation.
+     */
     @FXML
     public void handlePlay() {
         disableButtons(true, false);
@@ -89,18 +102,23 @@ public class FreeFallController extends FreeFallSettings {
         ball.setDy(1);
         ball.setTranslateX(ball.getTranslateX() + 3 * Ball.RADIUS);
         timelineFreeFall.play();
-        System.out.println(initialHeight);
     }
 
+    /**
+     * Handles the reset button, disabling buttons and stopping the timelines.
+     */
     @FXML
     public void handleReset() {
         disableSliders(false, false);
         disableButtons(false, true);
         timelineFreeFall.stop();
         timelineInitializeBall.play();
-
     }
 
+    /**
+     * Checks when the ball reaches the bottom of the pane, ending the
+     * animation.
+     */
     public void endAnimation() {
         if (ball.getTranslateY() + Ball.RADIUS >= motionPane.getHeight()) {
             timelineFreeFall.stop();
@@ -108,33 +126,56 @@ public class FreeFallController extends FreeFallSettings {
         }
     }
 
+    /**
+     * Retrieves user input from the sliders.
+     */
     public void readSliders() {
         initialHeight = sldHeight.getValue();
         accelerationY = sldAccelerationY.getValue();
     }
 
+    /**
+     * Responsible for moving the ball downwards during the animation.
+     */
     public void moveBall() {
         ball.setDy(ball.getDy() + ball.getDy() * accelerationY / 400);
     }
 
+    /**
+     * Disables buttons when needed.
+     *
+     * @param play : True disables the button, False enables the button.
+     * @param reset : True disables the button, False enables the button.
+     */
     public void disableButtons(boolean play, boolean reset) {
         btnStart.setDisable(play);
         btnReset.setDisable(reset);
     }
 
+    /**
+     * Disables sliders when needed.
+     *
+     * @param slider1 : True disables the slider, False enables the slider.
+     * @param slider2 : True disables the slider, False enables the slider.
+     */
     public void disableSliders(boolean slider1, boolean slider2) {
         sldHeight.setDisable(slider1);
         sldAccelerationY.setDisable(slider2);
     }
 
+    /**
+     * Outputs the Time and Final velocity into the labels for the user to see.
+     */
     public void setTimeAndFinalVelocity() {
         finalVelocity = -returnFinalVelocity(accelerationY, building.getHeight());
         time = returnTime(finalVelocity, accelerationY, 0);
         lblFinalVelocity.setText("" + df.format(finalVelocity));
         lblTime.setText("" + df.format(time));
-
     }
 
+    /**
+     *Modifies the menubar for our needed buttons
+     */
     private void setupMenuBar() {
         FileChooser fileChooser = new FileChooser();
         DirectoryChooser directoryChooser = new DirectoryChooser();
