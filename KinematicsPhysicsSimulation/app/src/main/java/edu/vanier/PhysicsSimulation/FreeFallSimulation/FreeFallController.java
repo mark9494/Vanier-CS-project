@@ -174,7 +174,8 @@ public class FreeFallController extends FreeFallSettings {
     }
 
     /**
-     *Modifies the menubar for our needed buttons
+     * Modifies the menubar for our needed options. EventHandlers for the sub
+     * menus.
      */
     private void setupMenuBar() {
         FileChooser fileChooser = new FileChooser();
@@ -184,7 +185,6 @@ public class FreeFallController extends FreeFallSettings {
         MenuItem openSave = new MenuItem("Open Save");
         menuBar.getMenus().get(0).getItems().addAll(save, openSave);
         menuBar.getMenus().get(0).getItems().remove(0);
-
         MenuItem darkMode = new MenuItem("Dark Mode");
         MenuItem lightMode = new MenuItem("Light Mode");
         menuBar.getMenus().get(1).getItems().remove(0);
@@ -197,7 +197,6 @@ public class FreeFallController extends FreeFallSettings {
                 fileHandler.writeDataInFile(newSave.getPath() + "\\FreeFallSim.csv");
             }
         };
-
         EventHandler<ActionEvent> loadSaved = new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -212,14 +211,12 @@ public class FreeFallController extends FreeFallSettings {
                 }
             }
         };
-
         EventHandler<ActionEvent> handleDark = new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
                 darkMode();
             }
         };
-
         EventHandler<ActionEvent> handleLight = new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -232,6 +229,9 @@ public class FreeFallController extends FreeFallSettings {
         lightMode.setOnAction(handleLight);
     }
 
+    /**
+     * Dark Mode method for the menu, opposites the colors.
+     */
     private void darkMode() {
         topPane.setStyle("-fx-background-color: #282828");
         bottomPane.setStyle("-fx-background-color: #282828");
@@ -243,6 +243,9 @@ public class FreeFallController extends FreeFallSettings {
         lblFinalVelocity.setTextFill(Color.WHITESMOKE);
     }
 
+    /**
+     * Light Mode method for the menu, sets back to default colors.
+     */
     private void lightMode() {
         topPane.setStyle("-fx-background-color: #FFFFFF");
         bottomPane.setStyle("-fx-background-color: #FFFFFF");
@@ -254,6 +257,9 @@ public class FreeFallController extends FreeFallSettings {
         lblFinalVelocity.setTextFill(Color.BLACK);
     }
 
+    /**
+     * Sets sliders to the values read in the CSV file.
+     */
     public void setBackSliders() {
         sldAccelerationY.setValue(accelerationY);
         sldHeight.setValue(initialHeight);

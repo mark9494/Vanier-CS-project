@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package edu.vanier.PhysicsSimulation.ProjectileMotion;
 
 import javafx.scene.image.Image;
@@ -13,6 +9,9 @@ public class Ball extends Circle {
     private static final int RADIUS = 15;
     private double dx, dy;
 
+    /**
+     * Default Constructor which sets the default image and radius.
+     */
     public Ball() {
         this.setRadius(RADIUS);
         Image basketball = new Image("/images/basketball.png");

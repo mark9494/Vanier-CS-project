@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package edu.vanier.PhysicsSimulation.ProjectileMotion;
 
 import java.io.File;
@@ -66,32 +62,35 @@ public class ProjectileMotionSettings {
     protected MenuBar menuBar;
 
     protected static Stage editorStage;
-    protected VBox winAnnouncement, loseAnnouncement;
-    protected Label win, lose;
-    protected Cannon cannon;
     protected static Ball ball;
     protected static LandingArea landingArea;
     public static Timeline timelineRectangleAndBall;
     public static Timeline timelineBall;
     public static Timeline timelinePaneResize;
-    protected int currentRate;
-    protected double animationDuration;
-    protected static double rampAngle;
+    protected static double cannonAngle;
     protected static double accelerationY;
     protected static double initialVelocity;
+    protected static final DecimalFormat df = new DecimalFormat("0.00");
+    protected static boolean isWind;
+    protected static String defaultBackgroundFilePath = "/images/background2.jpg";
+    protected static boolean changeBackground = false;
+    public static Timer timer;
+    protected VBox winAnnouncement, loseAnnouncement;
+    protected Label win, lose;
+    protected Cannon cannon;
+    protected int currentRate;
+    protected double animationDuration;
     protected double initVelocityX, initVelocityY;
     protected double finalVelocityX, finalVelocityY;
     protected double time;
     protected double deltaY, deltaX, finalPosition;
-    protected static final DecimalFormat df = new DecimalFormat("0.00");
     protected double windStrength;
-    protected static boolean isWind;
     protected Wind wind;
     protected File loadSave, newSave;
-    protected static String defaultBackgroundFilePath = "/images/background2.jpg";
-    protected static boolean changeBackground = false;
-    public static Timer timer;
 
+    /**
+     * Sets the default background of the pane where the animation occurs.
+     */
     public void setDefaultBackGround() {
         Image image = new Image("/images/background2.jpg");
         BackgroundImage backgroundImage = new BackgroundImage(
@@ -103,20 +102,36 @@ public class ProjectileMotionSettings {
         motionPane.setBackground(new Background(backgroundImage));
     }
 
+    /**
+     * Retrieves the slider information for the initial velocity and gives it to
+     * a variable.
+     */
     public void setInitialVelocity() {
         initialVelocity = sldInitialVelocity.getValue();
     }
 
+    /**
+     * Retrieves the slider information for the acceleration y and gives it to a
+     * variable.
+     */
     public void setAccelerationY() {
         accelerationY = sldAccelerationY.getValue();
     }
 
-    public void setRampAngle() {
-        rampAngle = sldRampAngle.getValue();
-        cannon.setAngle(rampAngle);
-        cannon.setAngleRadians(rampAngle);
+    /**
+     * Retrieves the slider information for the cannon angle, converts it to
+     * radians and gives it to a variable.
+     */
+    public void setCannonAngle() {
+        cannonAngle = sldRampAngle.getValue();
+        cannon.setAngle(cannonAngle);
+        cannon.setAngleRadians(cannonAngle);
     }
 
+    /**
+     * Continuously updates the background, but only runs if the background has
+     * changed, then just returns.
+     */
     public void updateBackground() {
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
@@ -138,24 +153,35 @@ public class ProjectileMotionSettings {
         }, 0, 200);
     }
 
+    /**
+     * Formula to set velocity X according to cannons angle and its initial
+     * speed.
+     */
     protected void setVelocityX() {
         initVelocityX = initialVelocity * cos(-cannon.getAngleRadians());
         finalVelocityX = initVelocityX;
     }
 
+    /**
+     * Formula to set initial velocity Y according to the cannons angle and its
+     * initial speed.
+     */
     protected void setVelocityY() {
         initVelocityY = initialVelocity * sin(-cannon.getAngleRadians());
     }
 
+    /**
+     * Kinematic Formula to retrieve the time of the sped up simulation.
+     */
     protected void setTime() {
-        System.out.println(initVelocityY);
         finalVelocityY = Math.pow(initVelocityY, 2) + 2 * accelerationY * deltaY;
-        finalVelocityY = - Math.sqrt(finalVelocityY);
-        System.out.println(finalVelocityY);
-        time = - (finalVelocityY - initVelocityY) / accelerationY;
+        finalVelocityY = -Math.sqrt(finalVelocityY);
+        time = -(finalVelocityY - initVelocityY) / accelerationY;
     }
 
-
+    /**
+     * Kinematic Formula to retrieve the final X position.
+     */
     protected void setDeltaX() {
         deltaX = initVelocityX * time;
     }

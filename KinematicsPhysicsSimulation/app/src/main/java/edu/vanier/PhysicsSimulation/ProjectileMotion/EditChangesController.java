@@ -1,20 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package edu.vanier.PhysicsSimulation.ProjectileMotion;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.ImagePattern;
 
 public class EditChangesController {
-
-    @FXML
-    Button btnDone;
 
     @FXML
     RadioButton rb1;
@@ -43,6 +35,10 @@ public class EditChangesController {
     Image i1, i2, i3, i4;
     static boolean isBall = false;
 
+    /**
+     * Sets up the images for the user to chose from, depending on if the user
+     * wants to change the ball or the background.
+     */
     public void initialize() {
         if (isBall) {
             i1 = new Image("/images/basketball.png");
@@ -71,6 +67,10 @@ public class EditChangesController {
         }
     }
 
+    /**
+     * Changes the image of the previous item to whichever the user chooses when
+     * they press done.
+     */
     @FXML
     public void handleDone() {
         if (isBall) {
@@ -105,6 +105,10 @@ public class EditChangesController {
         ProjectileMotionSettings.editorStage.close();
     }
 
+    /**
+     * Disables the other radio buttons, so there is only one selected at a
+     * time.
+     */
     @FXML
     public void handleRb1() {
         rb2.setSelected(false);
@@ -112,6 +116,10 @@ public class EditChangesController {
         rb4.setSelected(false);
     }
 
+    /**
+     * Disables the other radio buttons, so there is only one selected at a
+     * time.
+     */
     @FXML
     public void handleRb2() {
         rb1.setSelected(false);
@@ -119,6 +127,10 @@ public class EditChangesController {
         rb4.setSelected(false);
     }
 
+    /**
+     * Disables the other radio buttons, so there is only one selected at a
+     * time.
+     */
     @FXML
     public void handleRb3() {
         rb2.setSelected(false);
@@ -126,6 +138,10 @@ public class EditChangesController {
         rb4.setSelected(false);
     }
 
+    /**
+     * Disables the other radio buttons, so there is only one selected at a
+     * time.
+     */
     @FXML
     public void handleRb4() {
         rb2.setSelected(false);
@@ -133,6 +149,11 @@ public class EditChangesController {
         rb1.setSelected(false);
     }
 
+    /**
+     * Allows the user to click the image to activate the button, instead of
+     * having to click the radio button only, and disables all other radio
+     * buttons. Adds user friendliness.
+     */
     @FXML
     public void handleClickIv1() {
         if (rb1.isSelected()) {
@@ -148,6 +169,11 @@ public class EditChangesController {
         rb4.setSelected(false);
     }
 
+    /**
+     * Allows the user to click the image to activate the button, instead of
+     * having to click the radio button only, and disables all other radio
+     * buttons. Adds user friendliness.
+     */
     @FXML
     public void handleClickIv2() {
         if (rb2.isSelected()) {
@@ -163,6 +189,11 @@ public class EditChangesController {
         rb4.setSelected(false);
     }
 
+    /**
+     * Allows the user to click the image to activate the button, instead of
+     * having to click the radio button only, and disables all other radio
+     * buttons. Adds user friendliness.
+     */
     @FXML
     public void handleClickIv3() {
         if (rb3.isSelected()) {
@@ -178,6 +209,11 @@ public class EditChangesController {
         rb4.setSelected(false);
     }
 
+    /**
+     * Allows the user to click the image to activate the button, instead of
+     * having to click the radio button only, and disables all other radio
+     * buttons. Adds user friendliness.
+     */
     @FXML
     public void handleClickIv4() {
         if (rb4.isSelected()) {

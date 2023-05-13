@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package edu.vanier.PhysicsSimulation.ProjectileMotion;
 
 import static java.lang.Math.cos;
@@ -19,6 +15,10 @@ public class Cannon extends Rectangle {
     private double angle; //(bounded between 20 - 55)
     private double angleRadians;
 
+    /**
+     * Constructor which sets the size of the cannon, rotates it to default
+     * angle, and sets the cannon image.
+     */
     public Cannon() {
         this.setWidth(WIDTH);
         this.setHeight(HEIGHT);
@@ -27,21 +27,35 @@ public class Cannon extends Rectangle {
         this.setFill(new ImagePattern(basketball));
     }
 
-    public double setCornerX() {
+    /**
+     * Sets the corner of the rectangle x value
+     */
+    public void setCornerX() {
         cornerX = this.getTranslateX() + cos(this.getAngleRadians() * 2 / 3) * this.HEIGHT;
-        return cornerX;
     }
 
-    public double setCornerY() {
+    /**
+     * Sets the corner of the rectangle y value
+     */
+    public void setCornerY() {
         cornerY = this.getTranslateY() + sin(this.getAngleRadians()) * this.HEIGHT;
-        return cornerY;
     }
 
+    /**
+     * Gets the bottom right corner x coordinate of the rectangle.
+     *
+     * @return double bottom corner x coordinate of the rectangle
+     */
     public double getCornerX() {
         setCornerX();
         return cornerX;
     }
 
+    /**
+     * Gets the bottom right corner y coordinate of the rectangle.
+     *
+     * @return double bottom corner y coordinate of the rectangle
+     */
     public double getCornerY() {
         setCornerY();
         return cornerY;
@@ -51,6 +65,11 @@ public class Cannon extends Rectangle {
         return this.angleRadians;
     }
 
+    /**
+     * converts the angle from degrees to radians.
+     *
+     * @param angle angle in degrees.
+     */
     public void setAngleRadians(double angle) {
         this.angleRadians = angle * Math.PI / 180;
     }

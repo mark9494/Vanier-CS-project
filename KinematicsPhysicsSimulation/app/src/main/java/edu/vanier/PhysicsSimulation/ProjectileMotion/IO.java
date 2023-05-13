@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package edu.vanier.PhysicsSimulation.ProjectileMotion;
 
 import com.opencsv.CSVReader;
@@ -14,6 +10,13 @@ import java.io.IOException;
 
 public class IO extends ProjectileMotionSettings {
 
+    /**
+     * Creates and writes the data of the previous simulation into a CSV file,
+     * to save and run again.
+     *
+     * @param filePath This is the file path the user wants to put the CSV file.
+     * Taken from file explorer.
+     */
     public static void writeDataInFile(String filePath) {
         File file = new File(filePath);
         try {
@@ -23,7 +26,7 @@ public class IO extends ProjectileMotionSettings {
             // add data to csv
             String[] initVelocity = {"InitialVelocity", "" + initialVelocity};
             writer.writeNext(initVelocity);
-            String[] angle = {"Angle", "" + rampAngle};
+            String[] angle = {"Angle", "" + cannonAngle};
             writer.writeNext(angle);
             String[] acceleration = {"Acceleration", "" + accelerationY};
             writer.writeNext(acceleration);
@@ -37,19 +40,27 @@ public class IO extends ProjectileMotionSettings {
         }
     }
 
+    /**
+     * Reads the data in the CSV file and sets it into the variables to run the
+     * saved simulation again.
+     *
+     * @param filePath File path of the saved simulation CSV file
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
     public static void readDataInFile(String filePath) throws FileNotFoundException, IOException {
-
         CSVReader reader = new CSVReader(new FileReader(filePath));
         String[] nextLine;
-
         int counter = 1;
+
         while ((nextLine = reader.readNext()) != null) {
+
             if (nextLine.length == 2) {
                 if (counter == 1) {
                     initialVelocity = Double.parseDouble(nextLine[1]);
                 }
                 if (counter == 2) {
-                    rampAngle = Double.parseDouble(nextLine[1]);
+                    cannonAngle = Double.parseDouble(nextLine[1]);
                 }
                 if (counter == 3) {
                     accelerationY = Double.parseDouble(nextLine[1]);
@@ -69,7 +80,6 @@ public class IO extends ProjectileMotionSettings {
                     isWind = true;
                 }
             }
-
         }
     }
 

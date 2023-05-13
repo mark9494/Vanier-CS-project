@@ -1,24 +1,30 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package edu.vanier.PhysicsSimulation.ProjectileMotion;
 
 import edu.vanier.PhysicsSimulation.PhysicsSimulationController;
 import static edu.vanier.PhysicsSimulation.ProjectileMotion.ProjectileMotionSettings.timelinePaneResize;
 import static edu.vanier.PhysicsSimulation.ProjectileMotion.ProjectileMotionSettings.timelineRectangleAndBall;
 import static edu.vanier.PhysicsSimulation.ProjectileMotion.ProjectileMotionSettings.timer;
-import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 
 public class ProjectileMotion {
 
+    /**
+     * Constructor which starts the simulation by opening a new scene.
+     *
+     * @throws Exception
+     */
     public ProjectileMotion() throws Exception {
         start();
     }
 
+    /**
+     * Starts the application by setting the scene and connecting the FXML file
+     * and the controller.
+     *
+     * @throws Exception
+     */
     public void start() throws Exception {
         PhysicsSimulationController.projectileMotion.setOnCloseRequest(e -> projectileMotionClosed());
         ProjectileMotionController mainController = new ProjectileMotionController();
@@ -34,14 +40,12 @@ public class ProjectileMotion {
         PhysicsSimulationController.projectileMotion.show();
     }
 
+    /**
+     * Closes the timelines and timer when the application closes.
+     */
     public void projectileMotionClosed() {
         timelineRectangleAndBall.stop();
         timelinePaneResize.stop();
         timer.cancel();
     }
-
-    public static void main(String[] args) {
-        launch(args);
-    }
-
 }
