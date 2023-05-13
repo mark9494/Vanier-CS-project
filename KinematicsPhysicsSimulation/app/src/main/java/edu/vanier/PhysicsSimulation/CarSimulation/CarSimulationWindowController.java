@@ -28,21 +28,19 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
-/**
- *
- * @author antho
- */
+
 public class CarSimulationWindowController extends Settings {
 
-    
-    
-    
+    /**
+     * sets up all needed variables for the window and simulation also gathers
+     * all buttons, sliders and texts in their respective arrayLists
+     */
     @FXML
     public void initialize() {
         text = new ArrayList<>();
         pane = new ArrayList<>();
         button = new ArrayList<>();
-        
+
         button.add(startBtn);
         button.add(stopBtn);
         button.add(resetBtn);
@@ -50,7 +48,7 @@ public class CarSimulationWindowController extends Settings {
         button.add(positionGraphBtn);
         button.add(velocityGraphBtn);
         button.add(homeBtn);
-        
+
         text.add(txt1);
         text.add(txt2);
         text.add(txt3);
@@ -77,17 +75,16 @@ public class CarSimulationWindowController extends Settings {
         text.add(redVelocityLabel);
         text.add(redAccelerationLabel);
         text.add(redTimeLabel);
-        
-        
+
         pane.add(topPane);
         pane.add(middlePane);
         pane.add(bottomPane);
         pane.add(borderPane);
-        
+
         meetLine = new Line();
         setupGauges();
         setupMenuBar();
-        
+
         redCarPositionGraph = new double[10][2];
         blueCarPositionGraph = new double[10][2];
 
@@ -123,32 +120,34 @@ public class CarSimulationWindowController extends Settings {
         allLines.addAll(dottedLines);
         allLines.add(top);
         allLines.add(bottom);
-        
+
         middlePane.widthProperty().addListener((obs, oldVal, newVal) -> {
             resizeLineHorizontal();
-            
-
         });
         middlePane.heightProperty().addListener((obs, oldVal, newVal) -> {
             resizeLineVertical();
-         
         });
     }
-    private void setupMenuBar(){
-     FileChooser fileChooser = new FileChooser();
+
+    /**
+     * modifies the menu bar to only include the needed buttons include event
+     * handlers for the 4 buttons in the menu bar
+     */
+    private void setupMenuBar() {
+        FileChooser fileChooser = new FileChooser();
         DirectoryChooser directoryChooser = new DirectoryChooser();
         menuBar.getMenus().remove(2);
         MenuItem save = new MenuItem("Save Last Run");
         MenuItem openSave = new MenuItem("Open Save");
         menuBar.getMenus().get(0).getItems().addAll(save, openSave);
         menuBar.getMenus().get(0).getItems().remove(0);
-        
+
         MenuItem darkMode = new MenuItem("Dark mode");
         MenuItem lightMode = new MenuItem("light mode");
         menuBar.getMenus().get(1).getItems().remove(0);
         menuBar.getMenus().get(1).getItems().addAll(darkMode, lightMode);
 
-         EventHandler<ActionEvent> savePressed = new EventHandler<ActionEvent>() {
+        EventHandler<ActionEvent> savePressed = new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
                 newSave = directoryChooser.showDialog(new Stage());
@@ -174,20 +173,24 @@ public class CarSimulationWindowController extends Settings {
                 darkMode();
             }
         };
-        
+
         EventHandler<ActionEvent> handleLight = new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
                 lightMode();
             }
         };
-        
+
         save.setOnAction(savePressed);
         openSave.setOnAction(loadSaved);
         darkMode.setOnAction(handleDark);
         lightMode.setOnAction(handleLight);
     }
-    
+
+    /**
+     * takes the value of variables of the cars objects to adjust the sliders
+     * after the CSV file is read
+     */
     private void loadVisualSettingsBack() {
         redInitialPositionSlider.setValue(redCar.getInitialPosition());
         redFinalPositionSlider.setValue(redCar.getFinalPosition());
@@ -197,19 +200,22 @@ public class CarSimulationWindowController extends Settings {
         blueFinalPositionSlider.setValue(blueCar.getFinalPosition());
         blueAccelerationSlider.setValue(blueCar.getAcceleration());
         blueInitialVelocitySlider.setValue(blueCar.getInitialVelocity());
-      
-       
     }
+
+    /**
+     * uses the width ratio of pane and gauges to move the gauges proportionally
+     * with the pane extends the street lines with pane
+     */
     private void resizeLineHorizontal() {
-        blueGauge.setPrefWidth(middlePane.getWidth()/3.9);
-        redGauge.setPrefWidth(middlePane.getWidth()/3.9);  
-        blueGauge.setLayoutX(middlePane.getWidth()*0.33);
-        
+        blueGauge.setPrefWidth(middlePane.getWidth() / 3.9);
+        redGauge.setPrefWidth(middlePane.getWidth() / 3.9);
+        blueGauge.setLayoutX(middlePane.getWidth() * 0.33);
+
         top.setEndX(middlePane.getWidth());
         bottom.setEndX(middlePane.getWidth());
-       
-       bottomPane.setTranslateX(bottomPane.getWidth()/10); // centers bottom pane sliders and buttons
-        
+
+        bottomPane.setTranslateX(bottomPane.getWidth() / 10); // centers bottom pane sliders and buttons
+
         double lengthOfLine = middlePane.getWidth() / 20;
         double gapBetweenLines = middlePane.getWidth() / 40;
 
@@ -224,110 +230,120 @@ public class CarSimulationWindowController extends Settings {
         }
     }
 
+    /**
+     * uses the height ratio of pane and gauges to move the gauges
+     * proportionally to the pane
+     */
     private void resizeLineVertical() {
-        
-       
-        blueGauge.setPrefHeight(middlePane.getHeight()/1.76);
-        redGauge.setPrefHeight(middlePane.getHeight()/1.76);
-       
+        blueGauge.setPrefHeight(middlePane.getHeight() / 1.76);
+        redGauge.setPrefHeight(middlePane.getHeight() / 1.76);
     }
 
+    /**
+     * creates the keyFrame for the timeline of the animation
+     */
     private void createAnimation() {
-
         timeline = new Timeline(
                 new KeyFrame(Duration.millis(animationDuration), e -> handleUpdateAnimation()));
         timeline.setRate(currentRate);
         timeline.setCycleCount(Timeline.INDEFINITE);
-       
     }
 
+    /**
+     * creates keyFrame for the second timeline used to update the value of
+     * sliders according to plane size
+     */
     private void createAnimationToUpdateData() {
-
         timelineToUpdateSliders = new Timeline(
                 new KeyFrame(Duration.millis(animationDuration2), e -> handleUpdateData()));
         timelineToUpdateSliders.setRate(currentRate2);
         timelineToUpdateSliders.setCycleCount(Timeline.INDEFINITE);
     }
 
+    /**
+     * the method keeps looping which calls all methods inside
+     */
     private void handleUpdateData() {
         updateSliderMax();
-        
+
     }
 
+    /**
+     * method that keeps looping used to keep calculating the car values and to
+     * verify if the animation ended and if the cars meet or not
+     */
     private void handleUpdateAnimation() {
-        
         endOfSimulation();
         carsMeet();
         blueCar.calculateCurrentVelocity(blueCar.calculateCurrentDisplacement());
         blueCar.calculateCurrentTime(blueCar.calculateCurrentDisplacement());
 
-        
         redCar.calculateCurrentVelocity(redCar.calculateCurrentDisplacement());
         redCar.calculateCurrentTime(redCar.calculateCurrentDisplacement());
         displayLiveStats();
         moveCar();
         updateGaugesValues();
+    }
 
-    }
-    private boolean carsMeet(){
-        if(!carsMeet && blueCar.getTranslateX()>50){
-      if(df2.format(blueCar.getTranslateX()).equalsIgnoreCase(df2.format(redCar.getTranslateX()))
-         || df2.format(blueCar.getTranslateX()+1).equalsIgnoreCase(df2.format(redCar.getTranslateX())) 
-         || df2.format(blueCar.getTranslateX()-1).equalsIgnoreCase(df2.format(redCar.getTranslateX()))){
-          
-          meetLine.setTranslateX(blueCar.getTranslateX());
-          meetLine.setStartY(blueCar.getLayoutY());
-          meetLine.setEndY(redCar.getLayoutY()+25);
-          meetLine.setStroke(Color.CHARTREUSE);
-          meetLine.setStrokeWidth(2);
-          
-          if(meetLine.getTranslateX() >= middlePane.getWidth()-100){ 
-             return false; 
-              
-          }else if(Double.parseDouble(df2.format(meetLine.getTranslateX())) <= Double.parseDouble(df2.format(blueCar.getInitialPosition()+10))) {
-              
-              return false;
-              
-          }
-          System.out.println("meet " +Double.parseDouble(df2.format(meetLine.getTranslateX())));
-          System.out.println("initial " + Double.parseDouble(df2.format(blueCar.getInitialPosition()+20)));
-          middlePane.getChildren().add(meetLine);
-          carsMeet =true;
-          meetingDistance = blueCar.getTranslateX()/10;
-          return true;
-          
+    /**
+     * checks if cars meet during the simulation
+     *
+     * @return : true if the cars do meet, false if the cars do not meet
+     */
+    private boolean carsMeet() {
+        if (!carsMeet && blueCar.getTranslateX() > 50) {
+            if (df2.format(blueCar.getTranslateX()).equalsIgnoreCase(df2.format(redCar.getTranslateX()))
+                    || df2.format(blueCar.getTranslateX() + 1).equalsIgnoreCase(df2.format(redCar.getTranslateX()))
+                    || df2.format(blueCar.getTranslateX() - 1).equalsIgnoreCase(df2.format(redCar.getTranslateX()))) {
+
+                meetLine.setTranslateX(blueCar.getTranslateX());
+                meetLine.setStartY(blueCar.getLayoutY());
+                meetLine.setEndY(redCar.getLayoutY() + 25);
+                meetLine.setStroke(Color.CHARTREUSE);
+                meetLine.setStrokeWidth(2);
+
+                if (meetLine.getTranslateX() >= middlePane.getWidth() - 100) {
+                    return false;
+
+                } else if (Double.parseDouble(df2.format(meetLine.getTranslateX())) <= Double.parseDouble(df2.format(blueCar.getInitialPosition() + 10))) {
+
+                    return false;
+
+                }
+                System.out.println("meet " + Double.parseDouble(df2.format(meetLine.getTranslateX())));
+                System.out.println("initial " + Double.parseDouble(df2.format(blueCar.getInitialPosition() + 20)));
+                middlePane.getChildren().add(meetLine);
+                carsMeet = true;
+                meetingDistance = blueCar.getTranslateX() / 10;
+                return true;
+            }
         }
-        }
-      return false;
-        
+        return false;
     }
+
+    /**
+     * changes the max of sliders depending on the width of the pane
+     */
     private void updateSliderMax() {
-        redInitialPositionSlider.setMax((middlePane.getWidth() / 10- redCar.getWidth() / 10));
+        redInitialPositionSlider.setMax((middlePane.getWidth() / 10 - redCar.getWidth() / 10));
         redFinalPositionSlider.setMin(redInitialPositionSlider.getValue());// this causes the final position ticks to start after the initial postion of the car
         redFinalPositionSlider.setMax(middlePane.getWidth() / 10 - redCar.getWidth() / 10);
 
-        blueInitialPositionSlider.setMax(middlePane.getWidth() / 10- blueCar.getWidth() / 10);
+        blueInitialPositionSlider.setMax(middlePane.getWidth() / 10 - blueCar.getWidth() / 10);
         blueFinalPositionSlider.setMin(blueInitialPositionSlider.getValue());
         blueFinalPositionSlider.setMax(middlePane.getWidth() / 10 - blueCar.getWidth() / 10);
     }
 
+    /**
+     * retrieves user input and sets these values to the cars
+     */
     private void updateInput() {
-        if (blueInitialPositionSlider.getValue() > blueInitialPositionSlider.getMax() - blueCar.getWidth()) {
-            blueCar.setInitialPosition((blueInitialPositionSlider.getValue() * 10)); // this prevents the car from going outside the pane
-        } else {
-            blueCar.setInitialPosition((blueInitialPositionSlider.getValue() * 10));
-        }
-
+        blueCar.setInitialPosition((blueInitialPositionSlider.getValue() * 10));
         blueCar.setFinalPosition(blueFinalPositionSlider.getValue() * 10);
         blueCar.setInitialVelocity(blueInitialVelocitySlider.getValue());
         blueCar.setAcceleration(blueAccelerationSlider.getValue());
 
-        if (redInitialPositionSlider.getValue() > redInitialPositionSlider.getMax() - redCar.getWidth()) {
-            redCar.setInitialPosition(redInitialPositionSlider.getValue() * 10);
-        } else {
-            redCar.setInitialPosition(redInitialPositionSlider.getValue() * 10);
-        }
-
+        redCar.setInitialPosition(redInitialPositionSlider.getValue() * 10);
         redCar.setFinalPosition(redFinalPositionSlider.getValue() * 10);
         redCar.setInitialVelocity(redInitialVelocitySlider.getValue());
         redCar.setAcceleration(redAccelerationSlider.getValue());
@@ -336,141 +352,176 @@ public class CarSimulationWindowController extends Settings {
         blueCar.setTranslateX(blueCar.getInitialPosition());
     }
 
+    /**
+     * responsible for making the cars move during the animation
+     */
     private void moveCar() {
-
         if (blueCar.getTranslateX() < blueCar.getFinalPosition()) {
             blueCar.setTranslateX(blueCar.getTranslateX() + blueCar.getCurrentVelocity() / 10);
-
         }
         if (redCar.getTranslateX() < redCar.getFinalPosition()) {
-            redCar.setTranslateX(redCar.getTranslateX() + redCar.getCurrentVelocity() / 10);// divide by 10 because otherwise the accelerartion will be too fast 
+            redCar.setTranslateX(redCar.getTranslateX() + redCar.getCurrentVelocity() / 10);
+            // divide by 10 because otherwise the accelerartion will be too fast 
         }
     }
-    
-        
-    private void setupGauges(){
-         
+
+    /**
+     * designs the gauges used for both cars
+     */
+    private void setupGauges() {
         blueGauge = new Gauge();
-        
-        blueGauge.setSkin(new ModernSkin(blueGauge));  //ModernSkin : you guys can change the skin
-        blueGauge.setTitle("Blue Car");  //title
-        blueGauge.setUnit("m / s");  //unit
+        blueGauge.setSkin(new ModernSkin(blueGauge));
+        blueGauge.setTitle("Blue Car");
+        blueGauge.setUnit("m / s");
         blueGauge.setUnitColor(Color.CYAN);
-        blueGauge.setDecimals(0); 
-        blueGauge.setValue(0); //default position of needle on gauage
+        blueGauge.setDecimals(0);
+        blueGauge.setValue(0);
         blueGauge.setAnimated(true);
-        blueGauge.setAnimationDuration(1); 
-        blueGauge.setValueColor(Color.CYAN); 
-        blueGauge.setTitleColor(Color.CYAN); 
-        blueGauge.setSubTitleColor(Color.WHITE); 
-        blueGauge.setBarColor(Color.rgb(0, 214, 215)); 
-        blueGauge.setNeedleColor(Color.CYAN); 
-        blueGauge.setThresholdColor(Color.PURPLE);  //color will become red if it crosses threshold value
-        blueGauge.setThreshold(40);        
+        blueGauge.setAnimationDuration(1);
+        blueGauge.setValueColor(Color.CYAN);
+        blueGauge.setTitleColor(Color.CYAN);
+        blueGauge.setSubTitleColor(Color.WHITE);
+        blueGauge.setBarColor(Color.rgb(0, 214, 215));
+        blueGauge.setNeedleColor(Color.CYAN);
+        blueGauge.setThresholdColor(Color.PURPLE);
+        blueGauge.setThreshold(40);
         blueGauge.setThresholdVisible(true);
-        blueGauge.setTickLabelColor(Color.rgb(151, 151, 151)); 
-        blueGauge.setTickMarkColor(Color.CYAN); 
+        blueGauge.setTickLabelColor(Color.rgb(151, 151, 151));
+        blueGauge.setTickMarkColor(Color.CYAN);
         blueGauge.setTickLabelOrientation(TickLabelOrientation.ORTHOGONAL);
         blueGauge.setBackgroundPaint(Color.BLACK);
         blueGaugePane.getChildren().add(blueGauge);
-        
+
         redGauge = new Gauge();
-        
-        redGauge.setSkin(new ModernSkin(redGauge));  //ModernSkin : you guys can change the skin
-        redGauge.setTitle("Red Car");  //title
-        redGauge.setUnit("m / s");  //unit
+        redGauge.setSkin(new ModernSkin(redGauge));
+        redGauge.setTitle("Red Car");
+        redGauge.setUnit("m / s");
         redGauge.setUnitColor(Color.RED);
-        redGauge.setDecimals(0); 
-        redGauge.setValue(0); //default position of needle on gauage
+        redGauge.setDecimals(0);
+        redGauge.setValue(0);
         redGauge.setAnimated(true);
-        redGauge.setAnimationDuration(1); 
-        redGauge.setValueColor(Color.RED); 
-        redGauge.setTitleColor(Color.RED); 
-        redGauge.setSubTitleColor(Color.RED); 
-        redGauge.setBarColor(Color.rgb(0, 214, 215)); 
-        redGauge.setNeedleColor(Color.RED); 
-        redGauge.setThresholdColor(Color.GOLD);  
-        redGauge.setThreshold(40);         
+        redGauge.setAnimationDuration(1);
+        redGauge.setValueColor(Color.RED);
+        redGauge.setTitleColor(Color.RED);
+        redGauge.setSubTitleColor(Color.RED);
+        redGauge.setBarColor(Color.rgb(0, 214, 215));
+        redGauge.setNeedleColor(Color.RED);
+        redGauge.setThresholdColor(Color.GOLD);
+        redGauge.setThreshold(40);
         redGauge.setThresholdVisible(true);
-        redGauge.setTickLabelColor(Color.rgb(151, 151, 151)); 
-        redGauge.setTickMarkColor(Color.RED); 
+        redGauge.setTickLabelColor(Color.rgb(151, 151, 151));
+        redGauge.setTickMarkColor(Color.RED);
         redGauge.setTickLabelOrientation(TickLabelOrientation.ORTHOGONAL);
         redGauge.setBackgroundPaint(BLACK);
         redGaugePane.getChildren().add(redGauge);
     }
-    
-    private void updateGaugesValues(){
-      
-       blueGauge.setValue(blueCar.getCurrentVelocity());
-       redGauge.setValue(redCar.getCurrentVelocity());
-        
+
+    /**
+     * makes the gauge value change according to the current velocity of the
+     * cars
+     */
+    private void updateGaugesValues() {
+        blueGauge.setValue(blueCar.getCurrentVelocity());
+        redGauge.setValue(redCar.getCurrentVelocity());
     }
-    
-    
+
+    /**
+     * creates 10 points that are made using time and position creates 10 points
+     * that are made using time and velocity all points are stored in 2d array
+     * to be read when drawing the graph
+     */
     private void makeGraphPoints() {
         double redFinalTime = redCar.calculateFinalTime(redCar.calculateFinalDisplacement(), redCar.calculateFinalVelocity(redCar.calculateFinalDisplacement())) / 10;
         double blueFinalTime = blueCar.calculateFinalTime(blueCar.calculateFinalDisplacement(), blueCar.calculateFinalVelocity(blueCar.calculateFinalDisplacement())) / 10;
 
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 1; j++) {
-                redCarPositionGraph[i][j] = (redCar.calculateGraphDisplacement(redCar.calculateCurrentDisplacement(), redFinalTime));
+                redCarPositionGraph[i][j] = (redCar.calculateGraphDisplacement(redFinalTime));
                 redCarPositionGraph[i][j + 1] = redFinalTime;
 
-                redCarVelocityGraph[i][j] = (redCar.calculateCurrentVelocity(redCar.calculateGraphDisplacement(redCar.calculateCurrentDisplacement(), redFinalTime)));
+                redCarVelocityGraph[i][j] = (redCar.calculateCurrentVelocity(redCar.calculateGraphDisplacement(redFinalTime)));
                 redCarVelocityGraph[i][j + 1] = redFinalTime;
-                
 
-                blueCarPositionGraph[i][j] = (blueCar.calculateGraphDisplacement(blueCar.calculateCurrentDisplacement(), blueFinalTime));//the time going in the method is correct
+                blueCarPositionGraph[i][j] = (blueCar.calculateGraphDisplacement(blueFinalTime));
                 blueCarPositionGraph[i][j + 1] = blueFinalTime;
 
-                blueCarVelocityGraph[i][j] = (blueCar.calculateCurrentVelocity(blueCar.calculateGraphDisplacement(blueCar.calculateCurrentDisplacement(), blueFinalTime)));
+                blueCarVelocityGraph[i][j] = (blueCar.calculateCurrentVelocity(blueCar.calculateGraphDisplacement(blueFinalTime)));
                 blueCarVelocityGraph[i][j + 1] = blueFinalTime;
 
                 redFinalTime += redCar.calculateFinalTime(redCar.calculateFinalDisplacement(), redCar.calculateFinalVelocity(redCar.calculateFinalDisplacement())) / 10;
                 blueFinalTime += blueCar.calculateFinalTime(blueCar.calculateFinalDisplacement(), blueCar.calculateFinalVelocity(blueCar.calculateFinalDisplacement())) / 10;
-
             }
         }
+    }
 
+    /**
+     * responsible for disabling and enabling sliders
+     *
+     * @param redInitialPosition : true disables the slider, false enables the
+     * sliders
+     * @param redFinalPosition: true disables the slider, false enables the
+     * sliders
+     * @param blueInitialPosition: true disables the slider, false enables the
+     * sliders
+     * @param blueFinalPosition: true disables the slider, false enables the
+     * sliders
+     * @param blueInitialVelocity: true disables the slider, false enables the
+     * sliders
+     * @param blueAcceleration: true disables the slider, false enables the
+     * sliders
+     * @param redInitialVelocity: true disables the slider, false enables the
+     * sliders
+     * @param redAcceleration : true disables the slider, false enables the
+     * sliders
+     */
+    private void disableSliders(boolean redInitialPosition, boolean redFinalPosition, boolean blueInitialPosition, boolean blueFinalPosition, boolean blueInitialVelocity, boolean blueAcceleration, boolean redInitialVelocity, boolean redAcceleration) {
+        redInitialPositionSlider.setDisable(redInitialPosition);
+        redFinalPositionSlider.setDisable(redFinalPosition);
+        blueInitialPositionSlider.setDisable(blueInitialPosition);
+        blueFinalPositionSlider.setDisable(blueFinalPosition);
+        blueInitialVelocitySlider.setDisable(blueInitialVelocity);
+        blueAccelerationSlider.setDisable(blueAcceleration);
+        redInitialVelocitySlider.setDisable(redInitialVelocity);
+        redAccelerationSlider.setDisable(redAcceleration);
     }
-    
-    private void disableSliders(boolean redInitialPosition, boolean redFinalPosition, boolean blueInitialPosition, boolean blueFinalPosition, boolean blueInitialVelocity, boolean blueAcceleration, boolean redInitialVelocity, boolean redAcceleration){
-      redInitialPositionSlider.setDisable(redInitialPosition);
-      redFinalPositionSlider.setDisable(redFinalPosition);
-      blueInitialPositionSlider.setDisable(blueInitialPosition);
-      blueFinalPositionSlider.setDisable(blueFinalPosition);
-      blueInitialVelocitySlider.setDisable(blueInitialVelocity);
-      blueAccelerationSlider.setDisable(blueAcceleration);
-      redInitialVelocitySlider.setDisable(redInitialVelocity);
-      redAccelerationSlider.setDisable(redAcceleration);
+
+    /**
+     * checks if the simulation ended by checking the final position of the cars
+     * displays an alert stating if the two cars meet or not
+     */
+    private void endOfSimulation() {
+        if (blueCar.getFinalPosition() <= blueCar.getTranslateX() && redCar.getFinalPosition() <= redCar.getTranslateX()) {
+            handleReset();
+            if (carsMeet) {
+                Alert alert = new Alert(AlertType.CONFIRMATION);
+                alert.setTitle("Cars meet");
+                alert.setContentText("Please not that the two cars meet at " + df.format(meetingDistance) + "m");
+                alert.show();
+            } else {
+                Alert alert = new Alert(AlertType.CONFIRMATION);
+                alert.setTitle("Cars do not meet");
+                alert.setContentText("Please not that the two cars meet never meet ");
+                alert.show();
+            }
+        }
     }
-    
-    private void endOfSimulation(){
-        
-      if(blueCar.getFinalPosition() <= blueCar.getTranslateX() && redCar.getFinalPosition() <= redCar.getTranslateX()){
-          handleReset();
-          if(carsMeet){
-            Alert alert = new Alert(AlertType.CONFIRMATION);
-            alert.setTitle("Cars meet");
-            alert.setContentText("Please not that the two cars meet at " +df.format(meetingDistance) + "m");
-            alert.show();
-          }else{
-            Alert alert = new Alert(AlertType.CONFIRMATION);
-            alert.setTitle("Cars do not meet");
-            alert.setContentText("Please not that the two cars meet never meet ");   
-            alert.show();
-          }  
-      }
-      
-    }
+
+    /**
+     * handles the start button by starting the animation and calls the method
+     * to calculate the graph points also disables buttons that should be
+     * disabled
+     */
     @FXML
     private void handleStart() {
         makeGraphPoints();
         timeline.play();
         disableBtns(true, false, true, true);
-
     }
 
+    /**
+     * handles the stop button, resets the gauges value to 0 pauses the timeLine
+     * and disables buttons that are not needed
+     */
     @FXML
     private void handleStop() {
         blueGauge.setValue(0);
@@ -479,13 +530,22 @@ public class CarSimulationWindowController extends Settings {
         timeline.pause();
     }
 
+    /**
+     * handles the reset button by stopping the timeline(animation) and disables
+     * the needed sliders and buttons
+     */
     @FXML
     private void handleReset() {
         disableSliders(false, false, false, false, false, false, false, false);
         disableBtns(true, true, true, false);
-        timeline.stop(); 
+        timeline.stop();
     }
 
+    /**
+     * handles the submit button by calling the method that reads user input and
+     * gives the values to the cars disables needed sliders and buttons resets
+     * the live stats labels to 0 for the new simulation
+     */
     @FXML
     private void handleSubmit() {
         redGauge.setValue(0);
@@ -498,6 +558,9 @@ public class CarSimulationWindowController extends Settings {
         middlePane.getChildren().remove(meetLine);
     }
 
+    /**
+     * resets all output text labels to 0 for the next simulation
+     */
     private void resetLiveStats() {
         //blue car
         bluePositionLabel.setText("0");
@@ -510,15 +573,24 @@ public class CarSimulationWindowController extends Settings {
         redAccelerationLabel.setText("0");
         redTimeLabel.setText("0");
     }
-
+    
+    /**
+     * disables buttons that are not needed
+     * @param start : true to disable the button, false to enable the button
+     * @param stop : true to disable the button, false to enable the button
+     * @param reset : true to disable the button, false to enable the button
+     * @param submit : true to disable the button, false to enable the button
+     */
     private void disableBtns(boolean start, boolean stop, boolean reset, boolean submit) {
-
         startBtn.setDisable(start);
         stopBtn.setDisable(stop);
         resetBtn.setDisable(reset);
         submitBtn.setDisable(submit);
     }
-
+    
+    /**
+     * retrieves values from both cars and displays it to the user using text field
+     */
     private void displayLiveStats() {
         //blue car
         bluePositionLabel.setText(df.format(blueCar.getTranslateX() / 10) + "");
@@ -531,60 +603,69 @@ public class CarSimulationWindowController extends Settings {
         redAccelerationLabel.setText(df.format(redCar.getAcceleration()) + "");
         redTimeLabel.setText(df.format(redCar.getTime()) + "");
     }
-    
-    
-    private void darkMode(){
-       for(int i = 0; i < text.size(); i++){
-          text.get(i).setFill(Color.BROWN);
-       } 
-       
-       for(int i = 0; i<pane.size(); i++){
-         pane.get(i).setStyle("-fx-background-color: #202020");
-         middlePane.setStyle("-fx-border-color: blue");
-         
-       }
-       
-       for(int i = 0; i<button.size(); i++){
-         button.get(i).setStyle("-fx-background-color: blue");
-         button.get(i).setTextFill(Color.AQUA);
-       }
-       
-       for(int i = 0; i<dottedLines.size(); i++){
-         dottedLines.get(i).setStroke(Color.PURPLE);
-         
-       }
-       top.setStroke(Color.GREENYELLOW);
-       bottom.setStroke(Color.GREENYELLOW);
-      windowTitle.setTextFill(Color.GREENYELLOW);
-    }
+    /**
+     * responsible for changing the colors of many window elements to dark mode
+     */
+    private void darkMode() {
+        for (int i = 0; i < text.size(); i++) {
+            text.get(i).setFill(Color.GREENYELLOW);
+        }
 
-    
-    private void lightMode(){
-      for(int i = 0; i < text.size(); i++){
-          text.get(i).setFill(Color.BLACK);
-       } 
-       
-       for(int i = 0; i<pane.size(); i++){
-         pane.get(i).setStyle("-fx-background-color: white");
-         
-         middlePane.setStyle("-fx-border-color: black");
-         
-       }
-       
-       for(int i = 0; i<button.size(); i++){
-         button.get(i).setStyle("-fx-background-color: white");
-         button.get(i).setTextFill(Color.BLACK);
-       }
-       
-       for(int i = 0; i<dottedLines.size(); i++){
-         dottedLines.get(i).setStroke(Color.BLACK);
-         
-       }
-       top.setStroke(Color.BLACK);
-       bottom.setStroke(Color.BLACK);
-       windowTitle.setTextFill(Color.BLACK); 
+        for (int i = 0; i < pane.size(); i++) {
+            pane.get(i).setStyle("-fx-background-color: #202020");
+            middlePane.setStyle("-fx-border-color: blue");
+
+        }
+
+        for (int i = 0; i < button.size(); i++) {
+            button.get(i).setStyle("-fx-background-color: blue");
+            button.get(i).setTextFill(Color.GREENYELLOW);
+        }
+
+        for (int i = 0; i < dottedLines.size(); i++) {
+            dottedLines.get(i).setStroke(Color.PURPLE);
+
+        }
+        top.setStroke(Color.GREENYELLOW);
+        bottom.setStroke(Color.GREENYELLOW);
+        windowTitle.setTextFill(Color.GREENYELLOW);
+        menuBar.setStyle("-fx-background-color : greenyellow");
     }
     
+    /**
+     * responsible for changing the colors of many window elements to light mode
+     */
+    private void lightMode() {
+        for (int i = 0; i < text.size(); i++) {
+            text.get(i).setFill(Color.BLACK);
+        }
+
+        for (int i = 0; i < pane.size(); i++) {
+            pane.get(i).setStyle("-fx-background-color: white");
+
+            middlePane.setStyle("-fx-border-color: black");
+
+        }
+
+        for (int i = 0; i < button.size(); i++) {
+            button.get(i).setStyle("-fx-background-color: white");
+            button.get(i).setTextFill(Color.BLACK);
+        }
+
+        for (int i = 0; i < dottedLines.size(); i++) {
+            dottedLines.get(i).setStroke(Color.BLACK);
+
+        }
+        top.setStroke(Color.BLACK);
+        bottom.setStroke(Color.BLACK);
+        windowTitle.setTextFill(Color.BLACK);
+        menuBar.setStyle("-fx-background-color : white");
+
+    }
+    /**
+     * handle the position graph button by creating a new window for the graph
+     * @throws IOException 
+     */
     @FXML
     private void handlePositionGraphBtn() throws IOException {
 
@@ -602,7 +683,11 @@ public class CarSimulationWindowController extends Settings {
         secondWindow.sizeToScene();
         secondWindow.show();
     }
-
+    
+    /**
+     * handle the velocity graph button by creating a new window for the graph
+     * @throws IOException 
+     */
     @FXML
     private void handleVelocityGraphBtn() throws IOException {
         Stage secondWindow = new Stage();
@@ -620,15 +705,13 @@ public class CarSimulationWindowController extends Settings {
         secondWindow.show();
 
     }
-    
-    
+    /**
+     * handles home button by closing the simulation window and returning to main menu
+     */
     @FXML
-    private void handleHomeButton(){
-      PhysicsSimulationController.carSimulation.close();  
-      timeline.stop();
-      timelineToUpdateSliders.stop();
+    private void handleHomeButton() {
+        PhysicsSimulationController.carSimulation.close();
+        timeline.stop();
+        timelineToUpdateSliders.stop();
     }
-    
-    
-
 }

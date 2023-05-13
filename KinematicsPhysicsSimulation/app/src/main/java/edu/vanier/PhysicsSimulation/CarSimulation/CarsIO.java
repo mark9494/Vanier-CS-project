@@ -17,15 +17,25 @@ import java.io.IOException;
  *
  * @author Mark
  */
-public class CarsIO extends CarSimulationWindowController{
+public class CarsIO extends CarSimulationWindowController {
 
+    /**
+     * passes the two car objects into the car variables for the CarsIO class
+     *
+     * @param redCar
+     * @param blueCar
+     */
     public CarsIO(Car redCar, Car blueCar) {
-       this.redCar = redCar; 
-       this.blueCar = blueCar; 
+        this.redCar = redCar;
+        this.blueCar = blueCar;
     }
-    
-    
-    public  void writeDataInFile(String filePath) {
+
+    /**
+     * creates and writes to a CSV file all needed variables
+     *
+     * @param filePath
+     */
+    public void writeDataInFile(String filePath) {
         // first create file object for file placed at location
         // specified by filepath
         File file = new File(filePath);
@@ -37,24 +47,24 @@ public class CarsIO extends CarSimulationWindowController{
             CSVWriter writer = new CSVWriter(outputfile);
 
             // add data to csv
-            String[] blueInitPosition = {"BlueInitPosition", "" + blueCar.getInitialPosition()/10};
+            String[] blueInitPosition = {"BlueInitPosition", "" + blueCar.getInitialPosition() / 10};
             writer.writeNext(blueInitPosition);
-            String[] blueFinPosition = {"blueFinPosition", "" + blueCar.getFinalPosition()/10 };
+            String[] blueFinPosition = {"blueFinPosition", "" + blueCar.getFinalPosition() / 10};
             writer.writeNext(blueFinPosition);
             String[] blueInitVelocity = {"blueInitVelocity", "" + blueCar.getInitialVelocity()};
             writer.writeNext(blueInitVelocity);
             String[] blueAcceleration = {"blueAcceleration", "" + blueCar.getAcceleration()};
             writer.writeNext(blueAcceleration);
             //String[] wind = {"Wind", "" + Wind.intensity, "" + Wind.angle};
-            String[] redInitPosition = {"redInitPosition", "" + redCar.getInitialPosition()/10};
+            String[] redInitPosition = {"redInitPosition", "" + redCar.getInitialPosition() / 10};
             writer.writeNext(redInitPosition);
-            String[] redFinPosition = {"redFinPosition", "" + redCar.getFinalPosition()/10 };
+            String[] redFinPosition = {"redFinPosition", "" + redCar.getFinalPosition() / 10};
             writer.writeNext(redFinPosition);
             String[] redInitVelocity = {"redInitVelocity", "" + redCar.getInitialVelocity()};
             writer.writeNext(redInitVelocity);
             String[] redAcceleration = {"redAcceleration", "" + redCar.getAcceleration()};
             writer.writeNext(redAcceleration);
-            
+
             writer.close();
         } catch (IOException e) {
             // TODO Auto-generated catch block
@@ -62,6 +72,13 @@ public class CarsIO extends CarSimulationWindowController{
         }
     }
 
+    /**
+     * reads the CSV file and its values and gives it to both cars
+     *
+     * @param filePath : file path needed to read the CSV file
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
     public void readDataInFile(String filePath) throws FileNotFoundException, IOException {
         //parsing a CSV file into CSVReader class constructor
         CSVReader reader = new CSVReader(new FileReader(filePath));
@@ -69,30 +86,28 @@ public class CarsIO extends CarSimulationWindowController{
         //reads one line at a time
         int counter = 1;
         while ((nextLine = reader.readNext()) != null) {
-                  
+
             if (nextLine.length == 2) {
                 if (counter == 1) {
-                 blueCar.setInitialPosition(Double.parseDouble(nextLine[1])); 
-                }else if (counter == 2) {
-                   blueCar.setFinalPosition(Double.parseDouble(nextLine[1])); 
-                }else if (counter == 3) {
+                    blueCar.setInitialPosition(Double.parseDouble(nextLine[1]));
+                } else if (counter == 2) {
+                    blueCar.setFinalPosition(Double.parseDouble(nextLine[1]));
+                } else if (counter == 3) {
                     blueCar.setInitialVelocity(Double.parseDouble(nextLine[1]));
-                }else if (counter == 4) {
+                } else if (counter == 4) {
                     blueCar.setAcceleration(Double.parseDouble(nextLine[1]));
-                }else if(counter ==5){
-                 redCar.setInitialPosition(Double.parseDouble(nextLine[1]));   
-                }else if(counter ==6){
-                 redCar.setFinalPosition(Double.parseDouble(nextLine[1]));   
-                }else if(counter ==7){
-                 redCar.setInitialVelocity(Double.parseDouble(nextLine[1]));   
-                }else if(counter ==8){
-                 redCar.setAcceleration(Double.parseDouble(nextLine[1]));   
+                } else if (counter == 5) {
+                    redCar.setInitialPosition(Double.parseDouble(nextLine[1]));
+                } else if (counter == 6) {
+                    redCar.setFinalPosition(Double.parseDouble(nextLine[1]));
+                } else if (counter == 7) {
+                    redCar.setInitialVelocity(Double.parseDouble(nextLine[1]));
+                } else if (counter == 8) {
+                    redCar.setAcceleration(Double.parseDouble(nextLine[1]));
                 }
                 counter++;
             }
-            
-            }
-        }
-        
-    }
 
+        }
+    }
+}
