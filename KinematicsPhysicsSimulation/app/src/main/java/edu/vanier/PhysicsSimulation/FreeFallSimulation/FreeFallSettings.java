@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package edu.vanier.PhysicsSimulation.FreeFallSimulation;
+
 import java.io.File;
 import java.text.DecimalFormat;
 import javafx.animation.Timeline;
@@ -45,14 +46,29 @@ public class FreeFallSettings {
     protected Label lblFinalVelocity;
     @FXML
     protected MenuBar menuBar;
+    @FXML
+    protected Pane topPane;
+    @FXML
+    protected Pane bottomPane;
+    @FXML
+    protected Label lblHeight;
+    @FXML
+    protected Label lblAcc;
+    @FXML
+    protected Label lblTime2;
+    @FXML
+    protected Label lblBuildingHeight;
+    @FXML
+    protected Label lblVel;
     
     protected IOFreeFall fileHandler;
-    
+
     protected File loadSave, newSave;
     protected static final DecimalFormat df = new DecimalFormat("0.00");
     protected Timeline timelineFreeFall, timelineInitializeBall;
     protected Ball ball;
-    protected double speed, accelerationY, initialHeight, finalVelocity, time;
+    protected double speed, finalVelocity, time;
+    protected static double initialHeight, accelerationY;
 
     public void setDefaultBackGround() {
         Image image = new Image("/images/cityBackground.jpg");
@@ -75,7 +91,6 @@ public class FreeFallSettings {
 
         finalVelocity = Math.pow(initialVelocity, 2) + 2 * accelerationY * building.getHeight();
         finalVelocity = -Math.sqrt(finalVelocity);
-        System.out.println(finalVelocity);
         time = -(finalVelocity - initialVelocity) / accelerationY;
         return time;
     }

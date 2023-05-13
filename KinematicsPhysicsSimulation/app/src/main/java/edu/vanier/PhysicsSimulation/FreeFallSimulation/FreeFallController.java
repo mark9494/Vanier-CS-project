@@ -12,6 +12,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
@@ -22,6 +23,7 @@ public class FreeFallController extends FreeFallSettings {
 
     @FXML
     public void initialize() {
+        lblBuildingHeight.setTextFill(Color.WHITESMOKE);
         fileHandler = new IOFreeFall(building, accelerationY);
         building.setTranslateY(30);
         ball = new Ball();
@@ -67,6 +69,8 @@ public class FreeFallController extends FreeFallSettings {
     }
 
     public void handleInitializeAnimation() {
+        lblBuildingHeight.setText("" + df.format(building.getHeight()) + " m");
+        lblBuildingHeight.setTranslateY(building.getTranslateY()-10);
         building.setWidth(motionPane.getWidth() / 4);
         sldHeight.setMax(motionPane.getHeight() - 50);
         ball.setTranslateX(building.getWidth() - Ball.RADIUS);
@@ -85,7 +89,7 @@ public class FreeFallController extends FreeFallSettings {
         ball.setDy(1);
         ball.setTranslateX(ball.getTranslateX() + 3 * Ball.RADIUS);
         timelineFreeFall.play();
-
+        System.out.println(initialHeight);
     }
 
     @FXML
@@ -158,28 +162,60 @@ public class FreeFallController extends FreeFallSettings {
             public void handle(ActionEvent e) {
                 loadSave = fileChooser.showOpenDialog(new Stage());
                 try {
+                    System.out.println("hiiiii");
                     fileHandler.readDataInFile(loadSave.getPath());
+                    building.setHeight(initialHeight);
+                    setBackSliders();
                 } catch (IOException ex) {
                     System.out.println("File Not Read Properly. ");
                 }
             }
         };
 
-//        EventHandler<ActionEvent> handleDark = new EventHandler<ActionEvent>() {
-//            @Override
-//            public void handle(ActionEvent e) {
-//                darkMode();
-//            }
-//        };
-//
-//        EventHandler<ActionEvent> handleLight = new EventHandler<ActionEvent>() {
-//            @Override
-//            public void handle(ActionEvent e) {
-//                lightMode();
-//            }
-//        };
+        EventHandler<ActionEvent> handleDark = new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                darkMode();
+            }
+        };
+
+        EventHandler<ActionEvent> handleLight = new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                lightMode();
+            }
+        };
         save.setOnAction(savePressed);
         openSave.setOnAction(loadSaved);
+        darkMode.setOnAction(handleDark);
+        lightMode.setOnAction(handleLight);
+    }
+
+    private void darkMode() {
+        topPane.setStyle("-fx-background-color: #282828");
+        bottomPane.setStyle("-fx-background-color: #282828");
+        lblHeight.setTextFill(Color.WHITESMOKE);
+        lblTime2.setTextFill(Color.WHITESMOKE);
+        lblVel.setTextFill(Color.WHITESMOKE);
+        lblAcc.setTextFill(Color.WHITESMOKE);
+        lblTime.setTextFill(Color.WHITESMOKE);
+        lblFinalVelocity.setTextFill(Color.WHITESMOKE);
+    }
+
+    private void lightMode() {
+        topPane.setStyle("-fx-background-color: #FFFFFF");
+        bottomPane.setStyle("-fx-background-color: #FFFFFF");
+        lblHeight.setTextFill(Color.BLACK);
+        lblTime2.setTextFill(Color.BLACK);
+        lblVel.setTextFill(Color.BLACK);
+        lblAcc.setTextFill(Color.BLACK);
+        lblTime.setTextFill(Color.BLACK);
+        lblFinalVelocity.setTextFill(Color.BLACK);
+    }
+
+    public void setBackSliders() {
+        sldAccelerationY.setValue(accelerationY);
+        sldHeight.setValue(initialHeight);
     }
 
 }

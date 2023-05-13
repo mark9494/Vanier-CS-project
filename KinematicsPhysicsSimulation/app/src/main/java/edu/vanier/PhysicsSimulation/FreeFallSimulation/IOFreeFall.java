@@ -29,7 +29,7 @@ public class IOFreeFall extends FreeFallController {
             CSVWriter writer = new CSVWriter(outputfile);
 
             // add data to csv
-            String[] height = {"Height", "" + building.getHeight()};
+            String[] height = {"Height", "" + initialHeight};
             writer.writeNext(height);
             String[] acceleration = {"AccelerationY", "" + accelerationY};
             writer.writeNext(acceleration);
@@ -40,7 +40,6 @@ public class IOFreeFall extends FreeFallController {
     }
 
     public void readDataInFile(String filePath) throws FileNotFoundException, IOException {
-
         CSVReader reader = new CSVReader(new FileReader(filePath));
         String[] nextLine;
 
@@ -48,10 +47,12 @@ public class IOFreeFall extends FreeFallController {
         while ((nextLine = reader.readNext()) != null) {
             if (nextLine.length == 2) {
                 if (counter == 1) {
-                    initialHeight = Double.parseDouble(nextLine[1]);
+                    FreeFallSettings.initialHeight = Double.parseDouble(nextLine[1]);
+                    System.out.println(initialHeight);
                 }
                 if (counter == 2) {
-                    accelerationY = Double.parseDouble(nextLine[1]);
+                    FreeFallSettings.accelerationY = Double.parseDouble(nextLine[1]);
+                    System.out.println(accelerationY);
                 }
 
                 counter++;
