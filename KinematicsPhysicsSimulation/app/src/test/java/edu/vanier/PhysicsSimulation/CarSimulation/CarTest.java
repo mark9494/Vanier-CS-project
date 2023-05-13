@@ -108,13 +108,13 @@ public class CarTest {
     @Test
     public void testCalculateGraphDisplacement() {
         System.out.println("calculateGraphDisplacement");
-        double displacement = 54;
+        
         double time = 23;
         Car car = new Car();
         car.setInitialVelocity(0);
         car.setAcceleration(0);
         double expResult = 0.0;
-        double result = car.calculateGraphDisplacement(displacement, time);
+        double result = car.calculateGraphDisplacement(time);
         assertEquals(expResult, result, 0);
         // TODO review the generated test code and remove the default call to fail.
         

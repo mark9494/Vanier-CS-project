@@ -26,6 +26,13 @@ public class Car extends Rectangle {
     private double graphDisplacement;
     private double graphVelocity;
 
+    /**
+     * gives default value for the blue car object being instantiated.
+     *
+     * @param layoutX : Horizontal position of car.
+     * @param layoutY : Vertical position of car.
+     * @param color : color of car.
+     */
     public Car(int layoutX, int layoutY, String color) {
         setWidth(51);
         setHeight(24);
@@ -35,8 +42,13 @@ public class Car extends Rectangle {
         setFill(new ImagePattern(blueCar));
     }
 
+    /**
+     * gives default value for the red car object being instantiated.
+     *
+     * @param layoutX : Horizontal position of car.
+     * @param layoutY : Vertical position of car.
+     */
     public Car(int layoutX, int layoutY) {
-
         this.setWidth(51);
         this.setHeight(24);
         this.setLayoutX(layoutX);
@@ -44,61 +56,94 @@ public class Car extends Rectangle {
         Image redCar = new Image("/images/red-car.png", false);
         this.setFill(new ImagePattern(redCar));
     }
-
-    public Car() {
-
+    
+    /**
+     * constructor used for test cases
+     */
+    public Car(){        
     }
 
+    /**
+     * calculates the velocity of the car at the current moment.
+     *
+     * @param displacement : current displacement of car used to find current
+     * velocity.
+     * @return : The current velocity of the car.
+     */
     public double calculateCurrentVelocity(double displacement) {
-        
-        if(initialVelocity ==0 && acceleration!=0){
-          initialVelocity = 0.1;// otherwise the car won't move  
+        if (initialVelocity == 0 && acceleration != 0) {
+            initialVelocity = 0.1;// otherwise the car won't move  
         }
-          double velocitySquared = Math.pow(this.initialVelocity, 2) + 2 * this.acceleration * displacement;
-          this.currentVelocity = Math.sqrt(velocitySquared);  
-        
-
+        double velocitySquared = Math.pow(this.initialVelocity, 2) + 2 * this.acceleration * displacement;
+        this.currentVelocity = Math.sqrt(velocitySquared);
         return this.currentVelocity;
     }
 
+    /**
+     * calculates the current time using the current displacement
+     *
+     * @param displacement : current displacement of the car
+     * @return : the current time of the car at the current position.
+     */
     public double calculateCurrentTime(double displacement) {
-        
-        // we divide by 10 because we multiplied both initial and final position by 10 before
         this.time = (2 * displacement) / (this.initialVelocity + this.currentVelocity);
         return this.time;
-        
-        
     }
 
-    public double calculateFinalTime(double finalDisplacement,
-            double finalVelocity) {
-
-        return this.finalTime = (2 * finalDisplacement) / (this.initialVelocity + finalVelocity);  
+    /**
+     * calculate the overall time the car needs to reach its final position
+     *
+     * @param finalDisplacement : the full displacement of the car from start to
+     * finish
+     * @param finalVelocity : the velocity of the car the moment it arrives to
+     * its final position
+     * @return : returns final time
+     */
+    public double calculateFinalTime(double finalDisplacement, double finalVelocity) {
+        return this.finalTime = (2 * finalDisplacement) / (this.initialVelocity + finalVelocity);
     }
 
-    public double calculateGraphDisplacement(double displacement, double time) {
-
-        return this.graphDisplacement = (this.initialVelocity * time) + (0.5 * this.acceleration * Math.
-                pow(time, 2));
+    /**
+     * given the time, the method uses the initial velocity and acceleration to
+     * find the displacement of the car
+     *
+     * @param time : time at which the displacement needs to be calculated
+     * @return :displacement at a specific time
+     */
+    public double calculateGraphDisplacement(double time) {
+        return this.graphDisplacement = (this.initialVelocity * time)
+                + (0.5 * this.acceleration * Math.pow(time, 2));
     }
 
-    
-
+    /**
+     * calculates the velocity at which the car will reach its final position
+     *
+     * @param finalDisplacement
+     * @return : final velocity the car will reach during the simulation
+     */
     public double calculateFinalVelocity(double finalDisplacement) {
-
         double velocitySquared = Math.pow(this.initialVelocity, 2) + 2 * this.acceleration * finalDisplacement;
         this.finalVelocity = Math.sqrt(velocitySquared);
-
         return this.finalVelocity;
     }
 
+    /**
+     * uses the initial position and the current position of the car to find its
+     * current displacement
+     *
+     * @return : returns the displacement at the current moment
+     */
     public double calculateCurrentDisplacement() {
-        
         this.currentPosition = this.getTranslateX() / 10 - this.initialPosition / 10;
         return this.currentPosition;
-
     }
 
+    /**
+     * uses initial and final position to calculate the distance the car will
+     * travel (final displacement)
+     *
+     * @return : returns the calculated final displacement
+     */
     public double calculateFinalDisplacement() {
         return (this.finalPosition / 10) - (this.initialPosition / 10);
     }
