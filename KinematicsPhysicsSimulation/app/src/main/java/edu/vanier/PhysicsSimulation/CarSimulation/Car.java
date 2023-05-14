@@ -36,8 +36,8 @@ public class Car extends Rectangle {
     public Car(int layoutX, int layoutY, String color) {
         setWidth(51);
         setHeight(24);
-        setLayoutX(layoutX);
-        setLayoutY(layoutY);
+        this.setLayoutX(layoutX);
+        this.setLayoutY(layoutY);
         Image blueCar = new Image("/images/blue-car.png", false);
         setFill(new ImagePattern(blueCar));
     }
@@ -74,9 +74,9 @@ public class Car extends Rectangle {
         if (initialVelocity == 0 && acceleration != 0) {
             initialVelocity = 0.1;// otherwise the car won't move  
         }
-        double velocitySquared = Math.pow(this.initialVelocity, 2) + 2 * this.acceleration * displacement;
-        this.currentVelocity = Math.sqrt(velocitySquared);
-        return this.currentVelocity;
+        double velocitySquared = Math.pow(initialVelocity, 2) + 2 * acceleration * displacement;
+        currentVelocity = Math.sqrt(velocitySquared);
+        return currentVelocity;
     }
 
     /**
@@ -86,8 +86,8 @@ public class Car extends Rectangle {
      * @return : the current time of the car at the current position.
      */
     public double calculateCurrentTime(double displacement) {
-        this.time = (2 * displacement) / (this.initialVelocity + this.currentVelocity);
-        return this.time;
+        time = (2 * displacement) / (this.initialVelocity + this.currentVelocity);
+        return time;
     }
 
     /**
@@ -100,7 +100,7 @@ public class Car extends Rectangle {
      * @return : returns final time
      */
     public double calculateFinalTime(double finalDisplacement, double finalVelocity) {
-        return this.finalTime = (2 * finalDisplacement) / (this.initialVelocity + finalVelocity);
+        return finalTime = (2 * finalDisplacement) / (initialVelocity + finalVelocity);
     }
 
     /**
@@ -111,8 +111,8 @@ public class Car extends Rectangle {
      * @return :displacement at a specific time
      */
     public double calculateGraphDisplacement(double time) {
-        return this.graphDisplacement = (this.initialVelocity * time)
-                + (0.5 * this.acceleration * Math.pow(time, 2));
+        return graphDisplacement = (initialVelocity * time)
+                + (0.5 * acceleration * Math.pow(time, 2));
     }
 
     /**
@@ -122,9 +122,9 @@ public class Car extends Rectangle {
      * @return : final velocity the car will reach during the simulation
      */
     public double calculateFinalVelocity(double finalDisplacement) {
-        double velocitySquared = Math.pow(this.initialVelocity, 2) + 2 * this.acceleration * finalDisplacement;
-        this.finalVelocity = Math.sqrt(velocitySquared);
-        return this.finalVelocity;
+        double velocitySquared = Math.pow(initialVelocity, 2) + 2 * acceleration * finalDisplacement;
+        finalVelocity = Math.sqrt(velocitySquared);
+        return finalVelocity;
     }
 
     /**
@@ -134,8 +134,8 @@ public class Car extends Rectangle {
      * @return : returns the displacement at the current moment
      */
     public double calculateCurrentDisplacement() {
-        this.currentPosition = this.getTranslateX() / 10 - this.initialPosition / 10;
-        return this.currentPosition;
+        currentPosition = getTranslateX() / 10 - initialPosition / 10;
+        return currentPosition;
     }
 
     /**
@@ -145,7 +145,7 @@ public class Car extends Rectangle {
      * @return : returns the calculated final displacement
      */
     public double calculateFinalDisplacement() {
-        return (this.finalPosition / 10) - (this.initialPosition / 10);
+        return (finalPosition / 10) - (initialPosition / 10);
     }
 
     public double getInitialPosition() {
@@ -161,7 +161,7 @@ public class Car extends Rectangle {
     }
 
     public void setCurrentPosition(double currentPosition) {
-        this.currentPosition = currentPosition;
+       this.currentPosition = currentPosition;
     }
 
     public double getFinalPosition() {
