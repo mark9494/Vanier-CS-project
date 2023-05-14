@@ -32,7 +32,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <MenuBar fx:id="menuBar" layoutX="42.0" layoutY="4.0" prefHeight="34.0" prefWidth="118.0">
+            <MenuBar fx:id="menuBar" layoutX="42.0" layoutY="4.0" prefHeight="34.0" prefWidth="102.0">
                <menus>
                   <Menu mnemonicParsing="false" text="File">
                      <items>
@@ -51,7 +51,7 @@
                   </Menu>
                </menus>
             </MenuBar>
-            <Label fx:id="windowTitle" layoutX="160.0" layoutY="-4.0" prefHeight="44.0" prefWidth="130.0" text="Car Simulation">
+            <Label fx:id="windowTitle" layoutX="144.0" layoutY="-4.0" prefHeight="44.0" prefWidth="130.0" text="Car Simulation">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>

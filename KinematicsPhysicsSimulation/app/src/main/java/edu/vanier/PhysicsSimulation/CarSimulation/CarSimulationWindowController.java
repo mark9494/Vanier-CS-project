@@ -48,7 +48,7 @@ public class CarSimulationWindowController extends Settings {
         button.add(positionGraphBtn);
         button.add(velocityGraphBtn);
         button.add(homeBtn);
-
+        
         text.add(txt1);
         text.add(txt2);
         text.add(txt3);
@@ -310,8 +310,7 @@ public class CarSimulationWindowController extends Settings {
                     return false;
 
                 }
-                System.out.println("meet " + Double.parseDouble(df2.format(meetLine.getTranslateX())));
-                System.out.println("initial " + Double.parseDouble(df2.format(blueCar.getInitialPosition() + 20)));
+                
                 middlePane.getChildren().add(meetLine);
                 carsMeet = true;
                 meetingDistance = blueCar.getTranslateX() / 10;
@@ -648,7 +647,7 @@ public class CarSimulationWindowController extends Settings {
         }
 
         for (int i = 0; i < button.size(); i++) {
-            button.get(i).setStyle("-fx-background-color: white");
+            button.get(i).setStyle("-fx-background-color: #cccccc");
             button.get(i).setTextFill(Color.BLACK);
         }
 
@@ -659,7 +658,7 @@ public class CarSimulationWindowController extends Settings {
         top.setStroke(Color.BLACK);
         bottom.setStroke(Color.BLACK);
         windowTitle.setTextFill(Color.BLACK);
-        menuBar.setStyle("-fx-background-color : white");
+        menuBar.setStyle("-fx-background-color : #cccccc");
 
     }
     /**
