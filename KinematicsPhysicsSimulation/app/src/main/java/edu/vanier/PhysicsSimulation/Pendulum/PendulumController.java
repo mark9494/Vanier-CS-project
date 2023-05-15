@@ -370,6 +370,8 @@ public class PendulumController implements Initializable {
                 anim.play();
                 setBtns(anim);
             }
+            saveSettings.setDisable(true);
+            openSavedSettings.setDisable(true);
 
             playBtn.setDisable(true);
             pauseBtn.setDisable(false);
@@ -403,6 +405,8 @@ public class PendulumController implements Initializable {
             pauseBtn.setDisable(true);
             playBtn.setDisable(false);
             stopBtn.setDisable(true);
+            saveSettings.setDisable(false);
+            openSavedSettings.setDisable(false);
             disableSlider(false);
             setPlayBtn();
             clickAndDrag();
