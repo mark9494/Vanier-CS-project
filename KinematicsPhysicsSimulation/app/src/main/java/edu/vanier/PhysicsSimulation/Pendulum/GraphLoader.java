@@ -38,7 +38,6 @@ public class GraphLoader extends Stage {
         
         this.setOnCloseRequest(handle());
         
-        this.show();
     } 
 
     private EventHandler<WindowEvent> handle() {
