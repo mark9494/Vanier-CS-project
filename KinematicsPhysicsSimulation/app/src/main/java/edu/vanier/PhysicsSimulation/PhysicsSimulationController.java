@@ -37,7 +37,7 @@ public class PhysicsSimulationController implements Initializable {
     public static Stage carSimulation = new Stage();
     public static Stage pendulum = new Stage();
     public static Stage freeFall = new Stage();
-    
+    public static AnimationLoader anim;
     @FXML
     private Pane pane; 
     
@@ -83,15 +83,11 @@ public class PhysicsSimulationController implements Initializable {
 
         });
         Youssif.setOnAction((e) -> {
-            AnimationLoader anim = new AnimationLoader();
+            anim = new AnimationLoader();
         });
     }
 
-    /**
-     * uses the ratio of the pane and position of buttons to move buttons
-     * horizontally
-     * proportionally with the pane.
-     */
+    
     private void resizeBtnsHorizontal(){
         
         Ammar.setLayoutX((pane.getWidth()/7.40));
@@ -100,21 +96,13 @@ public class PhysicsSimulationController implements Initializable {
         Anthony.setLayoutX(pane.getWidth()/1.65);  
     }
     
-    /**
-     * uses the ratio of the pane and position of buttons to move buttons
-     * vertically
-     * proportionally with the pane.
-     */
+    
     private void resizeBtnsVertical(){
         Ammar.setLayoutY((pane.getHeight()/3));
         Youssif.setLayoutY(pane.getHeight()/3);
         Mark.setLayoutY(pane.getHeight()/1.3);
         Anthony.setLayoutY(pane.getHeight()/1.3);  
     }
-    
-    /**
-     * Gives the pane's background an image.
-     */
     public void setDefaultBackGround() {
         Image image = new Image("/images/background.jpg");
         BackgroundImage backgroundImage = new BackgroundImage(
