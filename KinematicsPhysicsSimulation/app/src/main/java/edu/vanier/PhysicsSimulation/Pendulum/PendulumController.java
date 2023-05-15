@@ -113,7 +113,7 @@ public class PendulumController implements Initializable {
     private static double circleX;
     private static double circleY;
 
-    private GraphLoader graph = new GraphLoader();
+    private GraphLoader graph;
     private PendulumIO writting = new PendulumIO();
 
     private List<Particle> particles = new ArrayList<>();
@@ -413,7 +413,7 @@ public class PendulumController implements Initializable {
         });
 
         graphBtn.setOnAction((e) -> {
-
+            graph = new GraphLoader();
             graph.show();
         });
 
