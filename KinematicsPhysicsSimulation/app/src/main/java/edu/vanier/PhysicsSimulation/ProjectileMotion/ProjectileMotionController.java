@@ -205,7 +205,7 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
         disableButtons(true, false);
         setBallDefaultLocation();
         resetParameters();
-        moveRectangleAndBall();
+        moveCannonAndBall();
         timelineRectangleAndBall.play();
         landingArea.randomSpawn(motionPane.getWidth() - landingArea.getWidth(),
                 cannon.getTranslateX() + cannon.getWIDTH() + 25, motionPane.getHeight());
@@ -217,7 +217,7 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
      */
     private void handleUpdateAnimation() {
         handleWindProperties();
-        moveRectangleAndBall();
+        moveCannonAndBall();
         ball.setRotate(0);
     }
 
@@ -275,11 +275,11 @@ public class ProjectileMotionController extends ProjectileMotionSettings {
      * Sets the position of the ball when the cannon moves to sit inside the
      * cannon.
      */
-    private void moveRectangleAndBall() {
+    private void moveCannonAndBall() {
         setCannonAngle();
         cannon.setRotate(cannon.getAngle());
         ball.setTranslateX(cannon.getCornerX() + ball.getRadius() + 20);
-        ball.setTranslateY(cannon.getCornerY() - ball.getRadius() + 40);
+        ball.setTranslateY(cannon.getCornerY() - ball.getRadius() + 42);
     }
 
     /**

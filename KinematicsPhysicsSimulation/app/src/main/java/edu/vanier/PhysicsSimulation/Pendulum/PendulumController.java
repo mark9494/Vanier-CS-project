@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package edu.vanier.PhysicsSimulation.Pendulum;
 
 import edu.vanier.PhysicsSimulation.PhysicsSimulationController;
@@ -45,10 +41,6 @@ import javafx.util.Duration;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- *
- * @author Youssif
- */
 @Getter
 @Setter
 public class PendulumController implements Initializable {
@@ -93,7 +85,7 @@ public class PendulumController implements Initializable {
     private Circle circle;
 
     private GraphicsContext gc;
-    
+
     @FXML
     private ImageView home;
 
@@ -274,7 +266,6 @@ public class PendulumController implements Initializable {
     };
 
     public void setSlider() {
-
         massSlider.valueProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue observable, Object oldValue, Object newValue) {
@@ -291,8 +282,8 @@ public class PendulumController implements Initializable {
                 }
             }
         });
-        
-        DampingCheckBox.selectedProperty().addListener(listener ->{
+
+        DampingCheckBox.selectedProperty().addListener(listener -> {
             if (DampingCheckBox.isSelected() == true) {
                 for (int y = 0; y < canvas.getHeight() / 10; y++) {
                     for (int x = 0; x < canvas.getWidth() / 10; x++) {
@@ -301,15 +292,12 @@ public class PendulumController implements Initializable {
                 }
                 timer.start();
             }
-                    
-            
         });
 
     }
     boolean firstTime = true;
 
     private void onUpdate() {
-        
         if (firstTime) {
             circle.setTranslateX(circle.getTranslateX() + 1);
             circle.setTranslateY(circle.getTranslateY() + 1);
@@ -342,7 +330,6 @@ public class PendulumController implements Initializable {
     }
 
     private void disableSlider(boolean b) {
-
         massSlider.setDisable(b);
         DampingCheckBox.setDisable(b);
         gravitySlider.setDisable(b);
@@ -372,7 +359,6 @@ public class PendulumController implements Initializable {
             }
             saveSettings.setDisable(true);
             openSavedSettings.setDisable(true);
-
             playBtn.setDisable(true);
             pauseBtn.setDisable(false);
             stopBtn.setDisable(false);
@@ -416,11 +402,9 @@ public class PendulumController implements Initializable {
             graph = new GraphLoader();
             graph.show();
         });
-
     }
 
     public void circleProperties() {
-
         circle.translateXProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable,
@@ -442,6 +426,7 @@ public class PendulumController implements Initializable {
 
         });
     }
+
     /**
      * This method is used only to create a path animation for the pendulum
      *
@@ -486,10 +471,10 @@ public class PendulumController implements Initializable {
         gravitySlider.setValue(writting.getGravityVal());
         massSlider.setValue(writting.getMassVal());
         DampingCheckBox.setSelected(writting.isChecked());
-        
+
     }
-    
-    public void setupTheMenu(){
+
+    public void setupTheMenu() {
         darkMode.setOnAction((e) -> {
             borderPane.getStylesheets().remove(0);
             borderPane.getStylesheets().add(getClass().getResource("/css/darkStyle.css").toString());
@@ -541,7 +526,6 @@ public class PendulumController implements Initializable {
         canvas.setLayoutY(animationPane.getLayoutY());
         circle.setTranslateX(canvas.getWidth() / 1.5);
         circle.setTranslateY(canvas.getHeight() / 2);
-
         gc = canvas.getGraphicsContext2D();
 
         setupTheMenu();
@@ -563,7 +547,7 @@ public class PendulumController implements Initializable {
         graphBtn.setOnAction((e) -> {
             GraphController g = new GraphController();
         });
-        
+
         home.pressedProperty().addListener(listener -> {
             PhysicsSimulationController.anim.close();
             stopAnimations();
