@@ -494,12 +494,12 @@ public class CarSimulationWindowController extends Settings {
             if (carsMeet) {
                 Alert alert = new Alert(AlertType.CONFIRMATION);
                 alert.setTitle("Cars meet");
-                alert.setContentText("Please not that the two cars meet at " + df.format(meetingDistance) + "m");
+                alert.setContentText("Please note that the two cars meet at " + df.format(meetingDistance) + "m");
                 alert.show();
             } else {
                 Alert alert = new Alert(AlertType.CONFIRMATION);
                 alert.setTitle("Cars do not meet");
-                alert.setContentText("Please not that the two cars meet never meet ");
+                alert.setContentText("Please note that the two cars never meet ");
                 alert.show();
             }
         }
